@@ -24,7 +24,7 @@ class CreateOfficesTable extends Migration
             $table->unsignedInteger('officeDistrictId');
             $table->unsignedInteger('officeVillageId');
             $table->unsignedInteger('officePostalCode');
-            $table->enum('activeFlag', ['active', nonactive]);
+            $table->enum('activeFlag', ['active', 'nonactive']);
             $table->softDeletes();
             $table->timestamps();
         });
