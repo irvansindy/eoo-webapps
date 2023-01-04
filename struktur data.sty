@@ -1,0 +1,56 @@
+Struktur Data :
+
+1. machineMaster
+    - id
+    - machineNumber (tipeproduk-lokasi-nomor urut)
+    - machineName
+    - machineTypeId
+    - machineCapacity/productionSize
+    - productId
+    - locationId
+
+2. productMaster
+    - id
+    - productName (pipa, fitting, lem)
+    - productClassId
+    - productSizeId
+    - productKGPerPcs
+    - productVariantId
+    - kgPerHour
+    - pcsPerHour
+    - kgPerDay
+    - pcsPerDay
+    - productionAccuracyTolerancePerPcs
+
+3. productDiameterSize
+    - id
+    - productDiameter
+    - productDiameterUnit(inch/milimeter)
+
+4. productLengthSize
+    -productLength
+    -productLengthUnit
+
+5. productVariantMaster
+    - id
+    - productVariantName
+
+6. productClassMaster
+    - id
+    - productClassName
+
+7. productType
+    - id
+    - productType
+
+8. officeMaster
+    - id
+    - officeName
+    - officeInitial
+    - officeAddress
+    - officeProvinceId
+    - officeCityId
+    - officeDistrictId
+    - officeVillageId
+    - officePostalCode
+    - activeFlag
