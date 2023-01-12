@@ -16,18 +16,20 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('productName');
-            $table->unsignedInteger('productCategoryId')->nullable();
-            $table->unsignedInteger('productClassId')->nullable();
+            // $table->unsignedInteger('productCategoryId')->nullable();
+            // $table->unsignedInteger('productClassId')->nullable();
             $table->unsignedInteger('productTypeId')->nullable();
             $table->unsignedInteger('productDiameterId')->nullable();
             $table->unsignedInteger('productlengthId')->nullable();
             $table->unsignedInteger('productvariantId')->nullable();
-            $table->unsignedInteger('productWeight')->nullable();
+            $table->unsignedInteger('productWeightStandard')->nullable();
             $table->integer('kgPerHour');
             $table->integer('pcsPerHour');
             $table->integer('kgPerDay');
             $table->integer('pcsPerDay');
             $table->integer('productionAccuracyTolerancePerPcs')->nullable();
+            $table->text('productFormula');
+            $table->string('productSocket');
             $table->softDeletes();
             $table->timestamps();
         });
