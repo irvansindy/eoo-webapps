@@ -86,9 +86,7 @@
   font-size: 12px;
   
   }
-  .nav-sidebar{
-    overflow-y: scroll;
-  }
+
   .datatable-bordered td, .datatable-bordered th {
   padding: 8px;
   }

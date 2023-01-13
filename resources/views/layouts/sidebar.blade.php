@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-info elevation-4">
 
     <a href="#" class="brand-link">
-        <span class="brand-text font-weight-light" style="text-align: center" >OEE</span>
+        <span class="brand-text font-weight-light" >Work Order</span>
     </a>
 
     <div class="sidebar">
@@ -17,15 +17,10 @@
 
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                {{-- @php
+                @php
                     $menus = DB::table('menus')
-                        ->join('permissions', 'permissions.name','=','menus.permission_name')
-                        ->join('role_has_permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
-                        ->join('roles', 'roles.id','role_has_permissions.role_id')
-                        ->join('model_has_roles', 'model_has_roles.role_id', 'roles.id')
                         ->select('menus.*')
-                        ->where('status',1)
-                        ->where('model_has_roles.model_id', auth()->user()->id)
+                      
                         ->get();
                  
                 @endphp
@@ -34,33 +29,27 @@
                     <li class="nav-item">
                         <a href="{{$item->link}}" class="nav-link">
                             <i class="nav-icon {{$item->icon}}"></i>
-                            <p>{{$item->name}}</p>
+                            <p>{{$item->menusName}}</p>
                         </a>
                     </li>
                     @else
                         <li class="nav-item">
                             @php
                                 $submenus = DB::table('submenus')->select('submenus.*')
-                                        ->join('permissions','permissions.name','=','submenus.permission_name')
-                                        ->join('role_has_permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
-                                        ->join('roles', 'roles.id','role_has_permissions.role_id')
-                                        ->join('model_has_roles', 'model_has_roles.role_id', 'roles.id')
-                                        ->where('submenus.id_menus', $item->id)
-                                        ->where('submenus.status', 1)
-                                        ->where('model_has_roles.model_id', auth()->user()->id)
+                                        ->where('submenus.menusId', $item->id)
                                         ->get();
                                 // dd($submenus);
                             @endphp
                              <a href="#" class="nav-link">
                                 <i class="nav-icon {{$item->icon}}"></i>
-                                <p>{{$item->name}}<i class="right fas fa-angle-left"></i></p>
+                                <p>{{$item->menusName}}<i class="right fas fa-angle-left"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                             @foreach ($submenus as $row)
                                 <li class="nav-item ml-2">
                                     <a href="{{$row->link}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                    <p>{{$row->name}}</p>
+                                    <p>{{$row->submenusName}}</p>
                                     </a>
                                 </li>
                                 @endforeach
@@ -68,7 +57,7 @@
                         </li>   
                     @endif
                 @endforeach
-                 --}}
+                
              
             </ul>
         </nav>
