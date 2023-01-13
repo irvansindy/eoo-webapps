@@ -12,5 +12,10 @@ class ProductDiameterSize extends Model
 
     protected $table = 'product_diameter_sizes';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'productDiameter',
+        'productDiameterUnit'
+    ];
+
+    protected $hidden = [];
 }

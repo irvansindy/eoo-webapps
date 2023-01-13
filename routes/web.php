@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +20,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('products', [ProductController::class, 'index'])->name('products');
+    Route::get('createProduct', [ProductController::class, 'createProduct'])->name('createProduct');
+    Route::post('storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
+    Route::get('showProduct', [ProductController::class, 'showProduct'])->name('showProduct');
+    Route::get('editProduct', [ProductController::class, 'editProduct'])->name('editProduct');
+    Route::post('updateProduct', [ProductController::class, 'updateProduct'])->name('updateProduct');
+    Route::post('deleteProduct', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
+});
