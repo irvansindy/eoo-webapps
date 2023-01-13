@@ -12,5 +12,21 @@ class Product extends Model
 
     protected $table = 'products';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'productName',
+        'productTypeId',
+        'productDiameterId',
+        'productlengthId',
+        'productvariantId',
+        'productWeightStandard',
+        'kgPerHour',
+        'pcsPerHour',
+        'kgPerDay',
+        'pcsPerDay',
+        'productionAccuracyTolerancePerPcs',
+        'productFormula',
+        'productSocket',
+    ];
+
+    protected $hidden = [];
 }

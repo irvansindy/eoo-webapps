@@ -23,11 +23,11 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('productlengthId')->nullable();
             $table->unsignedInteger('productvariantId')->nullable();
             $table->unsignedInteger('productWeightStandard')->nullable();
-            $table->integer('kgPerHour');
-            $table->integer('pcsPerHour');
-            $table->integer('kgPerDay');
-            $table->integer('pcsPerDay');
-            $table->integer('productionAccuracyTolerancePerPcs')->nullable();
+            $table->float('kgPerHour');
+            $table->float('pcsPerHour');
+            $table->float('kgPerDay');
+            $table->float('pcsPerDay');
+            $table->float('productionAccuracyTolerancePerPcs')->nullable();
             $table->text('productFormula');
             $table->string('productSocket');
             $table->softDeletes();
