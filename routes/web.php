@@ -5,6 +5,7 @@ use App\Http\Controllers\MasterOfficeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ProductVariantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,14 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('updateProductType', [ProductTypeController::class, 'updateProductType'])->name('updateProductType');
     Route::get('deleteProductType', [ProductTypeController::class, 'deleteProductType'])->name('deleteProductType');
     // EndProduct Type
-
+    
+    // Product Variant
+    Route::get('productVariant', [ProductVariantController::class, 'index'])->name('productVariant');
+    Route::get('getProductVariant', [ProductVariantController::class, 'getProductVariant'])->name('getProductVariant');
+    Route::post('addProductVariant', [ProductVariantController::class, 'addProductVariant'])->name('addProductVariant');
+    Route::get('detailProductVariant', [ProductVariantController::class, 'detailProductVariant'])->name('detailProductVariant');
+    Route::post('updateProductVariant', [ProductVariantController::class, 'updateProductVariant'])->name('updateProductVariant');
+    Route::get('deleteProductVariant', [ProductVariantController::class, 'deleteProductVariant'])->name('deleteProductVariant');
+    // End Product Variant
 
 });
