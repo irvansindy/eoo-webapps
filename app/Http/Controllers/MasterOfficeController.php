@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Requests\StoreOfficeRequest;
+use App\Http\Requests\UpdateOfficeRequest;
 use App\Models\Office;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,6 +19,13 @@ class MasterOfficeController extends Controller
     public function getOffice()
     {
         $data = DB::table('offices')->select('offices.*','tbl_kabkot.ibukota as cityName')->join('tbl_kabkot','offices.officeCityId','=','tbl_kabkot.id')->get();
+        return response()->json([
+            'data'=>$data,
+        ]);
+    }
+    public function getOfficeName()
+    {
+        $data = DB::table('offices')->select('offices.*','offices.officeName as name','tbl_kabkot.ibukota as cityName')->join('tbl_kabkot','offices.officeCityId','=','tbl_kabkot.id')->where('activeFlag','active')->get();
         return response()->json([
             'data'=>$data,
         ]);
@@ -59,16 +67,16 @@ class MasterOfficeController extends Controller
     }
     public function saveOffice(Office $Office, StoreOfficeRequest $StoreOfficeRequest) {
         try {
-                $Office->create($StoreOfficeRequest->validated());
+            $Office->create($StoreOfficeRequest->validated());
             return ResponseFormatter::success(
                 $Office,
-                'product data successfully added'
+                'Office successfully added'
             );
             
         } catch (Exception $error) {
             return ResponseFormatter::error(
                 $error,
-                'product data failed to add',
+                'Office failed to add',
                 500
             );
         }
@@ -77,10 +85,10 @@ class MasterOfficeController extends Controller
     {
         $id=$request->id;
         $activeFlag=$request->activeFlag;
-        dd($activeFlag);
         $post=[
-            'activeFlag'=>$activeFlag
+            'activeFlag'=>$activeFlag=='active'?'inactive':'active'
         ];
+
         $message ='Data Gagal diupdate';
         $update = Office::find($id);
        
@@ -92,5 +100,47 @@ class MasterOfficeController extends Controller
             'message'=>$message,
         ]);
     }
-    
+    public function detailOffice(Request $request)
+    {
+        $detail = DB::table('offices')->select('offices.*','tbl_provinsi.provinsi as province_name', 'tbl_kabkot.kabupaten_kota as regency_name','tbl_kecamatan.kecamatan as district_name', 'tbl_kelurahan.kelurahan as village_name','tbl_kelurahan.kd_pos as postal_code')
+        ->join('tbl_provinsi','tbl_provinsi.id','=','offices.officeProvinceId')
+        ->join('tbl_kabkot','tbl_kabkot.id','=','offices.officeCityId')
+        ->join('tbl_kecamatan','tbl_kecamatan.id','=','offices.officeDistrictId')
+        ->join('tbl_kelurahan','tbl_kelurahan.id','=','offices.officeVillageId')
+        ->where('offices.id', $request->id)->first();
+        $get_province = DB::table('tbl_provinsi')->select('*')->get();      
+        return response()->json([
+        'get_province'=>$get_province,
+        'detail'=>$detail
+        ]);
+    }
+    public function updateOffice(Request $request,UpdateOfficeRequest $UpdateOfficeRequest) {
+        try {
+            $UpdateOfficeRequest->validate();
+            $post = [
+                'officeName'=>$request->officeNameUpdate,
+                'officeInitial'=>$request->officeInitialUpdate,
+                'officeInitial'=>$request->officeInitialUpdate,
+                'officeTypeId'=>$request->officeTypeIdUpdate,
+                'officeProvinceId'=>$request->officeProvinceIdUpdate,
+                'officeCityId'=>$request->officeCityIdUpdate,
+                'officeDistrictId'=>$request->officeDistrictIdUpdate,
+                'officeVillageId'=>$request->officeVillageIdUpdate,
+                'officePostalCode'=>$request->officePostalCodeUpdate,
+                'officeAddress'=>$request->officeAddressUpdate,
+            ];
+            Office::find($request->id)->update($post);
+            return ResponseFormatter::success(
+                $post,
+                'Office successfully updated'
+            );
+            
+        } catch (Exception $error) {
+            return ResponseFormatter::error(
+                $error,
+                'Office failed to update',
+                500
+            );
+        }
+    }
 }

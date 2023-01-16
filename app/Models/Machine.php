@@ -11,6 +11,6 @@ class Machine extends Model
     use HasFactory, softDeletes;
 
     protected $table = 'machines';
-
+    protected $dates = ['deleted_at'];
     protected $guarded = [];
 }

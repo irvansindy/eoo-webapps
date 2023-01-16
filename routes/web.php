@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\MasterMachineController;
 use App\Http\Controllers\MasterOfficeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductTypeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,6 +38,7 @@ Route::group(['middleware' => ['auth']], function() {
     // MasterOffice
     Route::get('masterOffice', [MasterOfficeController::class, 'index'])->name('masterOffice');
     Route::get('getOffice', [MasterOfficeController::class, 'getOffice'])->name('getOffice');
+    Route::get('getOfficeName', [MasterOfficeController::class, 'getOfficeName'])->name('getOfficeName');
     Route::get('getProvince', [MasterOfficeController::class, 'getProvince'])->name('getProvince');
     Route::get('getRegency', [MasterOfficeController::class, 'getRegency'])->name('getRegency');
     Route::get('getDistrict', [MasterOfficeController::class, 'getDistrict'])->name('getDistrict');
@@ -42,5 +46,26 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('getPostalCode', [MasterOfficeController::class, 'getPostalCode'])->name('getPostalCode');
     Route::post('saveOffice', [MasterOfficeController::class, 'saveOffice'])->name('saveOffice');
     Route::post('updateOfficeStatus', [MasterOfficeController::class, 'updateOfficeStatus'])->name('updateOfficeStatus');
+    Route::get('detailOffice', [MasterOfficeController::class, 'detailOffice'])->name('detailOffice');
+    Route::post('updateOffice', [MasterOfficeController::class, 'updateOffice'])->name('updateOffice');
     // End master Office
+
+    // Master Machine
+    Route::get('masterMachine', [MasterMachineController::class, 'index'])->name('masterMachine');
+    Route::get('getMachine', [MasterMachineController::class, 'getMachine'])->name('getMachine');
+    Route::post('addMachine', [MasterMachineController::class, 'addMachine'])->name('addMachine');
+    Route::get('detailMachine', [MasterMachineController::class, 'detailMachine'])->name('detailMachine');
+    Route::post('updateMachine', [MasterMachineController::class, 'updateMachine'])->name('updateMachine');
+    Route::get('deleteMachine', [MasterMachineController::class, 'deleteMachine'])->name('deleteMachine');
+    // Emd Master MMachine
+    // Product Type
+    Route::get('productType', [ProductTypeController::class, 'index'])->name('productType');
+    Route::get('getProductType', [ProductTypeController::class, 'getProductType'])->name('getProductType');
+    Route::post('addProductType', [ProductTypeController::class, 'addProductType'])->name('addProductType');
+    Route::get('detailProductType', [ProductTypeController::class, 'detailProductType'])->name('detailProductType');
+    Route::post('updateProductType', [ProductTypeController::class, 'updateProductType'])->name('updateProductType');
+    Route::get('deleteProductType', [ProductTypeController::class, 'deleteProductType'])->name('deleteProductType');
+    // EndProduct Type
+
+
 });

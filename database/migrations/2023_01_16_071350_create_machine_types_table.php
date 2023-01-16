@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMachineCapacitiesTable extends Migration
+class CreateMachineTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateMachineCapacitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('machine_capacities', function (Blueprint $table) {
+        Schema::create('machine_types', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('machineId');
-            $table->integer('small');
-            $table->integer('medium');
-            $table->integer('large');
+            $table->string('name');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +28,6 @@ class CreateMachineCapacitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('machine_capacities');
+        Schema::dropIfExists('machine_types');
     }
 }

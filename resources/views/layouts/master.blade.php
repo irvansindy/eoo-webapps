@@ -71,6 +71,68 @@
                   }
               });
           }
+          function select_active(url,id,name){
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: url,
+                type: "get",
+                dataType: 'json',
+                async: true,
+                beforeSend: function() {
+                    SwalLoading('Please wait ...');
+                },
+                success: function(response) {
+                    swal.close();
+                    $('#'+id).empty();
+                    $('#'+id).append('<option value ="">Pilih '+name+'</option>');
+                    $.each(response.data,function(i,data){
+                        $('#'+id).append('<option value="'+data.id+'">' + data.name +'</option>');
+                    });
+                    
+                },
+                error: function(xhr, status, error) {
+                    swal.close();
+                    toastr['error']('Failed to get data, please contact ICT Developer');
+                }
+            });
+          }
+          function store(url,data,route){
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: url,
+                type: "post",
+                dataType: 'json',
+                async: true,
+                data: data,
+                beforeSend: function() {
+                    SwalLoading('Please wait ...');
+                },
+                success: function(response) {
+                    swal.close();
+                    $('.message_error').html('')
+                    toastr['success'](response.meta.message);
+                    window.location = route;
+                },
+                error: function(response) {
+                    $('.message_error').html('')
+                    swal.close();
+                    if(response.status === 422)
+                    {
+                        $.each(response.responseJSON.errors, (key, val) => 
+                            {
+                                console.log(key+ ' - '+ val)
+                               $('span.'+key+'_error').text(val)
+                            });
+                    }else{
+                        toastr['error']('Failed to get data, please contact ICT Developer');
+                    }
+                }
+            });
+          }
        
           $(".select2").select2({ width: '300px', dropdownCssClass: "bigdrop" });
        </script>

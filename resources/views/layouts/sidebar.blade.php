@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-info elevation-4">
 
     <a href="#" class="brand-link">
-        <span class="brand-text font-weight-light" >Work Order</span>
+        <span class="brand-text font-weight-light" >OEE</span>
     </a>
 
     <div class="sidebar">

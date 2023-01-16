@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Submenus extends Model
+class MachineType extends Model
 {
     use HasFactory;
-    
-    protected $table = 'submenus';
-
+    protected $table = 'machine_types';
     protected $guarded = [];
 }

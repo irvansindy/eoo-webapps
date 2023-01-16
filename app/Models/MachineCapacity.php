@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MachineCapacity extends Model
 {
     use HasFactory;
+    protected $table = 'machine_capacities';
+    protected $guarded = [];
 }
