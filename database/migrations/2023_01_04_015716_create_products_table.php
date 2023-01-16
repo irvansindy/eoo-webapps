@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('productName');
             // $table->unsignedInteger('productCategoryId')->nullable();
             // $table->unsignedInteger('productClassId')->nullable();
+            $table->unsignedInteger('machineId')->nullable();
             $table->unsignedInteger('productTypeId')->nullable();
             $table->unsignedInteger('productDiameterId')->nullable();
             $table->unsignedInteger('productlengthId')->nullable();

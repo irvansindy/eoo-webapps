@@ -11,11 +11,12 @@ use App\Helpers\ResponseFormatter;
 class ProductController extends Controller
 {
     public function index() {
-        $products = Product::limit(10)->get();
-        return ResponseFormatter::success(
-            $products,
-            'product data successfully fetched'
-        );
+        // $products = Product::limit(10)->get();
+        // return ResponseFormatter::success(
+        //     $products,
+        //     'product data successfully fetched'
+        // );
+        return view('masterProduct.index');
     }
 
     public function createProduct() {

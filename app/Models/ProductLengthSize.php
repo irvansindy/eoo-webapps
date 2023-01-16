@@ -12,5 +12,10 @@ class ProductLengthSize extends Model
 
     protected $table = 'product_length_sizes';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'productLength',
+        'productLengthUnit'
+    ];
+
+    protected $hidden = [];
 }

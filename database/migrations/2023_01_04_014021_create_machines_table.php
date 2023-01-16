@@ -19,7 +19,7 @@ class CreateMachinesTable extends Migration
             $table->string('machineName');
             $table->string('machineTypeId');
             $table->string('machineCapacityId');
-            $table->string('productId');
+            // $table->string('productId');
             $table->string('officeId');
             $table->softDeletes();
             $table->timestamps();
