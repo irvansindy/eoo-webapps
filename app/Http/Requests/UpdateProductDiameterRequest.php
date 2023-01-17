@@ -24,11 +24,12 @@ class UpdateProductDiameterRequest extends FormRequest
     public function rules()
     {
         return [
-            'productDiameter' => 'required|integer',
-            'productDiameter0Unit' => [
-                'required|string',
-                Rule::in(['inch', 'milimeter'])
-            ]
+            'updateProductDiameter' => 'required|integer',
+            'updateProductDiameterUnit' => 'required'
+            // 'productDiameter0Unit' => [
+            //     'required|string',
+            //     Rule::in(['inch', 'milimeter'])
+            // ]
         ];
     }
 }

@@ -98,7 +98,7 @@
                 }
             });
           }
-          function store(url,data,route){
+        function store(url,data,route){
             $.ajax({
                 headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -125,16 +125,16 @@
                         $.each(response.responseJSON.errors, (key, val) => 
                             {
                                 console.log(key+ ' - '+ val)
-                               $('span.'+key+'_error').text(val)
+                                $('span.'+key+'_error').text(val)
                             });
                     }else{
                         toastr['error']('Failed to get data, please contact ICT Developer');
                     }
                 }
             });
-          }
+        }
        
-          $(".select2").select2({ width: '300px', dropdownCssClass: "bigdrop" });
+        $(".select2").select2({ width: '300px', dropdownCssClass: "bigdrop" });
        </script>
         @stack('custom-js')
     </body>

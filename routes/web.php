@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\ProductDiameterController;
+use App\Http\Controllers\OeeDefectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,25 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('updateProduct', [ProductController::class, 'updateProduct'])->name('updateProduct');
     Route::post('deleteProduct', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
     // End Product
+
+    // product Diameter
+    Route::get('productDiameter', [ProductDiameterController::class, 'index'])->name('productDiameter');
+    Route::get('getProductDiameter', [ProductDiameterController::class, 'getProductDiameter'])->name('getProductDiameter');
+    Route::get('editProductDiameter', [ProductDiameterController::class, 'editProductDiameter'])->name('editProductDiameter');
+    Route::get('deleteProductDiameter', [ProductDiameterController::class, 'deleteProductDiameter'])->name('deleteProductDiameter');
+    Route::post('storeProductDiameter', [ProductDiameterController::class, 'storeProductDiameter'])->name('storeProductDiameter');
+    Route::post('updateProductDiameter', [ProductDiameterController::class, 'updateProductDiameter'])->name('updateProductDiameter');
+    // end product Diameter
+
+    // oee Defect
+    Route::get('oeeDefect', [OeeDefectController::class, 'index'])->name('oeeDefect');
+    Route::get('getOeeDefect', [OeeDefectController::class, 'getOeeDefect'])->name('getOeeDefect');
+    Route::get('editOeeDefect', [OeeDefectController::class, 'editOeeDefect'])->name('editOeeDefect');
+    Route::get('deleteOeeDefect', [OeeDefectController::class, 'deleteOeeDefect'])->name('deleteOeeDefect');
+    Route::post('storeOeeDefect', [OeeDefectController::class, 'storeOeeDefect'])->name('storeOeeDefect');
+    Route::post('updateOeeDefect', [OeeDefectController::class, 'updateOeeDefect'])->name('updateOeeDefect');
+    // end oee Defect
+
     // MasterOffice
     Route::get('masterOffice', [MasterOfficeController::class, 'index'])->name('masterOffice');
     Route::get('getOffice', [MasterOfficeController::class, 'getOffice'])->name('getOffice');

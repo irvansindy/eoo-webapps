@@ -11,15 +11,20 @@ use App\Helpers\ResponseFormatter;
 class ProductDiameterController extends Controller
 {
     public function index() {
-        $productDiameters = ProductDiameterSize::limit(10)->get();
+        // $productDiameters = ProductDiameterSize::limit(10)->get();
+        // return ResponseFormatter::success(
+        //     $productDiameters,
+        //     'Product diameter data successfully fetched'
+        // );
+        return view('productDiameter.productDiameter-index');
+    }
+
+    public function getProductDiameter() {
+        $productDiameters = ProductDiameterSize::all();
         return ResponseFormatter::success(
             $productDiameters,
             'Product diameter data successfully fetched'
         );
-    }
-
-    public function createProductDiameter() {
-        return view('productDiameter.createProductDiameter');
     }
 
     public function storeProductDiameter(ProductDiameterSize $ProductDiameterSize, StoreProductDiameterRequest $StoreProductDiameterRequest) {
@@ -47,17 +52,23 @@ class ProductDiameterController extends Controller
         );
     }
     
-    public function editProductDiameter(ProductDiameterSize $ProductDiameterSize) {
+    public function editProductDiameter(Request $request) {
+        $ProductDiameterSize = ProductDiameterSize::findOrFail($request->id);
         return ResponseFormatter::success(
             $ProductDiameterSize,
             'Product diameter data successfully fetched'
         );
     }
 
-    public function updateProductDiameter(ProductDiameterSize $ProductDiameterSize, UpdateProductDiameterRequest $UpdateProductDiameterRequest) {
+    public function updateProductDiameter(Request $request, UpdateProductDiameterRequest $UpdateProductDiameterRequest) {
         try {
-            $ProductDiameterSize->update($UpdateProductDiameterRequest->validated());
-
+            // $ProductDiameterSize->update($UpdateProductDiameterRequest->validated());
+            $UpdateProductDiameterRequest->validated();
+            $ProductDiameterSize = ProductDiameterSize::findOrFail($request->id);
+            $ProductDiameterSize->update([
+                'productDiameter' => $request->updateProductDiameter,
+                'productDiameterUnit' => $request->updateProductDiameterUnit
+            ]);
             return ResponseFormatter::success(
                 $ProductDiameterSize,
                 'Product diameter data successfully updated'
@@ -71,10 +82,26 @@ class ProductDiameterController extends Controller
         }
     }
 
-    public function deleteProductDiameter(ProductDiameterSize $ProductDiameterSize) {
-        try {
-            $ProductDiameterSize->delete();
+    // public function deleteProductDiameter(ProductDiameterSize $ProductDiameterSize) {
+    //     try {
+    //         $ProductDiameterSize->delete();
 
+    //         return ResponseFormatter::success(
+    //             $ProductDiameterSize,
+    //             'Product diameter data successfully deleted'
+    //         );
+    //     } catch (\Throwable $th) {
+    //         return ResponseFormatter::error(
+    //             $th,
+    //             'Product diameter data failed to delete',
+    //             422
+    //         );
+    //     }
+    // }
+
+    public function deleteProductDiameter(Request $request) {
+        try {
+            $ProductDiameterSize = ProductDiameterSize::findOrFail($request->id)->delete();
             return ResponseFormatter::success(
                 $ProductDiameterSize,
                 'Product diameter data successfully deleted'

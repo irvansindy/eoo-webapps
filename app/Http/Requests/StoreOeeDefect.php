@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductDiameterRequest extends FormRequest
+class StoreOeeDefect extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,7 @@ class StoreProductDiameterRequest extends FormRequest
     public function rules()
     {
         return [
-            'productDiameter' => 'required|integer',
-            'productDiameterUnit' => 'required'
-            // 'productDiameterUnit' => [
-            //     'required|string',
-            //     Rule::in(['inch', 'milimeter'])
-            // ]
+            'defectName' => 'required|string|max:255'
         ];
     }
 }

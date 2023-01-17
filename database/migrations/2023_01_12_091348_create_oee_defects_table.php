@@ -15,6 +15,8 @@ class CreateOeeDefectsTable extends Migration
     {
         Schema::create('oee_defects', function (Blueprint $table) {
             $table->id();
+            $table->string('defectName');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

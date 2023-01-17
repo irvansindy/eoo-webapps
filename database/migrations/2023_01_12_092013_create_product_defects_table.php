@@ -15,6 +15,9 @@ class CreateProductDefectsTable extends Migration
     {
         Schema::create('product_defects', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('defectId');
+            $table->unsignedInteger('productId');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
