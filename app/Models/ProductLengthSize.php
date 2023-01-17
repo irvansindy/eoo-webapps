@@ -11,11 +11,5 @@ class ProductLengthSize extends Model
     use HasFactory, softDeletes;
 
     protected $table = 'product_length_sizes';
-
-    protected $fillable = [
-        'productLength',
-        'productLengthUnit'
-    ];
-
-    protected $hidden = [];
+    protected $guarded = [];
 }

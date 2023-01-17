@@ -1,14 +1,22 @@
 <?php
 
+use App\Http\Controllers\DieHeadController;
 use App\Http\Controllers\MasterMachineController;
 use App\Http\Controllers\MasterOfficeController;
+use App\Http\Controllers\ProductClassController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductLengthController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProductVariantController;
+<<<<<<< HEAD
 use App\Http\Controllers\ProductDiameterController;
 use App\Http\Controllers\OeeDefectController;
 
+=======
+use App\Http\Controllers\SocketController;
+use App\Http\Controllers\SubClassController;
+>>>>>>> af415903caee44517127cbbf3ab03806eecc3974
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,6 +83,7 @@ Route::group(['middleware' => ['auth']], function() {
     // Master Machine
     Route::get('masterMachine', [MasterMachineController::class, 'index'])->name('masterMachine');
     Route::get('getMachine', [MasterMachineController::class, 'getMachine'])->name('getMachine');
+    Route::get('getMachineName', [MasterMachineController::class, 'getMachineName'])->name('getMachineName');
     Route::post('addMachine', [MasterMachineController::class, 'addMachine'])->name('addMachine');
     Route::get('detailMachine', [MasterMachineController::class, 'detailMachine'])->name('detailMachine');
     Route::post('updateMachine', [MasterMachineController::class, 'updateMachine'])->name('updateMachine');
@@ -97,5 +106,51 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('updateProductVariant', [ProductVariantController::class, 'updateProductVariant'])->name('updateProductVariant');
     Route::get('deleteProductVariant', [ProductVariantController::class, 'deleteProductVariant'])->name('deleteProductVariant');
     // End Product Variant
+    
+    // Product Class
+    Route::get('productClass', [ProductClassController::class, 'index'])->name('productClass');
+    Route::get('getProductClass', [ProductClassController::class, 'getProductClass'])->name('getProductClass');
+    Route::post('addProductClass', [ProductClassController::class, 'addProductClass'])->name('addProductClass');
+    Route::get('detailProductClass', [ProductClassController::class, 'detailProductClass'])->name('detailProductClass');
+    Route::post('updateProductClass', [ProductClassController::class, 'updateProductClass'])->name('updateProductClass');
+    Route::get('deleteProductClass', [ProductClassController::class, 'deleteProductClass'])->name('deleteProductClass');
+    
+    // End Product Class
+    // SubClass
+    Route::get('subClass', [SubClassController::class, 'index'])->name('subClass');
+    Route::get('getSubClass', [SubClassController::class, 'getSubClass'])->name('getSubClass');
+    Route::post('addSubClass', [SubClassController::class, 'addSubClass'])->name('addSubClass');
+    Route::get('detailSubClass', [SubClassController::class, 'detailSubClass'])->name('detailSubClass');
+    Route::post('updateSubClass', [SubClassController::class, 'updateSubClass'])->name('updateSubClass');
+    Route::get('deleteSubClass', [SubClassController::class, 'deleteSubClass'])->name('deleteSubClass');
+    
+    // End SubClass
+    // Socket
+    Route::get('socket', [SocketController::class, 'index'])->name('socket');
+    Route::get('getSocket', [SocketController::class, 'getSocket'])->name('getSocket');
+    Route::post('addSocket', [SocketController::class, 'addSocket'])->name('addSocket');
+    Route::get('detailSocket', [SocketController::class, 'detailSocket'])->name('detailSocket');
+    Route::post('updateSocket', [SocketController::class, 'updateSocket'])->name('updateSocket');
+    Route::get('deleteSocket', [SocketController::class, 'deleteSocket'])->name('deleteSocket');
+    // End Socket
+    // Product Lengtth
+    Route::get('productLength', [ProductLengthController::class, 'index'])->name('productLength');
+    Route::get('getProductLength', [ProductLengthController::class, 'getProductLength'])->name('getProductLength');
+    Route::post('addProductLength', [ProductLengthController::class, 'addProductLength'])->name('addProductLength');
+    Route::get('detailProductLength', [ProductLengthController::class, 'detailProductLength'])->name('detailProductLength');
+    Route::post('updateProductLength', [ProductLengthController::class, 'updateProductLength'])->name('updateProductLength');
+    Route::get('deleteProductLength', [ProductLengthController::class, 'deleteProductLength'])->name('deleteProductLength');
+    // End Product Length
+    
+    // Die Head
+    
+    Route::get('dieHead', [DieHeadController::class, 'index'])->name('dieHead');
+    Route::get('getDieHead', [DieHeadController::class, 'getDieHead'])->name('getDieHead');
+    Route::post('addDieHead', [DieHeadController::class, 'addDieHead'])->name('addDieHead');
+    Route::get('detailDieHead', [DieHeadController::class, 'detailDieHead'])->name('detailDieHead');
+    Route::post('updateDieHead', [DieHeadController::class, 'updateDieHead'])->name('updateDieHead');
+    Route::get('deleteDieHead', [DieHeadController::class, 'deleteDieHead'])->name('deleteDieHead');
+
+    // End Die Head
 
 });

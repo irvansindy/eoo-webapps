@@ -1,26 +1,39 @@
 <script>
-    getProductType()
-    $('#btnAddProductType').on('click', function(){
-        var data ={
-            'productType':$('#productType').val()
-        } 
-        store('addProductType',data,'productType')
+    getSubClass()
+    $('#selectProductClass').on('change', function(){
+        var selectProductClass = $('#selectProductClass').val()
+        $('#productClassId').val(selectProductClass)
     })
-    $('#btnUpdateProductType').on('click', function(){
-        var data ={
-            'id':$('#productTypeId').val(),
-            'productTypeUpdate':$('#productTypeUpdate').val()
-        } 
-        store('updateProductType',data,'productType')
+    $('#selectProductClassUpdate').on('change', function(){
+        var selectProductClassUpdate = $('#selectProductClassUpdate').val()
+        $('#productClassIdUpdate').val(selectProductClassUpdate)
     })
-    $('#productTypeTable').on('click', '.editProductType', function(e) {
+    $('#addSubClass').on('click', function(){
+        select_active('getProductClass','selectProductClass','Product Class')
+    })
+    $('#btnAddSubClass').on('click', function(){
+        var data ={
+            'subClassName':$('#subClassName').val(),
+            'productClassId':$('#productClassId').val()
+        }
+        store('addSubClass',data,'subClass')
+    })
+    $('#btnUpdateSubClass').on('click', function(){
+        var data = {
+            'id' : $('#subClassId').val(),
+            'subClassNameUpdate':$('#subClassNameUpdate').val(),
+            'productClassIdUpdate':$('#productClassIdUpdate').val(),
+        }
+        store('updateSubClass',data,'subClass')
+    })
+    $('#subClassTable').on('click', '.editSubClass', function(e) {
             var id =$(this).data('id')
             e.preventDefault()       
                 $.ajax({
                     headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: "{{route('detailProductType')}}",
+                url: "{{route('detailSubClass')}}",
                 type: "get",
                 dataType: 'json',
                 async: true,
@@ -28,8 +41,15 @@
                     'id': id
                 },
                 success: function(response) {                   
-                    $('#productTypeId').val(id)
-                    $('#productTypeUpdate').val(response.detail.productType)
+                    $('#subClassId').val(id)
+                    $('#subClassNameUpdate').val(response.detail.subClassName)
+                    $('#productClassIdUpdate').val(response.detail.productClassId)
+                    $('#selectProductClassUpdate').empty();
+                    $('#selectProductClassUpdate').append('<option value ="'+response.detail.productClassId+'">'+response.detail.productClassName+'</option>');
+                    $.each(response.productType,function(i,data){
+                        $('#selectProductClassUpdate').append('<option value="'+data.id+'">' + data.name +'</option>');
+                    });
+                    
                 },
                 error: function(xhr, status, error) {
                    
@@ -39,14 +59,14 @@
           
            
     });
-    $('#productTypeTable').on('click', '.deleteProductType', function(e) {
+    $('#subClassTable').on('click', '.deleteSubClass', function(e) {
             var id =$(this).data('id')
             e.preventDefault()       
                 $.ajax({
                     headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: "{{route('deleteProductType')}}",
+                url: "{{route('deleteSubClass')}}",
                 type: "get",
                 dataType: 'json',
                 async: true,
@@ -57,7 +77,7 @@
                     if(response.status==200)
                     {
                         toastr['success'](response.message);
-                        getProductType()
+                        getSubClass()
                     }else{
                         toastr['error'](response.message);
                     }
@@ -70,15 +90,15 @@
           
            
     });
-   function getProductType()
+     function getSubClass()
    {
-        $('#productTypeTable').DataTable().clear();
-        $('#productTypeTable').DataTable().destroy();
+        $('#subClassTable').DataTable().clear();
+        $('#subClassTable').DataTable().destroy();
         $.ajax({
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "{{route('getProductType')}}",
+            url: "{{route('getSubClass')}}",
             type: "get",
             dataType: 'json',
             async: true,
@@ -91,20 +111,21 @@
                 for(i = 0; i < response.data.length; i++ )
                 {
                     data += `<tr style="text-align: center;">
-                                <td style="width:25%;text-align:center;">${response.data[i]['name']==null?'':response.data[i]['name']}</td>
+                                <td style="width:25%;text-align:center;">${response.data[i]['subClassName']==null?'':response.data[i]['subClassName']}</td>
+                                <td style="width:25%;text-align:center;">${response.data[i]['productClassName']==null?'':response.data[i]['productClassName']}</td>
                                 <td style="width:25%;text-align:center">
-                                        <button title="Detail" class="editProductType btn btn-primary rounded"data-id="${response.data[i]['id']}" data-toggle="modal" data-target="#editProductType">
+                                        <button title="Detail" class="editSubClass btn btn-primary rounded"data-id="${response.data[i]['id']}" data-toggle="modal" data-target="#editSubClass">
                                             <i class="fas fa-solid fa-eye"></i>
                                         </button> 
-                                        <button title="Detail" class="deleteProductType btn btn-danger rounded"data-id="${response.data[i]['id']}">
+                                        <button title="Detail" class="deleteSubClass btn btn-danger rounded"data-id="${response.data[i]['id']}">
                                             <i class="fas fa-solid fa-trash"></i>
                                         </button> 
                                 </td>
                             </tr>
                             `;
                 }
-                    $('#productTypeTable > tbody:first').html(data);
-                    $('#productTypeTable').DataTable({
+                    $('#subClassTable > tbody:first').html(data);
+                    $('#subClassTable').DataTable({
                         scrollX  : true,
                         scrollY  :220
                     }).columns.adjust()

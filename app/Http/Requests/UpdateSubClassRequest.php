@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateProductLengthRequest extends FormRequest
+class UpdateSubClassRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,15 @@ class UpdateProductLengthRequest extends FormRequest
     public function rules()
     {
         return [
-            'productLengthUpdate' => 'required|integer',
-            'productLengthUnitUpdate' => 'required|string',
+            'productClassIdUpdate'=>'required',
+            'subClassNameUpdate'=>'required'
         ];
+    }
+    public function validate() {
+        $instance = $this->getValidatorInstance();
+        if ($instance->fails()) {
+          
+            throw new HttpResponseException(response()->json($instance->errors(), 422));
+        }
     }
 }

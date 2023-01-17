@@ -1,26 +1,26 @@
 <script>
-    getProductType()
-    $('#btnAddProductType').on('click', function(){
+    getSocket()
+    $('#btnAddSocket').on('click', function(){
         var data ={
-            'productType':$('#productType').val()
-        } 
-        store('addProductType',data,'productType')
+            'socketName':$('#socketName').val()
+        }
+        store('addSocket', data, 'socket')
     })
-    $('#btnUpdateProductType').on('click', function(){
+    $('#btnUpdateSocket').on('click', function(){
         var data ={
-            'id':$('#productTypeId').val(),
-            'productTypeUpdate':$('#productTypeUpdate').val()
-        } 
-        store('updateProductType',data,'productType')
+            'id':$('#socketId').val(),
+            'socketNameUpdate':$('#socketNameUpdate').val(),
+        }
+        store('updateSocket',data,'socket')
     })
-    $('#productTypeTable').on('click', '.editProductType', function(e) {
+    $('#socketTable').on('click', '.editSocket', function(e) {
             var id =$(this).data('id')
             e.preventDefault()       
                 $.ajax({
                     headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: "{{route('detailProductType')}}",
+                url: "{{route('detailSocket')}}",
                 type: "get",
                 dataType: 'json',
                 async: true,
@@ -28,8 +28,8 @@
                     'id': id
                 },
                 success: function(response) {                   
-                    $('#productTypeId').val(id)
-                    $('#productTypeUpdate').val(response.detail.productType)
+                    $('#socketId').val(id)
+                    $('#socketNameUpdate').val(response.detail.socketName)
                 },
                 error: function(xhr, status, error) {
                    
@@ -39,14 +39,14 @@
           
            
     });
-    $('#productTypeTable').on('click', '.deleteProductType', function(e) {
+    $('#socketTable').on('click', '.deleteSocket', function(e) {
             var id =$(this).data('id')
             e.preventDefault()       
                 $.ajax({
                     headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: "{{route('deleteProductType')}}",
+                url: "{{route('deleteSocket')}}",
                 type: "get",
                 dataType: 'json',
                 async: true,
@@ -57,7 +57,7 @@
                     if(response.status==200)
                     {
                         toastr['success'](response.message);
-                        getProductType()
+                        getSocket()
                     }else{
                         toastr['error'](response.message);
                     }
@@ -70,15 +70,15 @@
           
            
     });
-   function getProductType()
+    function getSocket()
    {
-        $('#productTypeTable').DataTable().clear();
-        $('#productTypeTable').DataTable().destroy();
+        $('#socketTable').DataTable().clear();
+        $('#socketTable').DataTable().destroy();
         $.ajax({
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "{{route('getProductType')}}",
+            url: "{{route('getSocket')}}",
             type: "get",
             dataType: 'json',
             async: true,
@@ -93,18 +93,18 @@
                     data += `<tr style="text-align: center;">
                                 <td style="width:25%;text-align:center;">${response.data[i]['name']==null?'':response.data[i]['name']}</td>
                                 <td style="width:25%;text-align:center">
-                                        <button title="Detail" class="editProductType btn btn-primary rounded"data-id="${response.data[i]['id']}" data-toggle="modal" data-target="#editProductType">
+                                        <button title="Detail" class="editSocket btn btn-primary rounded"data-id="${response.data[i]['id']}" data-toggle="modal" data-target="#editSocket">
                                             <i class="fas fa-solid fa-eye"></i>
                                         </button> 
-                                        <button title="Detail" class="deleteProductType btn btn-danger rounded"data-id="${response.data[i]['id']}">
+                                        <button title="Detail" class="deleteSocket btn btn-danger rounded"data-id="${response.data[i]['id']}">
                                             <i class="fas fa-solid fa-trash"></i>
                                         </button> 
                                 </td>
                             </tr>
                             `;
                 }
-                    $('#productTypeTable > tbody:first').html(data);
-                    $('#productTypeTable').DataTable({
+                    $('#socketTable > tbody:first').html(data);
+                    $('#socketTable').DataTable({
                         scrollX  : true,
                         scrollY  :220
                     }).columns.adjust()

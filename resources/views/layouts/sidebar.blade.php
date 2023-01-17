@@ -28,7 +28,7 @@
                     @if($item->type == 1)
                     <li class="nav-item">
                         <a href="{{$item->link}}" class="nav-link">
-                            <i class="nav-icon {{$item->icon}}"></i>
+                            <i class="nav-icon {{$item->icon}} icon_color_sidebar"></i>
                             <p>{{$item->menusName}}</p>
                         </a>
                     </li>
@@ -41,7 +41,7 @@
                                 // dd($submenus);
                             @endphp
                              <a href="#" class="nav-link">
-                                <i class="nav-icon {{$item->icon}}"></i>
+                                <i class="nav-icon {{$item->icon}} icon_color_sidebar"></i>
                                 <p>{{$item->menusName}}<i class="right fas fa-angle-left"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
