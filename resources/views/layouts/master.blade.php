@@ -254,4 +254,8 @@ tr.shown td.details-click {
 .rating__star:hover {
    filter: drop-shadow(1px 1px 4px gold);
 }
+.icon_color_sidebar
+{
+    color:#F5EDCE;
+}
 </style>

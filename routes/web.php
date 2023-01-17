@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DieHeadController;
 use App\Http\Controllers\MasterMachineController;
 use App\Http\Controllers\MasterOfficeController;
 use App\Http\Controllers\ProductClassController;
@@ -57,6 +58,7 @@ Route::group(['middleware' => ['auth']], function() {
     // Master Machine
     Route::get('masterMachine', [MasterMachineController::class, 'index'])->name('masterMachine');
     Route::get('getMachine', [MasterMachineController::class, 'getMachine'])->name('getMachine');
+    Route::get('getMachineName', [MasterMachineController::class, 'getMachineName'])->name('getMachineName');
     Route::post('addMachine', [MasterMachineController::class, 'addMachine'])->name('addMachine');
     Route::get('detailMachine', [MasterMachineController::class, 'detailMachine'])->name('detailMachine');
     Route::post('updateMachine', [MasterMachineController::class, 'updateMachine'])->name('updateMachine');
@@ -113,6 +115,17 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('detailProductLength', [ProductLengthController::class, 'detailProductLength'])->name('detailProductLength');
     Route::post('updateProductLength', [ProductLengthController::class, 'updateProductLength'])->name('updateProductLength');
     Route::get('deleteProductLength', [ProductLengthController::class, 'deleteProductLength'])->name('deleteProductLength');
+    // End Product Length
     
+    // Die Head
+    
+    Route::get('dieHead', [DieHeadController::class, 'index'])->name('dieHead');
+    Route::get('getDieHead', [DieHeadController::class, 'getDieHead'])->name('getDieHead');
+    Route::post('addDieHead', [DieHeadController::class, 'addDieHead'])->name('addDieHead');
+    Route::get('detailDieHead', [DieHeadController::class, 'detailDieHead'])->name('detailDieHead');
+    Route::post('updateDieHead', [DieHeadController::class, 'updateDieHead'])->name('updateDieHead');
+    Route::get('deleteDieHead', [DieHeadController::class, 'deleteDieHead'])->name('deleteDieHead');
+
+    // End Die Head
 
 });

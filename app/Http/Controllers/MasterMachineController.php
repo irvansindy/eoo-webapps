@@ -30,6 +30,13 @@ class MasterMachineController extends Controller
             'data'=>$data,
         ]);
     }
+    public function getMachineName()
+    {
+        $data = Machine::select('machineName as name','id')->whereNull('deleted_at')->get();
+        return response()->json([
+            'data'=>$data,
+        ]);
+    }
     public function addMachine(Request $request, StoreMachineRequest $StoreMachineRequest) {
         try {
             $StoreMachineRequest->validated();
