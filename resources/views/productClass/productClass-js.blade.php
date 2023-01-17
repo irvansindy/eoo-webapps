@@ -1,26 +1,39 @@
 <script>
-    getProductType()
-    $('#btnAddProductType').on('click', function(){
-        var data ={
-            'productType':$('#productType').val()
-        } 
-        store('addProductType',data,'productType')
+    getProductClass()
+    $('#addProductClass').on('click', function(){
+        select_active('getProductType','selectProductType','Tipe Produk')
     })
-    $('#btnUpdateProductType').on('click', function(){
-        var data ={
-            'id':$('#productTypeId').val(),
-            'productTypeUpdate':$('#productTypeUpdate').val()
-        } 
-        store('updateProductType',data,'productType')
+    $('#selectProductType').on('change', function(){
+        var selectProductType = $('#selectProductType').val()
+        $('#productTypeId').val(selectProductType)
     })
-    $('#productTypeTable').on('click', '.editProductType', function(e) {
+    $('#selectProductTypeUpdate').on('change', function(){
+        var selectProductTypeUpdate = $('#selectProductTypeUpdate').val()
+        $('#productTypeIdUpdate').val(selectProductTypeUpdate)
+    })
+    $('#btnAddProductClass').on('click', function(){
+        var data ={
+            'productTypeId':$('#productTypeId').val(),
+            'productClass':$('#productClass').val()
+        }
+        store('addProductClass',data,'productClass')
+    })
+    $('#btnUpdateProductClass').on('click', function(){
+        var data ={
+            'id':$('#productClassId').val(),
+            'productTypeIdUpdate':$('#productTypeIdUpdate').val(),
+            'productClassUpdate':$('#productClassUpdate').val()
+        }
+        store('updateProductClass',data,'productClass')
+    })
+    $('#productClassTable').on('click', '.editProductClass', function(e) {
             var id =$(this).data('id')
             e.preventDefault()       
                 $.ajax({
                     headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: "{{route('detailProductType')}}",
+                url: "{{route('detailProductClass')}}",
                 type: "get",
                 dataType: 'json',
                 async: true,
@@ -28,8 +41,15 @@
                     'id': id
                 },
                 success: function(response) {                   
-                    $('#productTypeId').val(id)
-                    $('#productTypeUpdate').val(response.detail.productType)
+                    $('#productClassId').val(id)
+                    $('#productClassUpdate').val(response.detail.productClass)
+                    $('#productTypeIdUpdate').val(response.detail.productTypeId)
+                    $('#selectProductTypeUpdate').empty();
+                    $('#selectProductTypeUpdate').append('<option value ="'+response.detail.productTypeId+'">'+response.detail.productType+'</option>');
+                    $.each(response.productType,function(i,data){
+                        $('#selectProductTypeUpdate').append('<option value="'+data.id+'">' + data.name +'</option>');
+                    });
+                    
                 },
                 error: function(xhr, status, error) {
                    
@@ -39,14 +59,14 @@
           
            
     });
-    $('#productTypeTable').on('click', '.deleteProductType', function(e) {
+    $('#productClassTable').on('click', '.deleteProductClass', function(e) {
             var id =$(this).data('id')
             e.preventDefault()       
                 $.ajax({
                     headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: "{{route('deleteProductType')}}",
+                url: "{{route('deleteProductClass')}}",
                 type: "get",
                 dataType: 'json',
                 async: true,
@@ -57,7 +77,7 @@
                     if(response.status==200)
                     {
                         toastr['success'](response.message);
-                        getProductType()
+                        getProductClass()
                     }else{
                         toastr['error'](response.message);
                     }
@@ -70,15 +90,15 @@
           
            
     });
-   function getProductType()
+    function getProductClass()
    {
-        $('#productTypeTable').DataTable().clear();
-        $('#productTypeTable').DataTable().destroy();
+        $('#productClassTable').DataTable().clear();
+        $('#productClassTable').DataTable().destroy();
         $.ajax({
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "{{route('getProductType')}}",
+            url: "{{route('getProductClass')}}",
             type: "get",
             dataType: 'json',
             async: true,
@@ -92,19 +112,20 @@
                 {
                     data += `<tr style="text-align: center;">
                                 <td style="width:25%;text-align:center;">${response.data[i]['name']==null?'':response.data[i]['name']}</td>
+                                <td style="width:25%;text-align:center;">${response.data[i]['productType']==null?'':response.data[i]['productType']}</td>
                                 <td style="width:25%;text-align:center">
-                                        <button title="Detail" class="editProductType btn btn-primary rounded"data-id="${response.data[i]['id']}" data-toggle="modal" data-target="#editProductType">
+                                        <button title="Detail" class="editProductClass btn btn-primary rounded"data-id="${response.data[i]['id']}" data-toggle="modal" data-target="#editProductClassModal">
                                             <i class="fas fa-solid fa-eye"></i>
                                         </button> 
-                                        <button title="Detail" class="deleteProductType btn btn-danger rounded"data-id="${response.data[i]['id']}">
+                                        <button title="Detail" class="deleteProductClass btn btn-danger rounded"data-id="${response.data[i]['id']}">
                                             <i class="fas fa-solid fa-trash"></i>
                                         </button> 
                                 </td>
                             </tr>
                             `;
                 }
-                    $('#productTypeTable > tbody:first').html(data);
-                    $('#productTypeTable').DataTable({
+                    $('#productClassTable > tbody:first').html(data);
+                    $('#productClassTable').DataTable({
                         scrollX  : true,
                         scrollY  :220
                     }).columns.adjust()

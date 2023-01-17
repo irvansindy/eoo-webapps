@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\MasterMachineController;
 use App\Http\Controllers\MasterOfficeController;
+use App\Http\Controllers\ProductClassController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProductVariantController;
-
+use App\Http\Controllers\SocketController;
+use App\Http\Controllers\SubClassController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,5 +78,33 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('updateProductVariant', [ProductVariantController::class, 'updateProductVariant'])->name('updateProductVariant');
     Route::get('deleteProductVariant', [ProductVariantController::class, 'deleteProductVariant'])->name('deleteProductVariant');
     // End Product Variant
+    
+    // Product Class
+    Route::get('productClass', [ProductClassController::class, 'index'])->name('productClass');
+    Route::get('getProductClass', [ProductClassController::class, 'getProductClass'])->name('getProductClass');
+    Route::post('addProductClass', [ProductClassController::class, 'addProductClass'])->name('addProductClass');
+    Route::get('detailProductClass', [ProductClassController::class, 'detailProductClass'])->name('detailProductClass');
+    Route::post('updateProductClass', [ProductClassController::class, 'updateProductClass'])->name('updateProductClass');
+    Route::get('deleteProductClass', [ProductClassController::class, 'deleteProductClass'])->name('deleteProductClass');
+    
+    // End Product Class
+    // SubClass
+    Route::get('subClass', [SubClassController::class, 'index'])->name('subClass');
+    Route::get('getSubClass', [SubClassController::class, 'getSubClass'])->name('getSubClass');
+    Route::post('addSubClass', [SubClassController::class, 'addSubClass'])->name('addSubClass');
+    Route::get('detailSubClass', [SubClassController::class, 'detailSubClass'])->name('detailSubClass');
+    Route::post('updateSubClass', [SubClassController::class, 'updateSubClass'])->name('updateSubClass');
+    Route::get('deleteSubClass', [SubClassController::class, 'deleteSubClass'])->name('deleteSubClass');
+    
+    // End SubClass
+    // Socket
+    Route::get('socket', [SocketController::class, 'index'])->name('socket');
+    Route::get('getSocket', [SocketController::class, 'getSocket'])->name('getSocket');
+    Route::post('addSocket', [SocketController::class, 'addSocket'])->name('addSocket');
+    Route::get('detailSocket', [SocketController::class, 'detailSocket'])->name('detailSocket');
+    Route::post('updateSocket', [SocketController::class, 'updateSocket'])->name('updateSocket');
+    Route::get('deleteSocket', [SocketController::class, 'deleteSocket'])->name('deleteSocket');
+
+    // End Socket
 
 });

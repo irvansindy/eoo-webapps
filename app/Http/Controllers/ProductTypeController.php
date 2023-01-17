@@ -16,7 +16,7 @@ class ProductTypeController extends Controller
     }
     public function getProductType()
     {
-        $data = ProductType::all();
+        $data = ProductType::select('productType as name','id')->get();
         return response()->json([
             'data'=>$data,
         ]);
