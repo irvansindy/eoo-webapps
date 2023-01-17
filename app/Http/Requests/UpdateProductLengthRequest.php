@@ -24,8 +24,8 @@ class UpdateProductLengthRequest extends FormRequest
     public function rules()
     {
         return [
-            'productLength' => 'required|integer',
-            'productLengthUnit' => 'required|string',
+            'productLengthUpdate' => 'required|integer',
+            'productLengthUnitUpdate' => 'required|string',
         ];
     }
 }

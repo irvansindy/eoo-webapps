@@ -5,6 +5,7 @@ use App\Http\Controllers\MasterOfficeController;
 use App\Http\Controllers\ProductClassController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductLengthController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SocketController;
@@ -104,7 +105,14 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('detailSocket', [SocketController::class, 'detailSocket'])->name('detailSocket');
     Route::post('updateSocket', [SocketController::class, 'updateSocket'])->name('updateSocket');
     Route::get('deleteSocket', [SocketController::class, 'deleteSocket'])->name('deleteSocket');
-
     // End Socket
+    // Product Lengtth
+    Route::get('productLength', [ProductLengthController::class, 'index'])->name('productLength');
+    Route::get('getProductLength', [ProductLengthController::class, 'getProductLength'])->name('getProductLength');
+    Route::post('addProductLength', [ProductLengthController::class, 'addProductLength'])->name('addProductLength');
+    Route::get('detailProductLength', [ProductLengthController::class, 'detailProductLength'])->name('detailProductLength');
+    Route::post('updateProductLength', [ProductLengthController::class, 'updateProductLength'])->name('updateProductLength');
+    Route::get('deleteProductLength', [ProductLengthController::class, 'deleteProductLength'])->name('deleteProductLength');
+    
 
 });

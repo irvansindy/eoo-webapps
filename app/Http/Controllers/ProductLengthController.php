@@ -10,28 +10,22 @@ use App\Helpers\ResponseFormatter;
 
 class ProductLengthController extends Controller
 {
-    public function index() {
-        try {
-            $ProductLengths = ProductLengthSize::limit(10)->get();
-    
-            return ResponseFormatter::success(
-                $ProductLengths,
-                'Product length data successfully fetched'
-            );
-        } catch (\Throwable $th) {
-            return ResponseFormatter::error(
-                $th,
-                'Product length data failed to fetch',
-                404
-            );
-        }
+    public function index()
+    {
+        return view('productLength.productLength-index');
+    }
+    public function getProductLength() {
+        $data = ProductLengthSize::limit(10)->get();
+        return response()->json([
+            'data'=>$data,
+        ]);
     }
 
     public function createProductLength() {
         return view('productLength.createproductLength');
     }
 
-    public function storeProductLength(ProductLengthSize $ProductLengthSize, StoreProductLengthRequest $StoreProductLengthRequest) {
+    public function addProductLength(ProductLengthSize $ProductLengthSize, StoreProductLengthRequest $StoreProductLengthRequest) {
         try {
             $ProductLengthSize->create($StoreProductLengthRequest->validated());
 
@@ -53,27 +47,23 @@ class ProductLengthController extends Controller
             );
         }
     }
-
-    public function showProductLength(ProductLengthSize $ProductLengthSize) {
-        return ResponseFormatter::success(
-            $ProductLengthSize,
-            'Product length data successfully fetched'
-        );
+    public function detailProductLength(Request $request)
+    {
+        $detail = ProductLengthSize::find($request->id);
+        return response()->json([
+            'detail'=>$detail,
+        ]);
     }
-    
-    public function editProductLength(ProductLengthSize $ProductLengthSize) {
-        return ResponseFormatter::success(
-            $ProductLengthSize,
-            'Product length data successfully fetched'
-        );
-    }
-
-    public function updateProductLength(ProductLengthSize $ProductLengthSize, UpdateProductLengthRequest $UpdateProductLengthRequest) {
+    public function updateProductLength(Request $request, UpdateProductLengthRequest $UpdateProductLengthRequest) {
         try {
-            $ProductLengthSize->update($UpdateProductLengthRequest->validated());
-
+            $UpdateProductLengthRequest->validated();
+            $post =[
+                'productLength'=>$request->productLengthUpdate,
+                'productLengthUnit'=>$request->productLengthUnitUpdate,
+            ];
+            ProductLengthSize::find($request->id)->update($post);
             return ResponseFormatter::success(
-                $ProductLengthSize,
+                $post,
                 'Product length data successfully updated'
             );
         } catch (\Throwable $th) {
@@ -85,20 +75,18 @@ class ProductLengthController extends Controller
         }
     }
 
-    public function deleteProductLength(ProductLengthSize $ProductLengthSize) {
-        try {
-            $ProductLengthSize->delete();
-
-            return ResponseFormatter::success(
-                $ProductLengthSize,
-                'Product length data successfully deleted'
-            );
-        } catch (\Throwable $th) {
-            return ResponseFormatter::error(
-                $th,
-                'Product length data failed to delete',
-                422
-            );
+    public function deleteProductLength(Request $request)
+    {
+        $status =500;
+        $message ='Product length failed to delete';
+        $delete = ProductLengthSize::find($request->id)->delete();
+        if($delete){
+            $status=200;
+            $message ='Product length successfully deleted';
         }
+        return response()->json([
+            'status'=>$status,
+            'message'=>$message,
+        ]);
     }
 }
