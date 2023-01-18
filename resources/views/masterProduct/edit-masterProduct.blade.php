@@ -14,6 +14,7 @@
                             <label for="">Nama</label>
                         </div>
                         <div class="col-md-8">
+                            <input type="hidden" class="form-control" id="productId">
                             <input type="text" class="form-control" id="productNameUpdate">
                             <span  style="color:red;" class="message_error text-red block productNameUpdate_error"></span>
                         </div>

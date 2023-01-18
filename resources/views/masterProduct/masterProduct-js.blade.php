@@ -66,6 +66,7 @@
         })
     }
 
+    // select 2 for create product
     $('#addProduct').on('click', function() {
         // get data master machine
         select_active('getMachineName', 'machineId', 'Mesin')
@@ -77,9 +78,8 @@
         select_active('getProductLengthName', 'productlengthId', 'Panjang Produk')
         // get data master product variant
         select_active('getProductVariantName', 'productvariantId', 'Varian Produk')
-
     })
-    
+
     // create data master product
     $('#btnAddMasterProduct').on('click', function() {
         let data = {
@@ -105,6 +105,7 @@
     // update data master product
     $('#btnUpdateMasterProduct').on('click', function() {
         let data = {
+            'id':$('#productId').val(),
             'productNameUpdate': $('#productNameUpdate').val(),
             'machineUpdateId': $('#machineUpdateId').val(),
             'productTypeUpdateId': $('#productTypeUpdateId').val(),
@@ -118,7 +119,7 @@
             'pcsPerDayUpdate': $('#pcsPerDayUpdate').val(),
             'productionAccuracyTolerancePerPcsUpdate': $('#productionAccuracyTolerancePerPcsUpdate').val(),
             'productFormulaUpdate': $('#productFormulaUpdate').val(),
-            'productSocketUpdate': $('#productSocketUpdate').val(),
+            'productSocketUpdate': $('#productSocketUpdate').val()
         }
         store('updateProduct', data, 'products')
     })
@@ -140,26 +141,83 @@
                 'id': id
             },
             success: function(response) {
-                $('#productNameUpdate').val(response.data.productName)
-                $('#valueMachineUpdateId').val(response.data.machineId)
-                $('#valueMachineUpdateId').val(response.data.productTypeId)
-                $('#valueProductDiameterUpdateId').val(response.data.productDiameterId)
-                $('#valueProductlengthUpdateId').val(response.data.productlengthId)
-                $('#valueProductvariantUpdateId').val(response.data.productvariantId)
-                $('#productTypeUpdateId').val()
-                $('#productlengthUpdateId').val()
-                $('#productvariantUpdateId').val()
-                $('#productWeightStandardUpdate').val()
-                $('#kgPerHourUpdate').val(response.data.kgPerHour)
-                $('#pcsPerHourUpdate').val(response.data.pcsPerHour)
-                $('#kgPerDayUpdate').val(response.data.kgPerDay)
-                $('#pcsPerDayUpdate').val(response.data.pcsPerDay)
-                $('#productionAccuracyTolerancePerPcsUpdate').val(response.data.productionAccuracyTolerancePerPcs)
-                $('#productFormulaUpdate').val(response.data.productFormula)
-                $('#productSocketUpdate').val(response.data.productSocket)
+                $('#productId').val(id)
+                $('#productNameUpdate').val(response.data[0]['productName'])
+                $('#valueMachineUpdateId').val(response.data[0]['machineId'])
+                $('#machineUpdateId').empty()
+                $('#machineUpdateId').append('<option value="'+response.data[0]['machineId']+'">'+response.data[0]['machineName']+'</option>')
+                $.each(response.data[1], function(i, data) {
+                    $('#machineUpdateId').append('<option value="'+data.id+'">'+data.machineName+'</option>')
+                })
+                
+                $('#valueMachineUpdateId').val(response.data[0]['productTypeId'])
+                $('#productTypeUpdateId').empty()
+                $('#productTypeUpdateId').append('<option value="'+response.data[0]['productTypeId']+'">'+response.data[0]['productType']+'</option>')
+                $.each(response.data[2], function(i, data) {
+                    $('#productTypeUpdateId').append('<option value="'+data.id+'">'+data.productType+'</option>')
+                })
+
+                $('#valueProductDiameterUpdateId').val(response.data[0]['productDiameterId'])
+                $('#productDiameterUpdateId').empty()
+                $('#productDiameterUpdateId').append('<option value="'+response.data[0]['productDiameterId']+'">'+response.data[0]['productDiameter']+'</option>')
+                $.each(response.data[3], function(i, data) {
+                    $('#productDiameterUpdateId').append('<option value="'+data.id+'">'+data.productDiameter+'</option>')
+                })
+                
+                $('#valueProductlengthUpdateId').val(response.data[0]['productlengthId'])
+                $('#productlengthUpdateId').empty()
+                $('#productlengthUpdateId').append('<option value="'+response.data[0]['productlengthId']+'">'+response.data[0]['productLength']+'</option>')
+                $.each(response.data[4], function(i, data) {
+                    $('#productlengthUpdateId').append('<option value="'+data.id+'">'+data.productLength+'</option>')
+                })
+                
+                $('#valueProductvariantUpdateId').val(response.data[0]['productvariantId'])
+                $('#productvariantUpdateId').empty()
+                $('#productvariantUpdateId').append('<option value="'+response.data[0]['productvariantId']+'">'+response.data[0]['productVariant']+'</option>')
+                $.each(response.data[5], function(i, data) {
+                    $('#productvariantUpdateId').append('<option value="'+data.id+'">'+data.productVariant+'</option>')
+                })
+
+                $('#productWeightStandardUpdate').val(response.data[0]['productWeightStandard'])
+                $('#kgPerHourUpdate').val(response.data[0]['kgPerHour'])
+                $('#pcsPerHourUpdate').val(response.data[0]['pcsPerHour'])
+                $('#kgPerDayUpdate').val(response.data[0]['kgPerDay'])
+                $('#pcsPerDayUpdate').val(response.data[0]['pcsPerDay'])
+                $('#productionAccuracyTolerancePerPcsUpdate').val(response.data[0]['productionAccuracyTolerancePerPcs'])
+                $('#productFormulaUpdate').val(response.data[0]['productFormula'])
+                $('#productSocketUpdate').val(response.data[0]['productSocket'])
             },
             error: function(xhr, status, error) {
                 toastr['error']('gagal mengambil data, silakan hubungi ICT Developer');
+            }
+        })
+    })
+
+    // delete data product
+    $('#officeTable').on('click', '.deleteMasterProduct', function(e) {
+        let id = $(this).data('id')
+        e.preventDefault()
+        $.ajax({
+            header: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{ route('deleteProduct') }}",
+            type: 'GET',
+            dataType: 'json',
+            async: true,
+            data: {
+                'id': id
+            },
+            success: function(response) {
+                if(response.meta.code == 200) {
+                    toastr['success'](response.meta.message);
+                    getDataMasterProduct()
+                } else {
+                    toastr['error'](response.meta.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                toastr['error']('gagal menghapus data, silakan hubungi ICT Developer');
             }
         })
     })

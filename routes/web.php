@@ -36,14 +36,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('products', [ProductController::class, 'index'])->name('products');
     Route::get('getMasterProduct', [ProductController::class, 'getMasterProduct'])->name('getMasterProduct');
     Route::get('editProduct', [ProductController::class, 'editProduct'])->name('editProduct');
+    Route::get('deleteProduct', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
     Route::post('storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
     Route::post('updateProduct', [ProductController::class, 'updateProduct'])->name('updateProduct');
     // end Product
-    
-    // Route::get('createProduct', [ProductController::class, 'createProduct'])->name('createProduct');
-    // Route::get('showProduct', [ProductController::class, 'showProduct'])->name('showProduct');
-    // Route::post('deleteProduct', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
-    // End Product
 
     // product Diameter
     Route::get('productDiameter', [ProductDiameterController::class, 'index'])->name('productDiameter');

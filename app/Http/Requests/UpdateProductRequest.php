@@ -24,7 +24,20 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'productNameUpdate' => 'required|string|max:255',
+            'machineUpdateId' => 'required',
+            'productTypeUpdateId' => 'required',
+            'productDiameterUpdateId' => 'required',
+            'productlengthUpdateId' => 'required',
+            'productvariantUpdateId' => 'required',
+            'productWeightStandardUpdate' => 'required|integer',
+            'kgPerHourUpdate' => 'required|integer',
+            'pcsPerHourUpdate' => 'required|integer',
+            'kgPerDayUpdate' => 'required|integer',
+            'pcsPerDayUpdate' => 'required|integer',
+            'productionAccuracyTolerancePerPcsUpdate' => 'required|integer',
+            'productFormulaUpdate' => 'required|string',
+            'productSocketUpdate' => 'required',
         ];
     }
 }

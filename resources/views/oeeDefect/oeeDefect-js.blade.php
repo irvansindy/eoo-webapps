@@ -68,7 +68,7 @@
                 }
             },
             error: function(xhr, status, error) {
-                toastr['error']('gagal mengambil data, silakan hubungi ICT Developer');
+                toastr['error']('gagal menghapus data, silakan hubungi ICT Developer');
             }
         })
     })

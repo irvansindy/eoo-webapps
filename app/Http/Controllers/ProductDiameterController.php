@@ -71,7 +71,6 @@ class ProductDiameterController extends Controller
 
     public function updateProductDiameter(Request $request, UpdateProductDiameterRequest $UpdateProductDiameterRequest) {
         try {
-            // $ProductDiameterSize->update($UpdateProductDiameterRequest->validated());
             $UpdateProductDiameterRequest->validated();
             $ProductDiameterSize = ProductDiameterSize::findOrFail($request->id);
             $ProductDiameterSize->update([

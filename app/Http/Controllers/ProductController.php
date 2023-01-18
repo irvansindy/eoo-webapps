@@ -78,8 +78,22 @@ class ProductController extends Controller
             ->leftJoin('product_length_sizes', 'product_length_sizes.id', '=', 'products.productLengthId')
             ->leftJoin('product_variants', 'product_variants.id', '=', 'products.productVariantId')
             ->where('products.id', $request->id)->first();
+
+            $Machine = Machine::all();
+            $ProductType = ProductType::all();
+            $ProductDiameterSize = ProductDiameterSize::all();
+            $ProductLengthSize = ProductLengthSize::all();
+            $ProductVariant = ProductVariant::all();
+
             return ResponseFormatter::success(
-                $Product,
+                [
+                    $Product, //0
+                    $Machine, //1
+                    $ProductType, //2
+                    $ProductDiameterSize, //3
+                    $ProductLengthSize, //4
+                    $ProductVariant //5
+                ],
                 'product data successfully fetched'
             );
         } catch (\Throwable $th) {
@@ -91,10 +105,27 @@ class ProductController extends Controller
         }
     }
 
-    public function updateProduct(Product $Product, UpdateProductRequest $UpdateProductRequest) {
+    public function updateProduct(Request $request, UpdateProductRequest $UpdateProductRequest) {
         try {
-            $Product->update($UpdateProductRequest->validated());
-
+            $UpdateProductRequest->validated();
+            $Product = Product::findOrFail($request->id);
+            // dd($Product);
+            $Product->update([
+                'productName' => $request->productNameUpdate,
+                'machineId' => $request->machineUpdateId,
+                'productTypeId' => $request->productTypeUpdateId,
+                'productDiameterId' => $request->productDiameterUpdateId,
+                'productlengthId' => $request->productlengthUpdateId,
+                'productvariantId' => $request->productvariantUpdateId,
+                'productWeightStandard' => $request->productWeightStandardUpdate,
+                'kgPerHour' => $request->kgPerHourUpdate,
+                'pcsPerHour' => $request->pcsPerHourUpdate,
+                'kgPerDay' => $request->kgPerDayUpdate,
+                'pcsPerDay' => $request->pcsPerDayUpdate,
+                'productionAccuracyTolerancePerPcs' => $request->productionAccuracyTolerancePerPcsUpdate,
+                'productFormula' => $request->productFormulaUpdate,
+                'productSocket' => $request->productSocketUpdate
+            ]);
             return ResponseFormatter::success(
                 $Product,
                 'product data successfully updated'
@@ -108,8 +139,9 @@ class ProductController extends Controller
         }
     }
 
-    public function deleteProduct(Product $Product) {
+    public function deleteProduct(Request $request) {
         try {
+            $Product = Product::findOrFail($request->id);
             $Product->delete();
 
             return ResponseFormatter::success(
