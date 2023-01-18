@@ -55,13 +55,6 @@ class ProductController extends Controller
         }
     }
 
-    public function showProduct(Product $Product) {
-        return ResponseFormatter::success(
-            $Product,
-            'product data successfully fetched'
-        );
-    }
-
     public function editProduct(Request $request) {
         try {
             $Product = DB::table('products')->select(
