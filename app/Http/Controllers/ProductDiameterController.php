@@ -90,23 +90,6 @@ class ProductDiameterController extends Controller
         }
     }
 
-    // public function deleteProductDiameter(ProductDiameterSize $ProductDiameterSize) {
-    //     try {
-    //         $ProductDiameterSize->delete();
-
-    //         return ResponseFormatter::success(
-    //             $ProductDiameterSize,
-    //             'Product diameter data successfully deleted'
-    //         );
-    //     } catch (\Throwable $th) {
-    //         return ResponseFormatter::error(
-    //             $th,
-    //             'Product diameter data failed to delete',
-    //             422
-    //         );
-    //     }
-    // }
-
     public function deleteProductDiameter(Request $request) {
         try {
             $ProductDiameterSize = ProductDiameterSize::findOrFail($request->id)->delete();
