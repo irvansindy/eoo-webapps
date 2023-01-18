@@ -1,8 +1,8 @@
 <div class="modal fade" id="addMasterMachine">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
-                <h4 class="modal-title">Add Machine</h4>
+            <div class="modal-header bg-orange">
+                <h4 class="modal-title text-white">Add Machine</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>

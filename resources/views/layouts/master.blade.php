@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>@yield('title', 'Work Order')</title>
+        <title>@yield('title', 'OEE')</title>
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -120,11 +120,15 @@
                 error: function(response) {
                     $('.message_error').html('')
                     swal.close();
+                    if(response.status == 500){
+                        console.log(response)
+                        toastr['error'](response.responseJSON.meta.message);
+                        return false
+                    }
                     if(response.status === 422)
                     {
                         $.each(response.responseJSON.errors, (key, val) => 
                             {
-                                console.log(key+ ' - '+ val)
                                 $('span.'+key+'_error').text(val)
                             });
                     }else{
@@ -250,7 +254,9 @@ tr.shown td.details-click {
    color: #dabd18b2;
    transition: filter linear .3s;
 }
-
+.bg-orange{
+    background-color :#FF7000
+}
 .rating__star:hover {
    filter: drop-shadow(1px 1px 4px gold);
 }

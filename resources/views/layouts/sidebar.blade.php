@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-info elevation-4">
+<aside class="main-sidebar sidebar-dark-info elevation-4" style="background-color: #9A0303;">
 
     <a href="#" class="brand-link">
         <span class="brand-text font-weight-light" >OEE</span>
@@ -10,7 +10,7 @@
                 <img src="{{URL::asset('profile.png')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{auth()->user()->name}}</a>
+                <a href="#" class="d-block text-white">{{auth()->user()->name}}</a>
             </div>
         </div>
 

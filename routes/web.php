@@ -3,6 +3,7 @@
 use App\Http\Controllers\DieHeadController;
 use App\Http\Controllers\MasterMachineController;
 use App\Http\Controllers\MasterOfficeController;
+use App\Http\Controllers\OeeController;
 use App\Http\Controllers\ProductClassController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\ProductDiameterController;
 use App\Http\Controllers\OeeDefectController;
+use App\Http\Controllers\SocketController;
+use App\Http\Controllers\SubClassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +38,7 @@ Route::group(['middleware' => ['auth']], function() {
     // Product
     Route::get('products', [ProductController::class, 'index'])->name('products');
     Route::get('getMasterProduct', [ProductController::class, 'getMasterProduct'])->name('getMasterProduct');
+    Route::get('getProductName', [ProductController::class, 'getProductName'])->name('getProductName');
     Route::get('editProduct', [ProductController::class, 'editProduct'])->name('editProduct');
     Route::post('storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
     Route::post('updateProduct', [ProductController::class, 'updateProduct'])->name('updateProduct');
@@ -155,5 +159,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('deleteDieHead', [DieHeadController::class, 'deleteDieHead'])->name('deleteDieHead');
 
     // End Die Head
+    // OEE
+    Route::get('oee', [OeeController::class, 'index'])->name('oee');
+    Route::get('getOee', [OeeController::class, 'getOee'])->name('getOee');
+    Route::get('getOeeShift', [OeeController::class, 'getOeeShift'])->name('getOeeShift');
+    Route::post('addOee', [OeeController::class, 'addOee'])->name('addOee');
+
+    // End OEE
 
 });

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\softDeletes;
 
 class Office extends Model
 {
-    use HasFactory, softDeletes;
+    use HasFactory;
 
     protected $table = 'offices';
 

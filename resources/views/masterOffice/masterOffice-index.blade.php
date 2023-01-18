@@ -5,8 +5,8 @@
     <div class="row justify-content-center">
           <div class="col-md-10">
             <div class="card card-dark">
-                <div class="card-header">
-                    <div class="card-title">List Kantor</div>
+                <div class="card-header bg-orange">
+                    <div class="card-title text-white">List Kantor</div>
                     <div class="card-tools">
                         <button id="addOffice" type="button" class="btn btn-success" data-toggle="modal" data-target="#addMasterOffice" style="float:right">
                             <i class="fas fa-plus"></i>

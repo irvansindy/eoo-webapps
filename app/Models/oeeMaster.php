@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class oeeMaster extends Model
 {
     use HasFactory;
+    protected $table = 'oee_masters';
+
+    protected $guarded = [];
 }

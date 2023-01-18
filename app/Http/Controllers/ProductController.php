@@ -36,6 +36,13 @@ class ProductController extends Controller
             );
         }
     }
+    public function getProductName()
+    {
+        $data = Product::select('productName as name', 'id')->get();
+        return response()->json([
+            'data'=>$data,
+        ]);
+    }
 
     public function storeProduct(Product $Product, StoreProductRequest $StoreProductRequest) {
         try {
