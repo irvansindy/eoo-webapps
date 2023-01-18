@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductDiameterSize;
 use App\Http\Requests\StoreProductDiameterRequest;
 use App\Http\Requests\UpdateProductDiameterRequest;
+use Illuminate\Support\Facades\DB;
 use App\Helpers\ResponseFormatter;
 
 class ProductDiameterController extends Controller
@@ -25,6 +26,14 @@ class ProductDiameterController extends Controller
             $productDiameters,
             'Product diameter data successfully fetched'
         );
+    }
+
+    public function getProductDiameterName()
+    {
+        $data = ProductDiameterSize::select(DB::raw('CONCAT(productDiameter, " ", productDiameterUnit) AS name'),'id')->get();
+        return response()->json([
+            'data'=>$data,
+        ]);
     }
 
     public function storeProductDiameter(ProductDiameterSize $ProductDiameterSize, StoreProductDiameterRequest $StoreProductDiameterRequest) {

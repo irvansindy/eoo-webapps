@@ -7,6 +7,7 @@ use App\Models\ProductLengthSize;
 use App\Http\Requests\StoreProductLengthRequest;
 use App\Http\Requests\UpdateProductLengthRequest;
 use App\Helpers\ResponseFormatter;
+use Illuminate\Support\Facades\DB;
 
 class ProductLengthController extends Controller
 {
@@ -16,6 +17,14 @@ class ProductLengthController extends Controller
     }
     public function getProductLength() {
         $data = ProductLengthSize::limit(10)->get();
+        return response()->json([
+            'data'=>$data,
+        ]);
+    }
+
+    public function getProductLengthName()
+    {
+        $data = ProductLengthSize::select(DB::raw('CONCAT(productLength, " ", productLengthUnit) AS name'),'id')->get();
         return response()->json([
             'data'=>$data,
         ]);

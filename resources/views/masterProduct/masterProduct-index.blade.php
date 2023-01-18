@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Master Kantor')
+@section('title', 'Master Produk')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -8,7 +8,7 @@
                 <div class="card-header">
                     <div class="card-title">List Product</div>
                     <div class="card-tools">
-                        <button id="addOffice" type="button" class="btn btn-success" data-toggle="modal" data-target="#addMasterOffice" style="float:right">
+                        <button id="addProduct" type="button" class="btn btn-success" data-toggle="modal" data-target="#addMasterProduct" style="float:right">
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
@@ -33,9 +33,9 @@
         </div>
     </div>
 </div>
-@include('masterOffice.add-masterOffice')
-{{-- @include('master_kantor.edit-master_kantor') --}}
+@include('masterProduct.add-masterProduct')
+@include('masterProduct.edit-masterProduct')
 @endsection
 @push('custom-js')
-@include('masterOffice.masterOffice-js')
+@include('masterProduct.masterProduct-js')
 @endpush

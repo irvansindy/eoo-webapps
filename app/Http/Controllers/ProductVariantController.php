@@ -21,6 +21,15 @@ class ProductVariantController extends Controller
             'data'=>$data,
         ]);
     }
+
+    public function getProductVariantName()
+    {
+        $data = ProductVariant::select('productVariant as name','id')->get();
+        return response()->json([
+            'data'=>$data,
+        ]);
+    }
+
     public function addProductVariant(ProductVariant $ProductVariant, StoreProductVariantRequest $StoreProductVariantRequest) {
         try {
             $ProductVariant->create($StoreProductVariantRequest->validated());

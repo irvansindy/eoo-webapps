@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Master Product Diameter')
+@section('title', 'Master OEE Defect')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

@@ -9,14 +9,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductLengthController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProductVariantController;
-<<<<<<< HEAD
 use App\Http\Controllers\ProductDiameterController;
 use App\Http\Controllers\OeeDefectController;
 
-=======
-use App\Http\Controllers\SocketController;
-use App\Http\Controllers\SubClassController;
->>>>>>> af415903caee44517127cbbf3ab03806eecc3974
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,17 +34,21 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => ['auth']], function() {
     // Product
     Route::get('products', [ProductController::class, 'index'])->name('products');
-    Route::get('createProduct', [ProductController::class, 'createProduct'])->name('createProduct');
-    Route::post('storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
-    Route::get('showProduct', [ProductController::class, 'showProduct'])->name('showProduct');
+    Route::get('getMasterProduct', [ProductController::class, 'getMasterProduct'])->name('getMasterProduct');
     Route::get('editProduct', [ProductController::class, 'editProduct'])->name('editProduct');
+    Route::post('storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
     Route::post('updateProduct', [ProductController::class, 'updateProduct'])->name('updateProduct');
-    Route::post('deleteProduct', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
+    // end Product
+    
+    // Route::get('createProduct', [ProductController::class, 'createProduct'])->name('createProduct');
+    // Route::get('showProduct', [ProductController::class, 'showProduct'])->name('showProduct');
+    // Route::post('deleteProduct', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
     // End Product
 
     // product Diameter
     Route::get('productDiameter', [ProductDiameterController::class, 'index'])->name('productDiameter');
     Route::get('getProductDiameter', [ProductDiameterController::class, 'getProductDiameter'])->name('getProductDiameter');
+    Route::get('getProductDiameterName', [ProductDiameterController::class, 'getProductDiameterName'])->name('getProductDiameterName');
     Route::get('editProductDiameter', [ProductDiameterController::class, 'editProductDiameter'])->name('editProductDiameter');
     Route::get('deleteProductDiameter', [ProductDiameterController::class, 'deleteProductDiameter'])->name('deleteProductDiameter');
     Route::post('storeProductDiameter', [ProductDiameterController::class, 'storeProductDiameter'])->name('storeProductDiameter');
@@ -89,6 +88,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('updateMachine', [MasterMachineController::class, 'updateMachine'])->name('updateMachine');
     Route::get('deleteMachine', [MasterMachineController::class, 'deleteMachine'])->name('deleteMachine');
     // Emd Master MMachine
+
     // Product Type
     Route::get('productType', [ProductTypeController::class, 'index'])->name('productType');
     Route::get('getProductType', [ProductTypeController::class, 'getProductType'])->name('getProductType');
@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth']], function() {
     // Product Variant
     Route::get('productVariant', [ProductVariantController::class, 'index'])->name('productVariant');
     Route::get('getProductVariant', [ProductVariantController::class, 'getProductVariant'])->name('getProductVariant');
+    Route::get('getProductVariantName', [ProductVariantController::class, 'getProductVariantName'])->name('getProductVariantName');
     Route::post('addProductVariant', [ProductVariantController::class, 'addProductVariant'])->name('addProductVariant');
     Route::get('detailProductVariant', [ProductVariantController::class, 'detailProductVariant'])->name('detailProductVariant');
     Route::post('updateProductVariant', [ProductVariantController::class, 'updateProductVariant'])->name('updateProductVariant');
@@ -123,8 +124,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('detailSubClass', [SubClassController::class, 'detailSubClass'])->name('detailSubClass');
     Route::post('updateSubClass', [SubClassController::class, 'updateSubClass'])->name('updateSubClass');
     Route::get('deleteSubClass', [SubClassController::class, 'deleteSubClass'])->name('deleteSubClass');
-    
     // End SubClass
+
     // Socket
     Route::get('socket', [SocketController::class, 'index'])->name('socket');
     Route::get('getSocket', [SocketController::class, 'getSocket'])->name('getSocket');
@@ -133,9 +134,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('updateSocket', [SocketController::class, 'updateSocket'])->name('updateSocket');
     Route::get('deleteSocket', [SocketController::class, 'deleteSocket'])->name('deleteSocket');
     // End Socket
+
     // Product Lengtth
     Route::get('productLength', [ProductLengthController::class, 'index'])->name('productLength');
     Route::get('getProductLength', [ProductLengthController::class, 'getProductLength'])->name('getProductLength');
+    Route::get('getProductLengthName', [ProductLengthController::class, 'getProductLengthName'])->name('getProductLengthName');
     Route::post('addProductLength', [ProductLengthController::class, 'addProductLength'])->name('addProductLength');
     Route::get('detailProductLength', [ProductLengthController::class, 'detailProductLength'])->name('detailProductLength');
     Route::post('updateProductLength', [ProductLengthController::class, 'updateProductLength'])->name('updateProductLength');
