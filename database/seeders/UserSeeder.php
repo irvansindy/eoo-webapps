@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -18,7 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'Irvan Sindy',
             'nik' => '100132',
             'email' => 'irvansindy@pralon.com',
-            'password' => 'pass12345'
+            'password' => Hash::make('pass12345')
         ]);
     }
 }

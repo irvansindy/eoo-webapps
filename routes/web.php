@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductDiameterController;
 use App\Http\Controllers\OeeDefectController;
 use App\Http\Controllers\SocketController;
 use App\Http\Controllers\SubClassController;
+use App\Http\Controllers\ReportOeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,5 +163,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('addOee', [OeeController::class, 'addOee'])->name('addOee');
 
     // End OEE
-
+    // Report OEE
+    Route::get('getReportOee', [ReportOeeController::class, 'getReportOee'])->name('getReportOee');
 });

@@ -26,7 +26,8 @@ class ChangeColumnNameOnOeeMaster extends Migration
     public function down()
     {
         Schema::table('oee_masters', function (Blueprint $table) {
-            $table->renameColumn('officeId', 'machineId');
+            // $table->renameColumn('officeId', 'machineId');
+            $table->dropColumn('machineId');
         });
     }
 }
