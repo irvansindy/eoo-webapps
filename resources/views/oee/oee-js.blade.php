@@ -12,11 +12,37 @@
         }
         store('addOee',data,'oee')
     })
+    $('#btnAddOeeDetail').on('click', function(){
+        var die = $('#dieLength').val()
+        var ext = $('#extLength').val()
+        var extZone =document.getElementsByClassName("extZone");
+        var dieZone =document.getElementsByClassName("dieZone");
+        var data =[];
+        for(i = 0; i < ext; i++ ){
+           var  arr_extZone = extZone[i].value;
+           var extId = 'extZone'+ i+1
+           var extObj ={
+            [`extZone${i+1}`] : arr_extZone
+           }
+           data.push(extObj) 
+        }
+        for(j = 0; j < die; j++ ){
+           var  arr_dieZone = dieZone[j].value;
+         
+           var dieObj ={
+            [`dieZone${j+1}`] : arr_dieZone
+           }
+           data.push(dieObj) 
+        }
+        console.log(data)
+    })
     getOee()
       
     $(document).on("click", ".addOeeDetailModal", function(){
         var die = $(this).data('die')
         var ext = $(this).data('ext')
+        $('#dieLength').val(die)
+        $('#extLength').val(ext)
         var  renderHTMLExt =''
         var  renderHTMLDie =''
         select_active('getProductName','selectProduct','Produk')
@@ -25,8 +51,8 @@
                                 <label>Zone ${i + 1}</label>
                             </div>
                             <div class="col-md-2">
-                            <input type="text" class="form-control" id="zone${i + 1}">
-                            <span  style="color:red;" class="message_error text-red block zone${i + 1}_error"></span>
+                            <input type="text" class="form-control extZone" name="extZone" id="extZone${i + 1}">
+                            <span  style="color:red;" class="message_error text-red block extZone${i + 1}_error"></span>
                         </div>
                             `
         }
@@ -36,8 +62,8 @@
                                 <label>Zone ${j + 1}</label>
                             </div>
                             <div class="col-md-2">
-                            <input type="text" class="form-control" id="zone${j + 1}">
-                            <span  style="color:red;" class="message_error text-red block zone${j + 1}_error"></span>
+                            <input type="text" class="form-control dieZone" name ="dieZone" id="dieZone${j + 1}">
+                            <span  style="color:red;" class="message_error text-red block dieZone${j + 1}_error"></span>
                         </div>
                             `
         }

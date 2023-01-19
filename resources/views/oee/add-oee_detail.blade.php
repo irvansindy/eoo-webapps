@@ -26,12 +26,106 @@
                     <h5>Die Heat</h5> 
                     <div id="die_container" class="form-group row">
                         
-                    </div>    
-                       
+                    </div>   
+                    <div class="form-group row">
+                        <div class="col-md-3  mt-2">
+                            <label for="">SCREW SPEED (nS1)(rpm)</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="hidden" class="form-control" id="dieLength">
+                            <input type="hidden" class="form-control" id="extLength">
+                            <input type="text" class="form-control" id="screwSpeed">
+                            <span  style="color:red;" class="message_error text-red block screwSpeed_error"></span>
+                        </div>
+
+                        <div class="col-md-3  mt-2">
+                            <label for="">DOSING SPEED</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="dosingSpeed">
+                            <span  style="color:red;" class="message_error text-red block dosingSpeed_error"></span>
+                        </div>
+                    </div> 
+                  
+                    <div class="form-group row">
+                        <div class="col-md-3  mt-2">
+                            <label for="">MAIN DRIVE (MS1)(%)</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="mainDrive">
+                            <span  style="color:red;" class="message_error text-red block mainDrive_error"></span>
+                        </div>
+
+                        <div class="col-md-3  mt-2">
+                            <label for="">VACUM CYLINDER (BAR)</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="vacumCylinder">
+                            <span  style="color:red;" class="message_error text-red block vacumCylinder_error"></span>
+                        </div>
+                    </div> 
+                   
+                    <div class="form-group row">
+                        <div class="col-md-3  mt-2">
+                            <label for="">MELT TEMPERATUR (ºC) </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="meltTemp">
+                            <span  style="color:red;" class="message_error text-red block meltTemp_error"></span>
+                        </div>
+                        <div class="col-md-3  mt-2">
+                            <label for="">MELT PRESSURE (pM1)(BAR) </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="meltTemp">
+                            <span  style="color:red;" class="message_error text-red block meltTemp_error"></span>
+                        </div>
+                    </div> 
+                    <div class="form-group row">
+                        <div class="col-md-3  mt-2">
+                            <label for="">MELT PRESSURE (pM1)(BAR)  </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="meltPress">
+                            <span  style="color:red;" class="message_error text-red block meltPress_error"></span>
+                        </div>
+                        <div class="col-md-3  mt-2">
+                            <label for="">VACUM TANK (bar) </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="vacumTank">
+                            <span  style="color:red;" class="message_error text-red block vacumTank_error"></span>
+                        </div>
+                    </div> 
+                    <div class="form-group row">
+                        <div class="col-md-3  mt-2">
+                            <label for="">HAUL OFF SPEED (M/min)</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="haulOffSpeed">
+                            <span  style="color:red;" class="message_error text-red block haulOffSpeed_error"></span>
+                        </div>
+                        <div class="col-md-3  mt-2">
+                            <label for="">WATER TEMP. VACUM TANK (°C)</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="waterTemp">
+                            <span  style="color:red;" class="message_error text-red block waterTemp_error"></span>
+                        </div>
+                    </div> 
+                    <div class="form-group row">
+                        <div class="col-md-3  mt-2">
+                            <label for="">WATER PRESSURE (V. TANK )</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="waterPress">
+                            <span  style="color:red;" class="message_error text-red block waterPress_error"></span>
+                        </div>
+                    </div> 
                </div>
             </div>
             <div class="modal-footer justify-content-end">
-                <button id="btnAddOeeHeader" type="button" class="btn btn-success">Save</button>
+                <button id="btnAddOeeDetail" type="button" class="btn btn-success">Save</button>
             </div>
         </div>
     </div>
