@@ -34,7 +34,20 @@
            }
            data.push(dieObj) 
         }
-        console.log(data)
+        
+        var obj={
+            'screwSpeed':$('#screwSpeed').val(),
+            'dosingSpeed':$('#dosingSpeed').val(),
+            'mainDrive':$('#mainDrive').val(),
+            'vacumCylinder':$('#vacumCylinder').val(),
+            'meltTemp':$('#meltTemp').val(),
+            'meltPress':$('#meltPress').val(),
+            'vacumTank':$('#vacumTank').val(),
+            'haulOffSpeed':$('#haulOffSpeed').val(),
+            'waterTemp':$('#waterTemp').val(),
+            'waterPress':$('#waterPress').val(),
+        }
+        data.push(obj)
     })
     getOee()
       
@@ -96,11 +109,15 @@
                 {
                     data += `<tr style="text-align: center;">
                                 <td class='details-control'data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}"></td>
-                                <td style="width:25%;text-align:center;">${response.data[i]['date']==null?'':response.data[i]['date']}</td>
-                                <td style="width:25%;text-align:center;">${response.data[i]['machineNumber']==null?'':response.data[i]['machineNumber']}</td>
-                                <td style="width:25%;text-align:center;">${response.data[i]['machineName']==null?'':response.data[i]['machineName']}</td>
-                                <td style="width:25%;text-align:center;">${response.data[i]['officeName']==null?'':response.data[i]['officeName']}</td>
-                              
+                                <td style="text-align:center;">${response.data[i]['date']==null?'':response.data[i]['date']}</td>
+                                <td style="text-align:center;">${response.data[i]['machineNumber']==null?'':response.data[i]['machineNumber']}</td>
+                                <td style="text-align:center;">${response.data[i]['machineName']==null?'':response.data[i]['machineName']}</td>
+                                <td style="text-align:center;">${response.data[i]['officeName']==null?'':response.data[i]['officeName']}</td>
+                                <td style="text-align:center;">
+                                    <button class="btn btn-success" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}">
+                                        <i class="fas fa-file"></i>
+                                    </button>    
+                                </td>
                             </tr>
                             `;
                 }

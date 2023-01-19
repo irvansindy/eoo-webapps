@@ -52,6 +52,7 @@
                                 <th style="text-align:center">No Mesin</th>
                                 <th style="text-align:center">Extruder</th>
                                 <th style="text-align:center">Kantor</th>
+                                <th style="text-align:center">Action</th>
                             </tr>
                         </thead>
                     </table>

@@ -18,6 +18,12 @@
                             <input type="hidden" class="form-control" id="productId">
                             <span  style="color:red;" class="message_error text-red block productId_error"></span>
                         </div>
+                        <div class="col-md-1 mt-2">
+                            <label for="">Berat</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" >
+                        </div>
                     </div>
                     <h5>Temp Extruder</h5> 
                     <div id="ext_container" class="form-group row">
@@ -83,21 +89,13 @@
                     </div> 
                     <div class="form-group row">
                         <div class="col-md-3  mt-2">
-                            <label for="">MELT PRESSURE (pM1)(BAR)  </label>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" id="meltPress">
-                            <span  style="color:red;" class="message_error text-red block meltPress_error"></span>
-                        </div>
-                        <div class="col-md-3  mt-2">
                             <label for="">VACUM TANK (bar) </label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" class="form-control" id="vacumTank">
                             <span  style="color:red;" class="message_error text-red block vacumTank_error"></span>
                         </div>
-                    </div> 
-                    <div class="form-group row">
+                        
                         <div class="col-md-3  mt-2">
                             <label for="">HAUL OFF SPEED (M/min)</label>
                         </div>
@@ -105,6 +103,9 @@
                             <input type="text" class="form-control" id="haulOffSpeed">
                             <span  style="color:red;" class="message_error text-red block haulOffSpeed_error"></span>
                         </div>
+                    </div> 
+                    <div class="form-group row">
+                       
                         <div class="col-md-3  mt-2">
                             <label for="">WATER TEMP. VACUM TANK (°C)</label>
                         </div>
@@ -112,8 +113,6 @@
                             <input type="text" class="form-control" id="waterTemp">
                             <span  style="color:red;" class="message_error text-red block waterTemp_error"></span>
                         </div>
-                    </div> 
-                    <div class="form-group row">
                         <div class="col-md-3  mt-2">
                             <label for="">WATER PRESSURE (V. TANK )</label>
                         </div>
@@ -122,6 +121,7 @@
                             <span  style="color:red;" class="message_error text-red block waterPress_error"></span>
                         </div>
                     </div> 
+                 
                </div>
             </div>
             <div class="modal-footer justify-content-end">
