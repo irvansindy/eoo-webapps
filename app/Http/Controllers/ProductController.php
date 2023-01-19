@@ -43,6 +43,13 @@ class ProductController extends Controller
             'data'=>$data,
         ]);
     }
+    public function getProductWeight(Request $request)
+    {
+        $data = Product::select('productWeightStandard as x', 'id')->where('id',$request->id)->first();
+        return response()->json([
+            'data'=>$data,
+        ]);
+    }
 
     public function storeProduct(Product $Product, StoreProductRequest $StoreProductRequest) {
         try {

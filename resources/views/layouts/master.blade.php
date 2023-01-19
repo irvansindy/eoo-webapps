@@ -98,6 +98,32 @@
                 }
             });
           }
+          function setInput(url,data,id){
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: url,
+                type: "get",
+                dataType: 'json',
+                async: true,
+                data:{
+                    'id':$('#'+data).val()
+                },
+                beforeSend: function() {
+                    SwalLoading('Please wait ...');
+                },
+                success: function(response) {
+                    swal.close();
+                    $('#'+id).val(response.data.x);
+                    
+                },
+                error: function(xhr, status, error) {
+                    swal.close();
+                    toastr['error']('Failed to get data, please contact ICT Developer');
+                }
+            });
+          }
         function store(url,data,route){
             $.ajax({
                 headers: {

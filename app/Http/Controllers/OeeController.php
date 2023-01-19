@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\ResponseFormatter;
+use App\Http\Requests\StoreOeeDetailRequest;
 use App\Http\Requests\StoreOeeHeaderRequest;
+use App\Models\oeeDetail;
 use App\Models\oeeMaster;
 use App\Models\TempExtruder;
 
@@ -33,7 +35,7 @@ class OeeController extends Controller
     {
        
         $data = DB::table('oee_masters')
-                    ->select('machines.machineName','oee_masters.machineId','machineNumber','offices.officeName','oee_masters.shift')
+                    ->select('machines.machineName','oee_masters.machineId','machineNumber','offices.officeName','oee_masters.shift','oee_masters.id','oee_masters.status','oee_masters.shift')
                     ->leftJoin('machines','machines.id','=','oee_masters.machineId')
                     ->leftJoin('offices','offices.id','=','machines.officeId')
                     ->where(DB::raw('DATE(oee_masters.created_at)'), $request->date)
@@ -92,5 +94,133 @@ class OeeController extends Controller
                 500
             );
         }
+    }
+    public function addOeeDetail(Request $request,StoreOeeDetailRequest $StoreOeeDetailRequest) {
+        // try {
+            
+            $StoreOeeDetailRequest->validated();
+            $postDie=[];
+            $postExt=[];
+            $postAZ=[];
+            $arrayDie=[];
+            $arrayExt=[];
+            $arrayAZ=[];
+            $shift = oeeMaster::find($request->oeeMasterId);
+            if($shift->status == 4){
+                return ResponseFormatter::error(
+                    $shift,
+                    'Can`t add more progress',
+                    500
+                );
+            }else{
+                $postStatus=[
+                    'status'=>$shift->status+1
+                ];
+                for($i =0 ; $i < count($request->extArr); $i++){
+                    if($request->extArr[$i][0] != null || $request->extArr[$i][0] != ''){
+                        $postExt =[
+                            'zoneNumber'=> $i +1,
+                            'tempExtruderId'=>1,
+                            'productId'=>$request->productId,
+                            'oeeDetailValue'=>$request->extArr[$i][0],
+                            'screwSpeed'=>$request->screwSpeed,
+                            'dosingSpeed'=>$request->dosingSpeed,
+                            'mainDrive'=>$request->mainDrive,
+                            'vacumCylinder'=>$request->vacumCylinder,
+                            'meltTemperature'=>$request->meltTemp,
+                            'meltPressure'=>$request->meltPress,
+                            'vacumTank'=>$request->vacumTank,
+                            'haulOffSpeed'=>$request->haulOffSpeed,
+                            'waterTempVacumTank'=>$request->waterTemp,
+                            'waterPressure'=>$request->waterPress,
+                            'oeeMasterId'=>$request->oeeMasterId,
+                            'shift'=>$shift->shift,
+                               'date'=>date('Y-m-d'),
+                            'time'=>date('H:i:s'),
+                            'created_at'=>date('Y-m-d H:i:s'),
+                            'machineId'=>$shift->machineId,
+                            'adapterZone'=>$request->adapterZone
+    
+                        ];
+                        array_push($arrayExt,$postExt);
+                    }
+                }
+                for($j = 0; $j < count($request->dieArr); $j++){
+                    if($request->dieArr[$j][0] !=null || $request->dieArr[$j][0] !=''){
+                        $postDie=[
+                            'zoneNumber' => $j+1,
+                            'tempExtruderId'=>2,
+                            'productId'=>$request->productId,
+                            'oeeDetailValue'=>$request->dieArr[$j][0],
+                            'screwSpeed'=>$request->screwSpeed,
+                            'dosingSpeed'=>$request->dosingSpeed,
+                            'mainDrive'=>$request->mainDrive,
+                            'vacumCylinder'=>$request->vacumCylinder,
+                            'meltTemperature'=>$request->meltTemp,
+                            'meltPressure'=>$request->meltPress,
+                            'vacumTank'=>$request->vacumTank,
+                            'haulOffSpeed'=>$request->haulOffSpeed,
+                            'waterTempVacumTank'=>$request->waterTemp,
+                            'waterPressure'=>$request->waterPress,
+                            'oeeMasterId'=>$request->oeeMasterId,
+                            'shift'=>$shift->shift,
+                            'date'=>date('Y-m-d'),
+                            'time'=>date('H:i:s'),
+                            'created_at'=>date('Y-m-d H:i:s'),
+                            'machineId'=>$shift->machineId,
+                            'adapterZone'=>$request->adapterZone
+                        ];
+                        array_push($arrayDie, $postDie);
+                    }
+                }
+                for($k = 0; $k < count($request->aZArr); $k++){
+                    // dd($request->aZArr[$k]);
+                    if($request->aZArr[$k]!=null || $request->aZArr[$k] !=''){
+                        $postAZ=[
+                            'zoneNumber' => $k+1,
+                            'tempExtruderId'=>3,
+                            'productId'=>$request->productId,
+                            'oeeDetailValue'=>$request->aZArr[$k][0],
+                            'screwSpeed'=>$request->screwSpeed,
+                            'dosingSpeed'=>$request->dosingSpeed,
+                            'mainDrive'=>$request->mainDrive,
+                            'vacumCylinder'=>$request->vacumCylinder,
+                            'meltTemperature'=>$request->meltTemp,
+                            'meltPressure'=>$request->meltPress,
+                            'vacumTank'=>$request->vacumTank,
+                            'haulOffSpeed'=>$request->haulOffSpeed,
+                            'waterTempVacumTank'=>$request->waterTemp,
+                            'waterPressure'=>$request->waterPress,
+                            'oeeMasterId'=>$request->oeeMasterId,
+                            'shift'=>$shift->shift,
+                            'date'=>date('Y-m-d'),
+                            'time'=>date('H:i:s'),
+                            'created_at'=>date('Y-m-d H:i:s'),
+                            'machineId'=>$shift->machineId,
+                            'adapterZone'=>$request->adapterZone
+                        ];
+                        array_push($arrayAZ, $postAZ);
+                    }
+                }
+                
+               $merge = array_merge($arrayExt,$arrayDie,$arrayAZ);
+               DB::transaction(function() use($merge,$postStatus, $request) {
+                    oeeDetail::insert($merge);
+                    oeeMaster::find($request->oeeMasterId)->update($postStatus);
+                });
+                return ResponseFormatter::success(
+                    $merge,
+                     'OEE Detail successfully added'
+                 );           
+            }
+
+       
+        // } catch (\Throwable $th) {
+        //     return ResponseFormatter::error(
+        //         $th,
+        //         'OEE Detail failed to add',
+        //         500
+        //     );
+        // }
     }
 }

@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('products', [ProductController::class, 'index'])->name('products');
     Route::get('getMasterProduct', [ProductController::class, 'getMasterProduct'])->name('getMasterProduct');
     Route::get('getProductName', [ProductController::class, 'getProductName'])->name('getProductName');
+    Route::get('getProductWeight', [ProductController::class, 'getProductWeight'])->name('getProductWeight');
     Route::get('editProduct', [ProductController::class, 'editProduct'])->name('editProduct');
     Route::get('deleteProduct', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
     Route::post('storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
@@ -160,6 +161,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('getOee', [OeeController::class, 'getOee'])->name('getOee');
     Route::get('getOeeShift', [OeeController::class, 'getOeeShift'])->name('getOeeShift');
     Route::post('addOee', [OeeController::class, 'addOee'])->name('addOee');
+    Route::post('addOeeDetail', [OeeController::class, 'addOeeDetail'])->name('addOeeDetail');
 
     // End OEE
 

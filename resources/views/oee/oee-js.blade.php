@@ -17,25 +17,42 @@
         var ext = $('#extLength').val()
         var extZone =document.getElementsByClassName("extZone");
         var dieZone =document.getElementsByClassName("dieZone");
-        var data =[];
+        var adapterZone =document.getElementsByClassName("adapterZone");
+        var extArr=[];
+        var dieArr=[];
+        var aZArr=[];
         for(i = 0; i < ext; i++ ){
            var  arr_extZone = extZone[i].value;
-           var extId = 'extZone'+ i+1
-           var extObj ={
-            [`extZone${i+1}`] : arr_extZone
+           if(arr_extZone !=null || arr_extZone !=''){
+               var extObj = [arr_extZone]
            }
-           data.push(extObj) 
+           extArr.push(extObj) 
+           var extFilter = extArr.filter(function (el) {
+                return el != '';
+            });
         }
         for(j = 0; j < die; j++ ){
            var  arr_dieZone = dieZone[j].value;
-         
-           var dieObj ={
-            [`dieZone${j+1}`] : arr_dieZone
+           if(arr_dieZone !=null || arr_dieZone !=''){
+               var dieObj =arr_dieZone
            }
-           data.push(dieObj) 
+           dieArr.push(dieObj) 
+          var dieFilter = dieArr.filter(function (el) {
+                return el != '';
+            });
+        }
+        for(k = 0; k < 2; k++ ){
+           var  arr_adapterZone = adapterZone[k].value;
+           if(arr_adapterZone !=null || arr_adapterZone !=''){
+               var aZObj =arr_adapterZone
+           }
+           aZArr.push(aZObj) 
+          var aZFilter = aZArr.filter(function (el) {
+                return el != '';
+            });
         }
         
-        var obj={
+        var data={
             'screwSpeed':$('#screwSpeed').val(),
             'dosingSpeed':$('#dosingSpeed').val(),
             'mainDrive':$('#mainDrive').val(),
@@ -46,21 +63,42 @@
             'haulOffSpeed':$('#haulOffSpeed').val(),
             'waterTemp':$('#waterTemp').val(),
             'waterPress':$('#waterPress').val(),
+            'productId':$('#productId').val(),
+            'productWeight':$('#productWeight').val(),
+            'oeeMasterId':$('#oeeDetailId').val(),
+            'aZArr':aZArr,
+            'dieArr':dieFilter,
+            'extArr':extFilter,
+
         }
-        data.push(obj)
+      
+       if(dieFilter.length ==0 || extFilter.length==0||aZArr.length == 0){
+        toastr['error']('Temp Extruder or Die Heat is required');
+        return false
+       }else{
+           store('addOeeDetail',data,'oee')
+       }
+    })
+    $('#selectProduct').on('change', function(){
+        var selectProduct = $('#selectProduct').val()
+        $('#productId').val(selectProduct)
+        setInput('getProductWeight','productId','productWeight')
     })
     getOee()
-      
+    select_active('getOfficeName','officeFilter','Lokasi Kantor')
     $(document).on("click", ".addOeeDetailModal", function(){
         var die = $(this).data('die')
         var ext = $(this).data('ext')
+        var id = $(this).data('id')
         $('#dieLength').val(die)
         $('#extLength').val(ext)
+        $('#oeeDetailId').val(id)
         var  renderHTMLExt =''
         var  renderHTMLDie =''
+        var  renderHTMLAdapterZone =''
         select_active('getProductName','selectProduct','Produk')
         for(i = 0; i < ext; i++){
-            renderHTMLExt +=`<div class="col-md-1 mt-2">
+            renderHTMLExt +=`<div class="col-md-2 mt-2">
                                 <label>Zone ${i + 1}</label>
                             </div>
                             <div class="col-md-2">
@@ -71,7 +109,7 @@
         }
         $('#ext_container').html(renderHTMLExt);
         for(j = 0; j < die; j++){
-            renderHTMLDie +=`<div class="col-md-1 mt-2">
+            renderHTMLDie +=`<div class="col-md-2 mt-2">
                                 <label>Zone ${j + 1}</label>
                             </div>
                             <div class="col-md-2">
@@ -81,6 +119,17 @@
                             `
         }
         $('#die_container').html(renderHTMLDie);
+        for(k = 0; k < 2; k++){
+            renderHTMLAdapterZone +=`<div class="col-md-2 mt-2">
+                                <label>Zone ${k + 1}</label>
+                            </div>
+                            <div class="col-md-2">
+                            <input type="text" class="form-control adapterZone" name ="adapterZone" id="adapterZone${k + 1}">
+                            <span  style="color:red;" class="message_error text-red block adapterZone${k + 1}_error"></span>
+                        </div>
+                            `
+        }
+        $('#adapterZone_container').html(renderHTMLAdapterZone);
 
     })
      function getOee()
@@ -189,8 +238,11 @@
                                             <td style="text-align:center">${response.data[i].officeName}</td>
                                             <td style="text-align:center">${response.data[i].shift}</td>
                                             <td style="text-align:center">
-                                            <button title="Detail" id="oeeDetail" class="addOeeDetailModal btn btn-sm btn-primary rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}"  data-toggle="modal" data-target="#addOeeDetailModal">
-                                                 <ion-icon name="eye"></ion-icon>        
+                                            <button title="Detail" id="oeeDetail" class="addOeeDetailModal btn btn-sm btn-success rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}"  data-toggle="modal" data-target="#addOeeDetailModal">
+                                                 <i class="fas fa-plus-circle"></i>          
+                                            </button>    
+                                            <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="${response.data[i]['shift']}" data-toggle="modal" data-target="#oeeDetailLogModal">
+                                                <i class="fas fa-list"></i>     
                                             </button>    
                                             </td>
 
