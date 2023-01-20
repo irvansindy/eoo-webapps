@@ -380,8 +380,8 @@
                         "paging":   false,
                         "scrollX":true
                     }).columns.adjust()
-
-                    $('#logScrewSpeed').val(response.detail.screwSpeed == null ?'':response.detail.screwSpeed )
+                    
+                    $('#logScrewSpeed').val(response.detail.screwSpeed === null ?'':response.detail.screwSpeed )
                     $('#logDosingSpeed').val(response.detail.dosingSpeed == null ? '':response.detail.dosingSpeed)
                     $('#logMainDrive').val(response.detail.mainDrive == null ? '':response.detail.mainDrive)
                     $('#logVacumCylinder').val(response.detail.vacumCylinder == null ? '':response.detail.vacumCylinder)
