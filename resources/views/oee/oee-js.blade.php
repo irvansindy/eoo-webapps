@@ -218,47 +218,53 @@
         });
    }
     function detail_log( callback, data){
-        $.ajax({
-            headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: "{{route('getOeeShift')}}",
-            type: "get",
-            dataType: 'json',
-            data: data,
-            beforeSend: function () {
-                $('#loading').show();
-            },
-            success : function(response) {
-                // alert(response.length);
-                $('#loading').hide();
-                if(response){
-                    let row = '';
-                    for(let i = 0; i < response.data.length; i++){     
-                        $(document).ready(function() 
-                        {
-                            $('.table_detail').DataTable
-                            ({
-                                "destroy": true,
-                                "autoWidth" : false,
-                                "searching": false,
-                                "aaSorting" : false,
-                                "paging":   false,
-                                "scrollX":true
-                            }).columns.adjust()    
-                        });
-                        $('.table_detail tbody').append(``);
-                            row+= `<tr class="table-light">
-                                        <td style="text-align:center">${i + 1}</td>
-                                        <td style="text-align:center">${response.data[i].machineNumber}</td>
-                                        <td style="text-align:center">${response.data[i].machineName}</td>
-                                        <td style="text-align:center">${response.data[i].officeName}</td>
-                                        <td style="text-align:center">${response.data[i].shift}</td>
-                                        <td style="text-align:center">
-                                        <button title="Detail" id="oeeDetail" class="addOeeDetailModal btn btn-sm btn-primary rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}"  data-toggle="modal" data-target="#addOeeDetailModal">
-                                                <ion-icon name="eye"></ion-icon>        
-                                        </button>    
-                                        </td>
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{route('getOeeShift')}}",
+                type: "get",
+                dataType: 'json',
+                data: data,
+                beforeSend: function () {
+                  $('#loading').show();
+                },
+                success : function(response) {
+                    // alert(response.length);
+                    $('#loading').hide();
+                    if(response){
+                        let row = '';
+                        for(let i = 0; i < response.data.length; i++){     
+                            $(document).ready(function() 
+                            {
+                                $('.table_detail').DataTable
+                                ({
+                                    "destroy": true,
+                                    "autoWidth" : false,
+                                    "searching": false,
+                                    "aaSorting" : false,
+                                    "paging":   false,
+                                    "scrollX":true
+                                }).columns.adjust()    
+                            });
+                            $('.table_detail tbody').append(``);
+                                row+= `<tr class="table-light">
+                                            <td style="text-align:center">${i + 1}</td>
+                                            <td style="text-align:center">${response.data[i].machineNumber}</td>
+                                            <td style="text-align:center">${response.data[i].machineName}</td>
+                                            <td style="text-align:center">${response.data[i].officeName}</td>
+                                            <td style="text-align:center">${response.data[i].shift}</td>
+                                            <td style="text-align:center">
+                                            <button title="Detail" id="oeeDetail" class="addOeeDetailModal btn btn-sm btn-success rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}"  data-toggle="modal" data-target="#addOeeDetailModal">
+                                                 <i class="fas fa-plus-circle"></i>          
+                                            </button>    
+                                            <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="1" data-toggle="modal" data-target="#oeeDetailLogModal">
+                                                <i class="fas fa-list"></i>     
+                                            </button>    
+                                            <button class="btn btn-sm btn-success" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}">
+                                                <i class="fas fa-file"></i>
+                                            </button>   
+                                            </td>
 
                                         </tr>`;
     
@@ -407,6 +413,41 @@
                 swal.close();
                 toastr['error']('Failed to get data, please contact ICT Developer');
             }
-        })
-    })
+        });
+    }
+    $('#oeeTable').on('click', '.getReportOee', function(e) {
+        let id = $(this).data('machine')
+        e.preventDefault()
+        $.ajax({
+            header: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{ route('getReportOee') }}",
+            type: 'GET',
+            dataType: 'json',
+            async: true,
+            data: {
+                'id': id
+            },
+            success: (response) => {
+                // console.log(response.data['oeeMaster']['goodProductActualPcs'])
+                // console.log(response.data['oeeMaster']['goodProductActualKg'])
+                console.log(response.data['oeeMaster']['product']['productName'])
+                // oee Master
+                $('#ooeMasterId').val(id)
+                $('#goodProductActualPcs').val(response.data['oeeMaster']['goodProductActualPcs'])
+                $('#goodProductActualKg').val(response.data['oeeMaster']['goodProductActualKg'])
+                $('#product').val(response.data.productName)
+                $('#machine').val(response.data.machineName)
+                $('#shift').val(response.data.shift)
+                $('#status').val(response.data.status)
+
+                // oee Detail
+                // $.each(response.data['oeeDetail'], function(i, data) {})
+            },
+            error: function(xhr, status, error) {
+                toastr['error']('gagal mengambil data, silakan hubungi ICT Developer');
+            }
+        })
+    })
 </script>
