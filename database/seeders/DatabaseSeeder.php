@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
             MenusSeeder::class,
             SubmenuSeeder::class,
             UserSeeder::class,
-            MachineTypeSeeder::class
+            MachineTypeSeeder::class,
+            OeeDetailsSeeder::class,
+            TempExtruderSeeder::class
         ]);
     }
 }

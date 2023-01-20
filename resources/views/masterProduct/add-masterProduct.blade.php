@@ -18,7 +18,7 @@
                             <span  style="color:red;" class="message_error text-red block productName_error"></span>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <div class="col-md-3 mt-2 mb-2">
                             <label for="">Mesin</label>
                         </div>
@@ -26,7 +26,7 @@
                             <select class="form-control select2" style="width: 100%" id="machineId"></select>
                             <span  style="color:red;" class="message_error text-red block machineId_error"></span>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <div class="col-md-3 mt-2 mb-2">
                             <label for="">Type</label>

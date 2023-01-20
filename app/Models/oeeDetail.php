@@ -32,4 +32,18 @@ class oeeDetail extends Model
         'waterTempVacumTank',
         'waterPressure',
     ];
+
+    protected $hidden = [];
+
+    public function product() {
+        return $this->hasOne(Product::class, 'id', 'productId');
+    }
+
+    public function machine() {
+        return $this->hasOne(Machine::class, 'id', 'machineId');
+    }
+
+    public function tempExtruder() {
+        return $this->hasOne(TempExtruder::class, 'id', 'tempExtruderId');
+    }
 }

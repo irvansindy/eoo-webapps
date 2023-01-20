@@ -25,7 +25,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'productNameUpdate' => 'required|string|max:255',
-            'machineUpdateId' => 'required',
+            // 'machineUpdateId' => 'required',
             'productTypeUpdateId' => 'required',
             'productDiameterUpdateId' => 'required',
             'productlengthUpdateId' => 'required',
