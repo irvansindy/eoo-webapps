@@ -16,10 +16,10 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-3 mt-1">
-                            <input type="date" id="from" class="form-control" value="{{date("Y-m-d", strtotime( date( "Y-m-d", strtotime( date("Y-m-d") ) ) . "-1 month" ) )}}">
+                            <input type="date" id="from" class="form-control" onchange="getOee()" value="{{date("Y-m-d", strtotime( date( "Y-m-d", strtotime( date("Y-m-d") ) ) . "-1 month" ) )}}">
                         </div>
                         <div class="col-3 mt-1">
-                            <input type="date" class="form-control" id="to" value="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" id="to" onchange="getOee()" value="{{date('Y-m-d')}}">
                         </div>
                         <div class="col-4">
                             <select name="officeFilter" id="officeFilter" class="select2" style="width:100%">
@@ -56,6 +56,7 @@
                             </tr>
                         </thead>
                     </table>
+                    
                 </div>
             </div>
       </div>
@@ -63,6 +64,7 @@
 </div>
 
 @include('oee.add-oee')
+@include('oee.log-oeeDetail')
 @include('oee.add-oee_detail')
 @endsection
 @push('custom-js')

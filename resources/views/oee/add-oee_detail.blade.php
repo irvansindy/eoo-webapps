@@ -1,5 +1,5 @@
 <div class="modal fade" id="addOeeDetailModal">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-danger">
                 <h4 class="modal-title">Add OEE Detail</h4>
@@ -10,21 +10,30 @@
             <div class="modal-body">
                <div class="container">
                     <div class="form-group row">
-                        <div class="col-md-1 mt-2">
+                        <div class="col-md-2 mt-2">
                             <label for="">Product</label>
                         </div>
                         <div class="col-md-3">
                             <select name="selectProduct" id="selectProduct" class="select2" style="width: 100%"></select>
+                            <input type="hidden" class="form-control" id="oeeDetailId">
                             <input type="hidden" class="form-control" id="productId">
                             <span  style="color:red;" class="message_error text-red block productId_error"></span>
                         </div>
-                        <div class="col-md-1 mt-2">
-                            <label for="">Berat</label>
+                        <div class="col-md-2 mt-2">
+                            <label for="">Weight / PCS</label>
                         </div>
-                        <div class="col-md-3">
-                            <input type="text" >
+                        <div class="col-sm-3 mt-1">
+                            <input type="text" class="form-control" id="productWeight" readonly>
+                        </div>
+                        <div class="col-sm-1 mt-2">
+                            <label for="">Kg/Btg</label>
                         </div>
                     </div>
+                  
+                    <h5>Adapter Zone</h5> 
+                    <div id="adapterZone_container" class="form-group row">
+                        
+                    </div>    
                     <h5>Temp Extruder</h5> 
                     <div id="ext_container" class="form-group row">
                         
@@ -83,8 +92,8 @@
                             <label for="">MELT PRESSURE (pM1)(BAR) </label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" id="meltTemp">
-                            <span  style="color:red;" class="message_error text-red block meltTemp_error"></span>
+                            <input type="text" class="form-control" id="meltPress">
+                            <span  style="color:red;" class="message_error text-red block meltPress_error"></span>
                         </div>
                     </div> 
                     <div class="form-group row">
