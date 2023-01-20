@@ -24,7 +24,7 @@
         for(i = 0; i < ext; i++ ){
            var  arr_extZone = extZone[i].value;
            if(arr_extZone !=null || arr_extZone !=''){
-               var extObj = [arr_extZone]
+               var extObj = arr_extZone
            }
            extArr.push(extObj) 
            var extFilter = extArr.filter(function (el) {
@@ -102,7 +102,7 @@
                                 <label>Zone ${i + 1}</label>
                             </div>
                             <div class="col-md-2">
-                            <input type="text" class="form-control extZone" name="extZone" id="extZone${i + 1}">
+                            <input type="number" class="form-control extZone" name="extZone" id="extZone${i + 1}">
                             <span  style="color:red;" class="message_error text-red block extZone${i + 1}_error"></span>
                         </div>
                             `
@@ -113,7 +113,7 @@
                                 <label>Zone ${j + 1}</label>
                             </div>
                             <div class="col-md-2">
-                            <input type="text" class="form-control dieZone" name ="dieZone" id="dieZone${j + 1}">
+                            <input type="number" class="form-control dieZone" name ="dieZone" id="dieZone${j + 1}">
                             <span  style="color:red;" class="message_error text-red block dieZone${j + 1}_error"></span>
                         </div>
                             `
@@ -131,6 +131,23 @@
         }
         $('#adapterZone_container').html(renderHTMLAdapterZone);
 
+    })
+    $(document).on("click", ".oeeDetailLogModal", function(){
+        var id = $(this).data('id')
+        var shift = $(this).data('shift')
+        var status = $(this).data('status')
+        logTable(status,shift,id)
+        $('#logOeeMasterId').val(id)
+        $('#logOeeShift').val(shift)
+
+    })
+    $(document).on("click", ".tabView", function(e){
+        e.preventDefault();
+        var id =  $('#logOeeMasterId').val()
+        var shift =  $('#logOeeShift').val()
+        var status = $(this).data('status')
+        logTable(status,shift,id)
+      
     })
      function getOee()
    {
@@ -199,7 +216,7 @@
                 toastr['error']('Failed to get data, please contact ICT Developer');
             }
         });
-    }
+   }
     function detail_log( callback, data){
             $.ajax({
                 headers: {
@@ -241,9 +258,12 @@
                                             <button title="Detail" id="oeeDetail" class="addOeeDetailModal btn btn-sm btn-success rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}"  data-toggle="modal" data-target="#addOeeDetailModal">
                                                  <i class="fas fa-plus-circle"></i>          
                                             </button>    
-                                            <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="${response.data[i]['shift']}" data-toggle="modal" data-target="#oeeDetailLogModal">
+                                            <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="1" data-toggle="modal" data-target="#oeeDetailLogModal">
                                                 <i class="fas fa-list"></i>     
                                             </button>    
+                                            <button class="btn btn-sm btn-success" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}">
+                                                <i class="fas fa-file"></i>
+                                            </button>   
                                             </td>
 
                                         </tr>`;
@@ -275,5 +295,111 @@
                     $('#loading').hide();
                 }
             });
-        }
+    }
+    function logTable(status,shift,id){
+        
+        $('#oeeAdapterZoneTable').DataTable().clear();
+        $('#oeeAdapterZoneTable').DataTable().destroy();
+        $('#oeeTempExtruderTable').DataTable().clear();
+        $('#oeeTempExtruderTable').DataTable().destroy();
+        $('#oeeDieHeatTable').DataTable().clear();
+        $('#oeeDieHeatTable').DataTable().destroy();
+        $.ajax({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{route('getOeeDetailProgress')}}",
+            type: "get",
+            dataType: 'json',
+            async: true,
+            data:{
+                'status':status,
+                'shift':shift,
+                'id':id,
+            },
+            beforeSend: function() {
+                SwalLoading('Please wait ...');
+            },
+            success: function(response) {
+                swal.close();
+                var data=''
+                var dataDie=''
+                var dataAZ=''
+                for(i = 0; i < response.dataExt.length; i++ )
+                {
+                    data += `<tr style="text-align: center;">
+                                <td style="width:25%;text-align:center;">${response.dataExt[i]['zoneNumber']==null?'':response.dataExt[i]['zoneNumber']}</td>
+                                <td style="width:25%;text-align:center;">${response.dataExt[i]['oeeDetailValue']==null?'':response.dataExt[i]['oeeDetailValue']}</td>
+                            </tr>
+                            `;
+                }
+                    $('#oeeTempExtruderTable > tbody:first').html(data);
+                    $('#oeeTempExtruderTable').DataTable({
+                        "destroy": true,
+                        "autoWidth" : false,
+                        "searching": false,
+                        "aaSorting" : false,
+                        "paging":   false,
+                        "scrollX":true
+                    }).columns.adjust()
+
+                    
+                for(j = 0; j < response.dataDie.length; j++ )
+                {
+                    dataDie += `<tr style="text-align: center;">
+                                <td style="width:25%;text-align:center;">${response.dataDie[j]['zoneNumber']==null?'':response.dataDie[j]['zoneNumber']}</td>
+                                <td style="width:25%;text-align:center;">${response.dataDie[j]['oeeDetailValue']==null?'':response.dataDie[j]['oeeDetailValue']}</td>
+                            </tr>
+                            `;
+                }
+                    $('#oeeDieHeatTable > tbody:first').html(dataDie);
+                    $('#oeeDieHeatTable').DataTable({
+                        "destroy": true,
+                        "autoWidth" : false,
+                        "searching": false,
+                        "aaSorting" : false,
+                        "paging":   false,
+                        "scrollX":true
+                    }).columns.adjust()
+
+
+                for(k = 0; k < response.dataAZ.length; k++ )
+                {
+                    dataAZ += `<tr style="text-align: center;">
+                                <td style="width:25%;text-align:center;">${response.dataAZ[k]['zoneNumber']==null?'':response.dataAZ[k]['zoneNumber']}</td>
+                                <td style="width:25%;text-align:center;">${response.dataAZ[k]['oeeDetailValue']==null?'':response.dataAZ[k]['oeeDetailValue']}</td>
+                            </tr>
+                            `;
+                }
+                    $('#oeeAdapterZoneTable > tbody:first').html(dataAZ);
+                    $('#oeeAdapterZoneTable').DataTable({
+                        "destroy": true,
+                        "autoWidth" : false,
+                        "searching": false,
+                        "aaSorting" : false,
+                        "paging":   false,
+                        "scrollX":true
+                    }).columns.adjust()
+
+                    $('#logScrewSpeed').val(response.detail.screwSpeed == null ?'':response.detail.screwSpeed )
+                    $('#logDosingSpeed').val(response.detail.dosingSpeed == null ? '':response.detail.dosingSpeed)
+                    $('#logMainDrive').val(response.detail.mainDrive == null ? '':response.detail.mainDrive)
+                    $('#logVacumCylinder').val(response.detail.vacumCylinder == null ? '':response.detail.vacumCylinder)
+                    $('#logMeltTemp').val(response.detail.meltTemp == null ?'':response.detail.meltTemp)
+                    $('#logMeltPress').val(response.detail.meltPress == null ? '': response.detail.meltPress)
+                    $('#logVacumTank').val(response.detail.vacumTank == null ? '': response.detail.vacumTank)
+                    $('#logHaulOffSpeed').val(response.detail.haulOffSpeed == null ?'': response.detail.haulOffSpeed)
+                    $('#logWaterTemp').val(response.detail.waterTemperature == null ?'': response.detail.waterTemperature)
+                    $('#logWaterPress').val(response.detail.waterPressure == null ?'': response.detail.waterPressure)
+                    $('#logProductWeight').val(response.detail.weight ==null ?'':response.detail.weight)
+                    $('#logProductName').val(response.detail.productName == null ?'': response.detail.productName)
+
+
+            },
+            error: function(xhr, status, error) {
+                swal.close();
+                toastr['error']('Failed to get data, please contact ICT Developer');
+            }
+        });
+    }
 </script>

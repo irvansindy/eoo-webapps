@@ -139,6 +139,7 @@ class OeeController extends Controller
                             'time'=>date('H:i:s'),
                             'created_at'=>date('Y-m-d H:i:s'),
                             'machineId'=>$shift->machineId,
+                            'status'=>$shift->status+1,
                             'adapterZone'=>$request->adapterZone
     
                         ];
@@ -151,7 +152,7 @@ class OeeController extends Controller
                             'zoneNumber' => $j+1,
                             'tempExtruderId'=>2,
                             'productId'=>$request->productId,
-                            'oeeDetailValue'=>$request->dieArr[$j][0],
+                            'oeeDetailValue'=>$request->dieArr[$j],
                             'screwSpeed'=>$request->screwSpeed,
                             'dosingSpeed'=>$request->dosingSpeed,
                             'mainDrive'=>$request->mainDrive,
@@ -168,6 +169,7 @@ class OeeController extends Controller
                             'time'=>date('H:i:s'),
                             'created_at'=>date('Y-m-d H:i:s'),
                             'machineId'=>$shift->machineId,
+                            'status'=>$shift->status+1,
                             'adapterZone'=>$request->adapterZone
                         ];
                         array_push($arrayDie, $postDie);
@@ -180,7 +182,7 @@ class OeeController extends Controller
                             'zoneNumber' => $k+1,
                             'tempExtruderId'=>3,
                             'productId'=>$request->productId,
-                            'oeeDetailValue'=>$request->aZArr[$k][0],
+                            'oeeDetailValue'=>$request->aZArr[$k],
                             'screwSpeed'=>$request->screwSpeed,
                             'dosingSpeed'=>$request->dosingSpeed,
                             'mainDrive'=>$request->mainDrive,
@@ -197,12 +199,12 @@ class OeeController extends Controller
                             'time'=>date('H:i:s'),
                             'created_at'=>date('Y-m-d H:i:s'),
                             'machineId'=>$shift->machineId,
+                            'status'=>$shift->status+1,
                             'adapterZone'=>$request->adapterZone
                         ];
                         array_push($arrayAZ, $postAZ);
                     }
-                }
-                
+                }              
                $merge = array_merge($arrayExt,$arrayDie,$arrayAZ);
                DB::transaction(function() use($merge,$postStatus, $request) {
                     oeeDetail::insert($merge);
@@ -222,5 +224,55 @@ class OeeController extends Controller
         //         500
         //     );
         // }
+    }
+    public function getOeeDetailProgress(Request $request)
+    {
+        
+        $dataExt = DB::table('oee_masters')
+                    ->leftJoin('oee_details','oee_details.oeeMasterId','=','oee_masters.id')
+                    ->leftJoin('products','products.id','=','oee_details.productId')
+                    ->select('oee_details.*')
+                    ->where('oee_masters.id',$request->id)
+                    ->where('oee_masters.shift', $request->shift)
+                    ->where('oee_details.status', $request->status)
+                    ->where('oee_details.tempExtruderId',1)
+                    ->get();
+
+        $dataDie = DB::table('oee_masters')
+                    ->leftJoin('oee_details','oee_details.oeeMasterId','=','oee_masters.id')
+                    ->leftJoin('products','products.id','=','oee_details.productId')
+                    ->select('oee_details.*')
+                    ->where('oee_masters.id',$request->id)
+                    ->where('oee_masters.shift', $request->shift)
+                    ->where('oee_details.status', $request->status)
+                    ->where('oee_details.tempExtruderId',2)
+                    ->get();
+
+        $dataAZ = DB::table('oee_masters')
+                    ->leftJoin('oee_details','oee_details.oeeMasterId','=','oee_masters.id')
+                    ->leftJoin('products','products.id','=','oee_details.productId')
+                    ->select('oee_details.*')
+                    ->where('oee_masters.id',$request->id)
+                    ->where('oee_masters.shift', $request->shift)
+                    ->where('oee_details.status', $request->status)
+                    ->where('oee_details.tempExtruderId',3)
+                    ->get();
+                    
+        $detail = DB::table('oee_masters')
+                    ->leftJoin('oee_details','oee_details.oeeMasterId','=','oee_masters.id')
+                    ->leftJoin('products','products.id','=','oee_details.productId')
+                    ->select('oee_details.*', 'products.productName','products.productWeightStandard as weight' )
+                    ->where('oee_masters.id',$request->id)
+                    ->where('oee_masters.shift', $request->shift)
+                    ->where('oee_details.status', $request->status)
+                    ->first();
+       
+        return response()->json([
+            'dataExt'=>$dataExt,
+            'dataDie'=>$dataDie,
+            'dataAZ'=>$dataAZ,
+            'detail'=>$detail,
+
+        ]);        
     }
 }
