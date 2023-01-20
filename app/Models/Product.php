@@ -14,7 +14,6 @@ class Product extends Model
 
     protected $fillable = [
         'productName',
-        'machineId',
         'productTypeId',
         'productDiameterId',
         'productlengthId',

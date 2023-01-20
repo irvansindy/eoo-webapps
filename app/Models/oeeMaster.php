@@ -12,4 +12,16 @@ class oeeMaster extends Model
     protected $table = 'oee_masters';
 
     protected $guarded = [];
+
+    public function product() {
+        return $this->hasOne(Product::class, 'id', 'productId');
+    }
+
+    public function machine() {
+        return $this->hasOne(Machine::class, 'id', 'machineId');
+    }
+
+    public function ooDetail() {
+        return $this->belongsTo(oeeDetail::class, 'oeeMasterId', 'id');
+    }
 }

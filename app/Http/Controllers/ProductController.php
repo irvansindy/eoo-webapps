@@ -66,13 +66,13 @@ class ProductController extends Controller
         try {
             $Product = DB::table('products')->select(
                 'products.*',
-                'machines.machineName',
                 'product_types.productType',
                 'product_diameter_sizes.productDiameter',
                 'product_length_sizes.productLength',
                 'product_variants.productVariant'
                 // DB::raw('CONCAT(productDiameter, " ", productDiameterUnit) AS name'),
-            )->leftJoin('machines', 'machines.id', '=', 'products.machineId')
+            )
+            
             ->leftJoin('product_types', 'product_types.id', '=', 'products.productTypeId')
             ->leftJoin('product_diameter_sizes', 'product_diameter_sizes.id', '=', 'products.productDiameterId')
             ->leftJoin('product_length_sizes', 'product_length_sizes.id', '=', 'products.productLengthId')

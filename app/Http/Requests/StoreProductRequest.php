@@ -28,7 +28,7 @@ class StoreProductRequest extends FormRequest
             'productTypeId' => 'required|integer',
             'productDiameterId' => 'required|integer',
             'productlengthId' => 'required|integer',
-            // 'productvariantId' => 'required|integer',
+            'productvariantId' => 'nullable|integer',
             'productWeightStandard' => 'required|integer',
             'kgPerHour' => 'required|integer',
             'pcsPerHour' => 'required|integer',

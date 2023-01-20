@@ -19,7 +19,7 @@
                             <span  style="color:red;" class="message_error text-red block productNameUpdate_error"></span>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <div class="col-md-3 mt-2 mb-2">
                             <label for="">Mesin</label>
                         </div>
@@ -28,7 +28,7 @@
                             <input type="hidden" class="form-control" id="valueMachineUpdateId">
                             <span  style="color:red;" class="message_error text-red block machineUpdateId_error"></span>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <div class="col-md-3 mt-2 mb-2">
                             <label for="">Type</label>
