@@ -14,7 +14,6 @@
     })
     $('#btnAddOeeDetail').on('click', function(){
         var die = $('#dieLength').val()
-        alert(die)
         var ext = $('#extLength').val()
         var extZone =document.getElementsByClassName("extZone");
         var dieZone =document.getElementsByClassName("dieZone");
@@ -437,9 +436,9 @@
                             $('#noMaterial').val(response.downTime.noMaterial == null ?'0':response.downTime.noMaterial);
                         }
                         for(j=0; j < response.deffect.length ; j++){
-                            htmlDeffect +=`
-                                        <div class="col-sm-3 mt-2"> 
-                                        </div>
+                            htmlDeffect +=`<div class="col-sm-2 mt-2">
+                                                <label>${response.deffect[j].defectName}</label>
+                                            </div>
                                         <div class="col-sm-3">
                                             <input type="number" style="text-align:center" class="form-control settingDefectValue" name="settingDefectValue" id="settingDefectValue${j+1}" value="${response.deffect[j].value == null ?'0':response.deffect[j].value}">
                                             <span  style="color:red;" class="message_error text-red block settingDefectValue${j + 1}_error"></span>
@@ -611,8 +610,8 @@
         logTable(status,shift,id,date)
       
     })
-    function getOee()
-    {
+     function getOee()
+   {
         $('#oeeTable').DataTable().clear();
         $('#oeeTable').DataTable().destroy();
         $.ajax({
@@ -678,8 +677,6 @@
                 toastr['error']('Failed to get data, please contact ICT Developer');
             }
         });
-    }
-    function detail_log( callback, data){
    }
     function detail_log(callback, data){
             $.ajax({
@@ -691,7 +688,7 @@
                 dataType: 'json',
                 data: data,
                 beforeSend: function () {
-                    $('#loading').show();
+                  $('#loading').show();
                 },
                 success : function(response) {
                     // alert(response.length);
@@ -749,15 +746,6 @@
                                             <td style="text-align:center">${response.data[i].officeName}</td>
                                             <td style="text-align:center">${response.data[i].shift}</td>
                                             <td style="text-align:center">
-                                            <button title="Detail" id="oeeDetail" class="addOeeDetailModal btn btn-sm btn-success rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}"  data-toggle="modal" data-target="#addOeeDetailModal">
-                                                <i class="fas fa-plus-circle"></i>          
-                                            </button>    
-                                            <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="1" data-toggle="modal" data-target="#oeeDetailLogModal">
-                                                <i class="fas fa-list"></i>     
-                                            </button>    
-                                            <button class="btn btn-sm btn-success getReportOeeDetail" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}" data-oee_master_id="${response.data[i].id}" data-toggle="modal" data-target="#getReportOeeDetail">
-                                                <i class="fas fa-file"></i>
-                                            </button>   
                                               ${buttonAddOeeDetail}
                                               ${buttonUpdateDetail}
                                               ${buttonSettingMaster}
@@ -768,7 +756,7 @@
     
                         }
                         callback($(`
-                        <table class="table_detail datatable-bordered">
+                          <table class="table_detail datatable-bordered">
                             <thead>
                                 <tr>
                                     <th style="text-align:center">No</th>
@@ -923,9 +911,8 @@
             }
         });
     }
-
-    // irvan 20 januari 2023
-    $('#oeeTable').on('click', '.getReportOee', function(e) {
+      // irvan 20 januari 2023
+      $('#oeeTable').on('click', '.getReportOee', function(e) {
         let id = $(this).data('machine')
         e.preventDefault()
         $.ajax({
@@ -951,7 +938,6 @@
                 $('#machine').val(response.data.machineName)
                 $('#shift').val(response.data.shift)
                 $('#status').val(response.data.status)
-
                 // oee Detail
                 // $.each(response.data['oeeDetail'], function(i, data) {})
             },
@@ -960,7 +946,6 @@
             }
         })
     })
-
     // get view modal data detail report by detail id
     $(document).on('click', '.getReportOeeDetail', function(e) {
         let oee_master_id = $(this).data('oee_master_id')
@@ -971,7 +956,6 @@
         select_active('getProductLengthName','productLength','Panjang Produk')
         select_active('getProductVariantName','productVariant','Varian Produk')
     })
-
     $(document).on('click', '#btnExportOeeDetail', function() {
         var oeeMasterId = $('#oeeMasterId').val()
         var machineCapacityType = $('#machineCapacityType').val()
@@ -983,8 +967,6 @@
         // }
         alert(machineCapacityType)
     })
-        })
-    })
 function onChangeLogDetailOee(shift,id, status,date){
             $('#screwSpeedUpdate').val()
               $('#dosingSpeedUpdate').val()
