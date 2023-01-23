@@ -14,6 +14,7 @@
     })
     $('#btnAddOeeDetail').on('click', function(){
         var die = $('#dieLength').val()
+        alert(die)
         var ext = $('#extLength').val()
         var extZone =document.getElementsByClassName("extZone");
         var dieZone =document.getElementsByClassName("dieZone");
@@ -610,8 +611,8 @@
         logTable(status,shift,id,date)
       
     })
-     function getOee()
-   {
+    function getOee()
+    {
         $('#oeeTable').DataTable().clear();
         $('#oeeTable').DataTable().destroy();
         $.ajax({
@@ -641,7 +642,7 @@
                                 <td style="text-align:center;">${response.data[i]['machineName']==null?'':response.data[i]['machineName']}</td>
                                 <td style="text-align:center;">${response.data[i]['officeName']==null?'':response.data[i]['officeName']}</td>
                                 <td style="text-align:center;">
-                                    <button class="btn btn-success" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}">
+                                    <button class="btn btn-success getReportOee" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}">
                                         <i class="fas fa-file"></i>
                                     </button>    
                                 </td>
@@ -677,6 +678,8 @@
                 toastr['error']('Failed to get data, please contact ICT Developer');
             }
         });
+    }
+    function detail_log( callback, data){
    }
     function detail_log(callback, data){
             $.ajax({
@@ -688,7 +691,7 @@
                 dataType: 'json',
                 data: data,
                 beforeSend: function () {
-                  $('#loading').show();
+                    $('#loading').show();
                 },
                 success : function(response) {
                     // alert(response.length);
@@ -746,6 +749,15 @@
                                             <td style="text-align:center">${response.data[i].officeName}</td>
                                             <td style="text-align:center">${response.data[i].shift}</td>
                                             <td style="text-align:center">
+                                            <button title="Detail" id="oeeDetail" class="addOeeDetailModal btn btn-sm btn-success rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}"  data-toggle="modal" data-target="#addOeeDetailModal">
+                                                <i class="fas fa-plus-circle"></i>          
+                                            </button>    
+                                            <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="1" data-toggle="modal" data-target="#oeeDetailLogModal">
+                                                <i class="fas fa-list"></i>     
+                                            </button>    
+                                            <button class="btn btn-sm btn-success getReportOeeDetail" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}" data-oee_master_id="${response.data[i].id}" data-toggle="modal" data-target="#getReportOeeDetail">
+                                                <i class="fas fa-file"></i>
+                                            </button>   
                                               ${buttonAddOeeDetail}
                                               ${buttonUpdateDetail}
                                               ${buttonSettingMaster}
@@ -756,7 +768,7 @@
     
                         }
                         callback($(`
-                          <table class="table_detail datatable-bordered">
+                        <table class="table_detail datatable-bordered">
                             <thead>
                                 <tr>
                                     <th style="text-align:center">No</th>
@@ -911,6 +923,8 @@
             }
         });
     }
+
+    // irvan 20 januari 2023
     $('#oeeTable').on('click', '.getReportOee', function(e) {
         let id = $(this).data('machine')
         e.preventDefault()
@@ -944,6 +958,31 @@
             error: function(xhr, status, error) {
                 toastr['error']('gagal mengambil data, silakan hubungi ICT Developer');
             }
+        })
+    })
+
+    // get view modal data detail report by detail id
+    $(document).on('click', '.getReportOeeDetail', function(e) {
+        let oee_master_id = $(this).data('oee_master_id')
+        alert(oee_master_id)
+        e.preventDefault()
+        $('#oeeMasterId').val(oee_master_id)
+        select_active('getProductDiameterName','productDiameter','Diameter Produk')
+        select_active('getProductLengthName','productLength','Panjang Produk')
+        select_active('getProductVariantName','productVariant','Varian Produk')
+    })
+
+    $(document).on('click', '#btnExportOeeDetail', function() {
+        var oeeMasterId = $('#oeeMasterId').val()
+        var machineCapacityType = $('#machineCapacityType').val()
+        var productDiameter = $('#productDiameter').val()
+        var productLength = $('#productLength').val()
+        var productVariant = $('#productVariant').val()
+        // let data = {
+        //     'oeeMasterId':document.getElementById("oeeMasterId").value
+        // }
+        alert(machineCapacityType)
+    })
         })
     })
 function onChangeLogDetailOee(shift,id, status,date){

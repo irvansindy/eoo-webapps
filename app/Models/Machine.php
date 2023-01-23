@@ -13,4 +13,8 @@ class Machine extends Model
     protected $table = 'machines';
     protected $dates = ['deleted_at'];
     protected $guarded = [];
+
+    public function DieHead() {
+        return $this->belongsTo(DieHead::class, 'id', 'machineId');
+    }
 }

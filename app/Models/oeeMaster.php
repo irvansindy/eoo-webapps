@@ -21,7 +21,7 @@ class oeeMaster extends Model
         return $this->hasOne(Machine::class, 'id', 'machineId');
     }
 
-    public function ooDetail() {
-        return $this->belongsTo(oeeDetail::class, 'oeeMasterId', 'id');
+    public function oeeDetail() {
+        return $this->belongsTo(oeeDetail::class, 'id', 'oeeMasterId');
     }
 }

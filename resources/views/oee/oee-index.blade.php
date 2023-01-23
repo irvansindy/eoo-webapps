@@ -67,6 +67,7 @@
 @include('oee.log-oeeDetail')
 @include('oee.edit-oeeDetail')
 @include('oee.add-oee_detail')
+@include('oee.filter-reportOeeDetail')
 @include('oee.setting-oeeMasterSetting')
 @endsection
 @push('custom-js')

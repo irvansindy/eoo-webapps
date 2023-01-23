@@ -29,4 +29,17 @@ class Product extends Model
     ];
 
     protected $hidden = [];
+
+    public function productType() {
+        return $this->hasOne(ProductType::class, 'id');
+    }
+    public function productDiameter() {
+        return $this->hasOne(ProductDiameterSize::class, 'id');
+    }
+    public function productLength() {
+        return $this->hasOne(ProductLengthSize::class, 'id');
+    }
+    public function ProductVariant() {
+        return $this->hasOne(ProductVariant::class, 'id');
+    }
 }

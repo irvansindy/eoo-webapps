@@ -173,4 +173,5 @@ Route::group(['middleware' => ['auth']], function() {
     // Report OEE
     Route::get('getReportOee', [ReportOeeController::class, 'getReportOee'])->name('getReportOee');
     Route::get('fetchReportOee', [ReportOeeController::class, 'fetchReportOee'])->name('fetchReportOee');
+    Route::get('fetchReportOeeById', [ReportOeeController::class, 'fetchReportOeeById'])->name('fetchReportOeeById');
 });
