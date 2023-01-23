@@ -164,6 +164,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('addOee', [OeeController::class, 'addOee'])->name('addOee');
     Route::post('addOeeDetail', [OeeController::class, 'addOeeDetail'])->name('addOeeDetail');
     Route::get('getOeeDetailProgress', [OeeController::class, 'getOeeDetailProgress'])->name('getOeeDetailProgress');
+    Route::get('getLogDetailOee', [OeeController::class, 'getLogDetailOee'])->name('getLogDetailOee');
+    Route::get('getStatusLength', [OeeController::class, 'getStatusLength'])->name('getStatusLength');
+    Route::get('getMasterShift', [OeeController::class, 'getMasterShift'])->name('getMasterShift');
+    Route::post('updateOeeMaster', [OeeController::class, 'updateOeeMaster'])->name('updateOeeMaster');
 
     // End OEE
     // Report OEE

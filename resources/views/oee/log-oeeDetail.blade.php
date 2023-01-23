@@ -9,29 +9,46 @@
             </div>
             <input type="hidden" class="form-control" id="logOeeShift">
             <input type="hidden" class="form-control" id="logOeeMasterId">
+            <input type="hidden" class="form-control" id="logOeeDate">
             <div class="modal-body">
-                <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card card-danger card-outline card-outline-tabs">
                     <div class="card-header p-0 border-bottom-0">
-                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link tabView active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true" data-status='1'>Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link tabView" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false" data-status='2'>Profile</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link tabView" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false" data-status='3' >Messages</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link tabView" id="custom-tabs-four-settings-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false" data-status='4'>Settings</a>
-                            </li>
-                        </ul>
+                        <div id="test">
+                        <ul class="nav nav-tabs navigasiDinamis" id="custom-tabs-four-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link tabView active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true" data-status='1'>Set</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link tabView" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false" data-status='2'>1</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link tabView" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false" data-status='3' >2</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link tabView" id="custom-tabs-four-settings-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false" data-status='4'>3</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="tab-content" id="custom-tabs-four-tabContent">
                             <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
                                 <div class="container">
                                     <div class="row mt-4">
+                                        <div class="col-md-3 mt-2">
+                                            <label for=""> Date</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="date" class="form-control" id="logOeeDetailDate">
+                                        </div>
+                                        <div class="col-md-2 offset-1 mt-2">
+                                            <label for=""> Time</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="time" class="form-control" id="logOeeTime">
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-3 mt-2">
                                             <label for="">Nama Product</label>
                                         </div>

@@ -33,7 +33,6 @@ class OeeDefectController extends Controller
     public function storeOeeDefect(OeeDefect $OeeDefect, StoreOeeDefect $StoreOeeDefect) {
         try {
             $OeeDefect->create($StoreOeeDefect->validated());
-            dd($OeeDefect);
             return ResponseFormatter::success(
                 $OeeDefect,
                 'Oee Defect data successfully added'
