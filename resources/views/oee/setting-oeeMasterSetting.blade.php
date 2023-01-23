@@ -9,9 +9,50 @@
             </div>
             <div class="modal-body">
                <div class="container">
-                    <input type="hidden" id="settingShiftMaster">
-                    <input type="hidden" id="settingMasterId">
-                    <input type="hidden" id="settingMachineDate">     
+                <div class="card card-dark">
+                    <div class="card-header bg-maroon">
+                        <div class="card-title text-white">Machine Info</div>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="form-group row">
+                                <div class="col-md-3 mt-2">
+                                   <label for="">Machine Name</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" readonly  disabled id="settingMachineName">
+                                </div>
+                                <div class="col-md-3 mt-2">
+                                    <label for="">Machine Number</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" readonly disabled id="settingMachineNumber">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-3 mt-2">
+                                    <label for="">Shift</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" id="settingShiftMaster" readonly disabled class="form-control">
+                                </div>
+                                <div class="col-md-3 mt-2">
+                                   <label for="">Machine Date</label>
+                                </div>
+                                <div class="col-md-3">
+                                    
+                                    <input type="date" readonly disabled class="form-control" id="settingMachineDate">
+                                </div>
+                            </div>
+                            <input type="hidden" id="settingMasterId">
+                        </div>
+                    </div>
+                </div>
                         <div class="card card-dark">
                             <div class="card-header bg-maroon">
                                 <div class="card-title text-white">Product List</div>
@@ -22,6 +63,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
+
                                 {{-- SUmmary Product --}}
                                 <div class="card card-dark" id="summaryProduct">
                                     <div class="card-header bg-maroon">
@@ -39,13 +81,13 @@
                                                     <label for="">Good Pipe Actual Kg</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryGoodProductActualKg">
+                                                    <input type="text" class="form-control" id="summaryGoodProductActualKg" readonly>
                                                 </div>
                                                 <div class="col-md-4 mt-2">
                                                     <label for="">Good Pipe Actual Pcs</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryGoodProductActualPcs">
+                                                    <input type="text" class="form-control" id="summaryGoodProductActualPcs" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -53,13 +95,13 @@
                                                     <label for="">Scrap Pipe</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryScrapPipe">
+                                                    <input type="text" class="form-control" id="summaryScrapPipe" readonly>
                                                 </div>
                                                 <div class="col-md-4 mt-2">
                                                     <label for="">Scrap Material</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryScrapMaterial">
+                                                    <input type="text" class="form-control" id="summaryScrapMaterial" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -67,13 +109,13 @@
                                                     <label for="">Material Use</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryMaterialUse">
+                                                    <input type="text" class="form-control" id="summaryMaterialUse" readonly>
                                                 </div>
                                                 <div class="col-md-4 mt-2">
                                                     <label for="">Scrap Stoping</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryScrapStoping">
+                                                    <input type="text" class="form-control" id="summaryScrapStoping" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -81,13 +123,13 @@
                                                     <label for="">Good Pipe Standart Kg</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryGoodPipeStandartKg">
+                                                    <input type="text" class="form-control" id="summaryGoodPipeStandartKg" readonly>
                                                 </div>
                                                 <div class="col-md-4 mt-2">
                                                     <label for="">Good PipeStandart Pcs</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryGoodPipeStandartPcs">
+                                                    <input type="text" class="form-control" id="summaryGoodPipeStandartPcs"readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -115,7 +157,7 @@
                                             <label for="">IDLE (NO ORDER)</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="number" class="form-control" id="idle">
+                                            <input type="number" style="text-align:center" class="form-control" id="idle">
                                         </div>
                                         <div class="col-md-1 mt-2">
                                             <label for="">Jam</label>
@@ -124,7 +166,7 @@
                                             <label for="">Setup Dies</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="number" class="form-control" id="setupDies">
+                                            <input type="number" style="text-align:center" class="form-control" id="setupDies">
                                         </div>
                                         <div class="col-md-1 mt-2">
                                             <label for="">Jam</label>
@@ -136,7 +178,7 @@
                                             <label for="">Setup Routage</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="number" class="form-control" id="setupRoutage">
+                                            <input type="number" style="text-align:center" class="form-control" id="setupRoutage">
                                         </div>
                                         <div class="col-md-1 mt-2">
                                             <label for="">Jam</label>
@@ -145,7 +187,7 @@
                                             <label for="">No Material</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="number" class="form-control" id="noMaterial">
+                                            <input type="number" style="text-align:center" class="form-control" id="noMaterial">
                                         </div>
                                         <div class="col-md-1 mt-2">
                                             <label for="">Jam</label>
@@ -156,7 +198,7 @@
                                             <label for="">Waiting For Sparepart</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="number" class="form-control" id="waitingForSparepart">
+                                            <input type="number" style="text-align:center" class="form-control" id="waitingForSparepart">
                                         </div>
                                         <div class="col-md-1 mt-2">
                                             <label for="">Jam</label>

@@ -224,10 +224,7 @@ class OeeController extends Controller
                  
                         if($delete){
                             oeeDetail::insert($merge);
-                        }else{
-                            dd('test');
                         }
-
                     });
                     return ResponseFormatter::success(
                         $merge,
@@ -330,7 +327,6 @@ class OeeController extends Controller
                         }
                     }              
                    $merge = array_merge($arrayExt,$arrayDie,$arrayAZ);
-                  
                    DB::transaction(function() use($merge,$postStatus, $request) {
                         oeeDetail::insert($merge);
                         oeeMaster::find($request->oeeMasterId)->update($postStatus);
@@ -425,13 +421,15 @@ class OeeController extends Controller
     }
     public function getMasterShift(Request $request)
     {
+       
         // Validasi mengamnbil dari log, jika data tidak ada. maka ngambil dari Oee Detail 
         $validasi = OeeShiftLog ::where('machineId', $request->id)->where('machineDate',$request->date)->get();
         if(count($validasi) > 0){
-            $data = OeeShiftLog::select('oee_shift_logs.*','products.productWeightStandard as weight','products.productName')
-            ->join('products','products.id','=','oee_shift_logs.productId')
-            ->where('oee_shift_logs.oeeMasterId',$request->id)
-            ->where( 'oee_shift_logs.machineDate', $request->date)
+            $data = OeeShiftLog::select('oee_shift_logs.*','products.productWeightStandard as weight','products.productName','oee_details.oeeMasterId as oee_Detail')
+            ->leftJoin('products','products.id','=','oee_shift_logs.productId')
+            ->leftJoin('oee_details','oee_details.oeeMasterId','=','oee_shift_logs.oeeMasterId')
+            ->where('oee_details.oeeMasterId',$request->id)
+            ->where( 'oee_details.date', $request->date)
             ->groupBy('productId')->get(); 
         }else{
             $data = oeeDetail::select('oee_details.machineId','oee_details.productId','products.productWeightStandard as weight','products.productName','oee_masters.*')
@@ -447,7 +445,8 @@ class OeeController extends Controller
         if($validasiDefect == 0){
             $deffect = OeeDefect::all();
         }else{
-            $deffect = DB::table('oee_defect_logs')->join('oee_defects','oee_defects.id','=','oee_defect_logs.defectId')->get();
+            $deffect = DB::table('oee_defect_logs')->join('oee_defects','oee_defects.id','=','oee_defect_logs.defectId')
+                                ->where('oeeMasterId', $request->id)->get();
         }
         return response()->json([
             'data'=>$data,
@@ -523,7 +522,7 @@ class OeeController extends Controller
             'noMaterial'=>$request->noMaterial,
             'oeeMasterId'=>$request->id
         ];
-       
+
         DB::transaction(function() use($postHeader, $postShiftLog,$request,$postDownTime,$defectArray) {
             $update = oeeMaster::where('machineId',$request->id)
                                 ->where('shift',$request->shift)
@@ -533,6 +532,7 @@ class OeeController extends Controller
              
                 $validasi =  OeeShiftLog::where('oeeMasterId',$request->id)
                 ->where( DB::raw('DATE(machineDate)'), $request->date)->count();
+               
                 if($validasi == 0){
                     OeeShiftLog::insert($postShiftLog);
                 }else{
@@ -547,15 +547,23 @@ class OeeController extends Controller
                     OeeDownTime::where('oeeMasterId', $request->id)->update($postDownTime);
                 }
 
-                $validasiDefect = OeeDefectLog :: where('oeeMasterId',$request->id)->count();
+                $validasiDefect = OeeDefectLog ::where('oeeMasterId',$request->id)->count();
+              
                 if($validasiDefect == 0 ){
                     OeeDefectLog::insert($defectArray);
                 }else{
-                    OeeDefectLog :: where('oeeMasterId',$request->id)->delete();
-                    OeeDefectLog::insert($defectArray);
+                   $delete = OeeDefectLog ::where('oeeMasterId',$request->id)->delete();
+                 
+                    if($delete){
+                        OeeDefectLog::insert($defectArray);
+                    }
                 }
             }
         });
+        return ResponseFormatter::success(
+            $postDownTime,
+             'OEE Master successfully updated'
+         );        
        
     }
 

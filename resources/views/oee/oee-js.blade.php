@@ -384,8 +384,12 @@
     })
     $(document).on('click','.oeeMasterSetting', function(e){
         $('#summaryProduct').hide()
+        $('#settingProductList').empty()
+        $('#settingDeffectContainer').empty()
         e.preventDefault()
         var date = $(this).data('date')
+        var machine_number = $(this).data('machine_number')
+        var machine_name = $(this).data('machine_name')
         var id = $(this).data('id')
         var shift = $(this).data('shift')
         var deffectLength = $(this).data('deffectLength')
@@ -393,6 +397,9 @@
             'id':id,
             'date':date,
         }
+        console.log()
+        $('#settingMachineNumber').val(machine_number)
+        $('#settingMachineName').val(machine_name)
         $('#settingShiftMaster').val(shift)
         $.ajax({
                 headers: {
@@ -413,8 +420,7 @@
                     var htmlGoodPipe =''
                     var htmlProductList =''
                     var htmlDeffect =''
-                    $('#settingProductList').empty()
-                    $('#settingDeffectContainer').empty()
+           
                     if(response){
                         if(response.downTime ==null){
                             $('#idle').val('0');
@@ -430,11 +436,11 @@
                             $('#noMaterial').val(response.downTime.noMaterial == null ?'0':response.downTime.noMaterial);
                         }
                         for(j=0; j < response.deffect.length ; j++){
-                            htmlDeffect +=`<div class="col-sm-2 mt-2">
-                                                <label>${response.deffect[j].defectName}</label>
-                                            </div>
+                            htmlDeffect +=`
+                                        <div class="col-sm-3 mt-2"> 
+                                        </div>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control settingDefectValue" name="settingDefectValue" id="settingDefectValue${j+1}" value="${response.deffect[j].value == null ?'0':response.deffect[j].value}">
+                                            <input type="number" style="text-align:center" class="form-control settingDefectValue" name="settingDefectValue" id="settingDefectValue${j+1}" value="${response.deffect[j].value == null ?'0':response.deffect[j].value}">
                                             <span  style="color:red;" class="message_error text-red block settingDefectValue${j + 1}_error"></span>
                                             <input type="hidden" id="defectId" class="form-control settingDefectId"value="${response.deffect[j].id}">
                                         </div>  
@@ -468,6 +474,7 @@
                             summaryScrapStoping +=response.data[i].scrapStoping 
                             summarygoodPipeStandartKg +=response.data[i].goodPipeStandartKg 
                             summarygoodPipeStandartPcs +=response.data[i].goodPipeStandartPcs 
+                           
                             htmlProductList +=`
                             <div class="card card-dark collapsed-card">
                                 <div class="card-header bg-dark">
@@ -484,7 +491,7 @@
                                                             <label>Product Name</label>
                                                         </div>
                                                         <div class="col-md-3">
-                                                        <input type="text" class="form-control settingProductName" name="settingProductName" id="settingProductName${i+1}" value="${response.data[i].productName}" readOnly>
+                                                        <input type="text" style="text-align:center" class="form-control settingProductName" name="settingProductName" id="settingProductName${i+1}" value="${response.data[i].productName}" readOnly>
                                                         <span  style="color:red;" class="message_error text-red block settingProductName${i + 1}_error"></span>
                                                         <input type="hidden" id="settingProductId" class="form-control settingProductId"value="${response.data[i].productId}">
                                                     </div>
@@ -492,7 +499,7 @@
                                                             <label>Weight</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="text" class="form-control settingProductWeight" name="settingProductWeight" id="settingProductWeight" value="${response.data[i].weight}" readOnly >
+                                                        <input type="number" style="text-align:center" class="form-control settingProductWeight" name="settingProductWeight" id="settingProductWeight" value="${response.data[i].weight}" readOnly >
                                                         <span  style="color:red;" class="message_error text-red block settingProductWeight${i + 1}_error"></span>
                                                     </div>
                                                     <div class="col-sm-1 mt-2">
@@ -504,14 +511,14 @@
                                                             <label>Good Pipe Actual Kg</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="text" value="${response.data[i].goodProductActualKg}" class="form-control settingGoodPipeKg" name="settingGoodPipeKg" id="settingGoodPipeKg${i+1}">
+                                                        <input type="number" style="text-align:center" value="${response.data[i].goodProductActualKg}" class="form-control settingGoodPipeKg" name="settingGoodPipeKg" id="settingGoodPipeKg${i+1}">
                                                         <span  style="color:red;" class="message_error text-red block settingGoodPipeKg${i + 1}_error"></span>
                                                     </div>
                                                         <div class="col-md-4 mt-2">
                                                             <label>Good Pipe Actual Pcs</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="text" class="form-control settingGoodPipePcs" name="settingGoodPipePcs" id="settingGoodPipePcs" value="${response.data[i].goodProductActualPcs}">
+                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipePcs" name="settingGoodPipePcs" id="settingGoodPipePcs" value="${response.data[i].goodProductActualPcs}">
                                                         <span  style="color:red;" class="message_error text-red block settingGoodPipePcs${i + 1}_error"></span>
                                                     </div>
                                                 
@@ -521,14 +528,14 @@
                                                             <label>Scrap Pipe</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="text" class="form-control settingScrapPipe" name="settingScrapPipe" id="settingScrapPipe${i+1}" value="${response.data[i].scrapPipe}">
+                                                        <input type="number" style="text-align:center" class="form-control settingScrapPipe" name="settingScrapPipe" id="settingScrapPipe${i+1}" value="${response.data[i].scrapPipe}">
                                                         <span  style="color:red;" class="message_error text-red block settingScrapPipe${i + 1}_error"></span>
                                                     </div>
                                                         <div class="col-md-4 mt-2">
                                                             <label>Scrap Material</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="text" class="form-control settingScrapMaterial" name="settingScrapMaterial" id="settingScrapMaterial" value="${response.data[i].scrapMaterial}">
+                                                        <input type="number" style="text-align:center" class="form-control settingScrapMaterial" name="settingScrapMaterial" id="settingScrapMaterial" value="${response.data[i].scrapMaterial}">
                                                         <span  style="color:red;" class="message_error text-red block settingScrapMaterial${i + 1}_error"></span>
                                                     </div>
                                                 
@@ -538,14 +545,14 @@
                                                             <label>Material Use</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="text" class="form-control settingMaterialUse" name="settingMaterialUse" id="settingMaterialUse${i+1}" value="${response.data[i].materialUse}">
+                                                        <input type="number" style="text-align:center" class="form-control settingMaterialUse" name="settingMaterialUse" id="settingMaterialUse${i+1}" value="${response.data[i].materialUse}">
                                                         <span  style="color:red;" class="message_error text-red block settingMaterialUse${i + 1}_error"></span>
                                                     </div>
                                                         <div class="col-md-4 mt-2">
                                                             <label>Scrap Stoping</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="text" class="form-control settingScrapStoping" name="settingScrapStoping" id="settingScrapStoping" value="${response.data[i].scrapStoping}">
+                                                        <input type="number" style="text-align:center" class="form-control settingScrapStoping" name="settingScrapStoping" id="settingScrapStoping" value="${response.data[i].scrapStoping}">
                                                         <span  style="color:red;" class="message_error text-red block settingScrapStoping${i + 1}_error"></span>
                                                     </div>
                                                 
@@ -555,14 +562,14 @@
                                                             <label>Good Pipe Standart Kg</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="text" class="form-control settingGoodPipeStandartKg" name="settingGoodPipeStandartKg" id="settingGoodPipeStandartKg${i+1}" value="${response.data[i].goodPipeStandartKg}">
+                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartKg" name="settingGoodPipeStandartKg" id="settingGoodPipeStandartKg${i+1}" value="${response.data[i].goodPipeStandartKg}">
                                                         <span  style="color:red;" class="message_error text-red block settingGoodPipeStandartKg${i + 1}_error"></span>
                                                     </div>
                                                         <div class="col-md-4 mt-2">
                                                             <label>Good Pipe Standart Pcs</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="text" class="form-control settingGoodPipeStandartPcs" name="settingGoodPipeStandartPcs" id="settingGoodPipeStandartPcs" value="${response.data[i].goodPipeStandartPcs}">
+                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartPcs" name="settingGoodPipeStandartPcs" id="settingGoodPipeStandartPcs" value="${response.data[i].goodPipeStandartPcs}">
                                                         <span  style="color:red;" class="message_error text-red block settingGoodPipeStandartPcs${i + 1}_error"></span>
                                                     </div>
                                                 
@@ -703,6 +710,8 @@
                             });
                             $('.table_detail tbody').append(``);
                             var buttonUpdateDetail= ''
+                            var buttonSettingMaster= ''
+                            var buttonSettingMaster= ''
                            
                             if(response.data[i].status > 0 ){
                                 buttonUpdateDetail =` <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="1" data-toggle="modal" data-target="#oeeDetailLogModal" data-date="${response.data[i].date}">
@@ -718,14 +727,16 @@
                                                  <i class="fas fa-plus-circle"></i>          
                                             </button>  `
                                            
-                                            var buttonSettingMaster =`
-                                            <button title="Setting" class="oeeMasterSetting btn btn-sm btn-primary rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-shift="${response.data[i].shift}" data-die ="${response.length[1].length}" data-date="${response.data[i].date}"
+                            if(response.data[i].status > 0){
+                                buttonSettingMaster =`
+                                            <button title="Setting" class="oeeMasterSetting btn btn-sm btn-primary rounded"data-id="${response.data[i]['id']}" data-machine_number="${response.data[i].machineNumber}" data-ext ="${response.length[0].length}"data-machine_name ="${response.data[i].machineName}" data-shift="${response.data[i].shift}" data-die ="${response.length[1].length}" data-date="${response.data[i].date}"
                                             data-deffectLength="${response.deffectLength.length}"  data-toggle="modal" data-target="#oeeMasterSetting">
                                                  <i class="fas fa-book"></i>          
                                             </button>`
                                             var buttonReportExcell =`<button class="btn btn-sm btn-success" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}">
                                                 <i class="fas fa-file"></i>
                                             </button>`
+                            }
 
                             
                                 row+= `<tr class="table-light">
