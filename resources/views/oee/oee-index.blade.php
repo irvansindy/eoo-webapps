@@ -66,6 +66,7 @@
 @include('oee.add-oee')
 @include('oee.log-oeeDetail')
 @include('oee.add-oee_detail')
+@include('oee.filter-reportOeeDetail')
 @endsection
 @push('custom-js')
 @include('oee.oee-js')

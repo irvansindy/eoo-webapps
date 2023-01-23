@@ -68,8 +68,6 @@
 
     // select 2 for create product
     $('#addProduct').on('click', function() {
-        // get data master machine
-        // select_active('getMachineName', 'machineId', 'Mesin')
         // get data master product type
         select_active('getProductType', 'productTypeId', 'Tipe Produk')
         // get data master product diameter
@@ -107,7 +105,6 @@
         let data = {
             'id':$('#productId').val(),
             'productNameUpdate': $('#productNameUpdate').val(),
-            // 'machineUpdateId': $('#machineUpdateId').val(),
             'productTypeUpdateId': $('#productTypeUpdateId').val(),
             'productDiameterUpdateId': $('#productDiameterUpdateId').val(),
             'productlengthUpdateId': $('#productlengthUpdateId').val(),
@@ -143,12 +140,6 @@
             success: function(response) {
                 $('#productId').val(id)
                 $('#productNameUpdate').val(response.data[0]['productName'])
-                $('#valueMachineUpdateId').val(response.data[0]['machineId'])
-                // $('#machineUpdateId').empty()
-                // $('#machineUpdateId').append('<option value="'+response.data[0]['machineId']+'">'+response.data[0]['machineName']+'</option>')
-                // $.each(response.data[1], function(i, data) {
-                //     $('#machineUpdateId').append('<option value="'+data.id+'">'+data.machineName+'</option>')
-                // })
                 
                 $('#valueProductTypeUpdateId').val(response.data[0]['productTypeId'])
                 $('#productTypeUpdateId').empty()

@@ -35,6 +35,10 @@ class oeeDetail extends Model
 
     protected $hidden = [];
 
+    public function oeeMaster() {
+        return $this->hasOne(oeeMaster::class, 'id', 'oeeMasterId');
+    }
+
     public function product() {
         return $this->hasOne(Product::class, 'id', 'productId');
     }
