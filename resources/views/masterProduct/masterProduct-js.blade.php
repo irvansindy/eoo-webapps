@@ -76,6 +76,8 @@
         select_active('getProductLengthName', 'productlengthId', 'Panjang Produk')
         // get data master product variant
         select_active('getProductVariantName', 'productvariantId', 'Varian Produk')
+        // get data master product socket
+        select_active('getSocket', 'productSocket', 'Soket Produk')
     })
 
     // create data master product
@@ -176,7 +178,13 @@
                 $('#pcsPerDayUpdate').val(response.data[0]['pcsPerDay'])
                 $('#productionAccuracyTolerancePerPcsUpdate').val(response.data[0]['productionAccuracyTolerancePerPcs'])
                 $('#productFormulaUpdate').val(response.data[0]['productFormula'])
+
                 $('#productSocketUpdate').val(response.data[0]['productSocket'])
+                $('#productSocketIdUpdate').empty()
+                $('#productSocketIdUpdate').append('<option value="'+response.data[0]['productSocket']+'">'+response.data[0]['productSocket']+'</option>')
+                $.each(response.data[6], function(i, data) {
+                    $('#productSocketIdUpdate').append('<option value="'+data.id+'">'+data.socketName+'</option>')
+                })
             },
             error: function(xhr, status, error) {
                 toastr['error']('gagal mengambil data, silakan hubungi ICT Developer');

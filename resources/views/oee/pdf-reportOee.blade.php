@@ -339,40 +339,67 @@
                 <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->waterPressure  }}</td>
             </tr>
         </table>
-        {{-- data detail shift 1 --}}
+        {{-- end data detail shift 1 --}}
+        <br>
+        {{-- data down time --}}
+        <table class="table-report">
+            <tr>
+                <td>#</td>
+                <td>Shift 1</td>
+                <td>Shift 2</td>
+                <td>Shift 3</td>
+            </tr>
+            <tr>
+                <td>Screw Speed</td>
+                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->screwSpeed  }}</td>
+                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->screwSpeed }}</td>
+                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->screwSpeed  }}</td>
+            </tr>
+            <tr>
+                <td>Dosing Speed</td>
+                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->dosingSpeed  }}</td>
+                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->dosingSpeed }}</td>
+                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->dosingSpeed  }}</td>
+            </tr>
+            <tr>
+                <td>Main Drive</td>
+                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->mainDrive  }}</td>
+                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->mainDrive }}</td>
+                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->mainDrive  }}</td>
+            </tr>
+            <tr>
+                <td>Vacum Cylinder</td>
+                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->vacumCylinder  }}</td>
+                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->vacumCylinder }}</td>
+                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->vacumCylinder  }}</td>
+            </tr>
+            <tr>
+                <td>Melt Pressure</td>
+                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->meltPressure  }}</td>
+                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->meltPressure }}</td>
+                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->meltPressure  }}</td>
+            </tr>
+            <tr>
+                <td>Vacum Tank</td>
+                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->vacumTank  }}</td>
+                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->vacumTank }}</td>
+                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->vacumTank  }}</td>
+            </tr>
+            <tr>
+                <td>Water Temp Vacum Tank</td>
+                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->waterTempVacumTank  }}</td>
+                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->waterTempVacumTank }}</td>
+                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->waterTempVacumTank  }}</td>
+            </tr>
+            <tr>
+                <td>Water Pressure</td>
+                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->waterPressure  }}</td>
+                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->waterPressure }}</td>
+                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->waterPressure  }}</td>
+            </tr>
+        </table>
+        {{-- end data down time --}}
 
-        {{-- <div class="row">
-            <div class="column" style="background-color:#fff;">
-                <table class="table-report">
-                    <tr>
-                        <td>Die Heating</td>
-                    </tr>
-                    
-                </table>
-            </div>
-            <div class="column" style="background-color:#fff;">
-                <table class="table-report">
-                    <tr>
-                        <td>07:30 - 14:00</td>
-                    </tr>
-                    
-            <div class="column" style="background-color:#fff;">
-                <table class="table-report">
-                    <tr>
-                        <td>15:30 - 22:00</td>
-                    </tr>
-                    
-                </table>
-            </div>
-            <div class="column" style="background-color:#fff;">
-                <table class="table-report">
-                    <tr>
-                        <td>23:30 - 06:00</td>
-                    </tr>
-                    
-                </table>
-            </div>
-        </div> --}}
     </div>
 </body>
 </html>

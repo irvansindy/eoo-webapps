@@ -9,6 +9,7 @@ use App\Models\ProductType;
 use App\Models\ProductDiameterSize;
 use App\Models\ProductLengthSize;
 use App\Models\ProductVariant;
+use App\Models\Socket;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Support\Facades\DB;
@@ -91,6 +92,7 @@ class ProductController extends Controller
             $ProductDiameterSize = ProductDiameterSize::all();
             $ProductLengthSize = ProductLengthSize::all();
             $ProductVariant = ProductVariant::all();
+            $productSocket = Socket::all();
 
             return ResponseFormatter::success(
                 [
@@ -99,7 +101,8 @@ class ProductController extends Controller
                     $ProductType, //2
                     $ProductDiameterSize, //3
                     $ProductLengthSize, //4
-                    $ProductVariant //5
+                    $ProductVariant, //5
+                    $productSocket //6
                 ],
                 'product data successfully fetched'
             );

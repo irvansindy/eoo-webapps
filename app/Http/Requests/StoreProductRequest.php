@@ -36,7 +36,7 @@ class StoreProductRequest extends FormRequest
             'pcsPerDay' => 'required|integer',
             'productionAccuracyTolerancePerPcs' => 'required|integer',
             'productFormula' => 'required|string',
-            'productSocket' => 'required|string',
+            'productSocket' => 'required',
         ];
     }
 }

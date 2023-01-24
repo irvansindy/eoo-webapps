@@ -135,7 +135,8 @@
                             <label for="">Socket</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="productSocket">
+                            {{-- <input type="text" class="form-control" id="productSocket"> --}}
+                            <select class="form-control select2" style="width: 100%" id="productSocket"></select>
                             <span  style="color:red;" class="message_error text-red block productSocket_error"></span>
                         </div>
                     </div>

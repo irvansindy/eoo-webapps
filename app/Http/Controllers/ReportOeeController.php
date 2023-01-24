@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\oeeMaster;
 use App\Models\oeeDetail;
+use App\Models\OeeDownTime;
 use Carbon\Carbon;
 use App\Helpers\ResponseFormatter;
 use \Mpdf\Mpdf as PDF; 
@@ -167,12 +168,7 @@ class ReportOeeController extends Controller
         ->where('oee_details.tempExtruderId',3)
         ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
         
-        // $oeeDetail = oeeDetail::with([
-        //     'product',
-        //     'machine',
-        //     'tempExtruder'
-        // ])->where('oeeMasterId', $oeeMaster->id)
-        // ->first();
+        $oeeDownTime = OeeDownTime::where('oeeMasterId', $oeeMaster->id)->get();
 
         $oeeDetailShift1 = oeeDetail::with([
             'product',
@@ -233,6 +229,8 @@ class ReportOeeController extends Controller
             'adapterZoneShift1' => $adapterZoneShift1,
             'adapterZoneShift2' => $adapterZoneShift2,
             'adapterZoneShift3' => $adapterZoneShift3,
+            'oeeDownTime' => $oeeDownTime,
+            
         ]));
         
         // Save PDF on your public storage 
@@ -246,7 +244,7 @@ class ReportOeeController extends Controller
         $oeeMaster = oeeMaster::with([
             'oeeDetail',
             'machine',
-        ])->findOrFail(2);
+        ])->findOrFail(1);
 
         $tempExtruderShift1 = oeeDetail::with([
             'oeeMaster',
@@ -389,9 +387,20 @@ class ReportOeeController extends Controller
             'oee_details.waterPressure',
         ]);
 
+        $oeeDownTimeShift1 = OeeDownTime::with('oeeMaster')
+        ->where('oeeMasterId', $oeeMaster->id)
+        ->whereHas('oeeMaster', function($query) {
+            $query->where('shift', 1);
+        })
+        // ->whereHas('oeeMaster', function($query) {
+        //     $query->where('oeeDetail', 1);
+        // })
+        ->get();
+
         dd([
             // $oeeDetailShift2->screwSpeed
-            $oeeDetailShift2
+            // $oeeDownTimeShift1,
+            $oeeDownTimeShift1[0]->oeeMaster->oeeDetail->shift
         ]);
 
         $id = $request->id;

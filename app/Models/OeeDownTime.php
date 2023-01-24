@@ -11,4 +11,8 @@ class OeeDownTime extends Model
     protected $table = 'oee_down_times';
 
     protected $guarded = [];
+
+    public function oeeMaster() {
+        return $this->hasOne(oeeMaster::class, 'id', 'oeeMasterId');
+    }
 }
