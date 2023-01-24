@@ -499,8 +499,8 @@
                                                     <div class="col-md-3 mt-2">
                                                             <label>Nama Produk</label>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                        <input type="text" style="text-align:center" class="form-control settingProductName" name="settingProductName" id="settingProductName${i+1}" value="${response.data[i].productName}" readOnly>
+                                                        <div class="col-md-9">
+                                                        <input type="text"class="form-control settingProductName" name="settingProductName" id="settingProductName${i+1}" value="${response.data[i].productName}" readOnly>
                                                         <span  style="color:red;" class="message_error text-red block settingProductName${i + 1}_error"></span>
                                                         <input type="hidden" id="settingProductId" class="form-control settingProductId"value="${response.data[i].productId}">
                                                     </div>
@@ -519,19 +519,19 @@
                                                     </div>
                                         </div>
                                         <div class="form-group row mt-4">
-                                                    <div class="col-md-4 mt-2">
-                                                            <label>Good Pipe Actual Kg</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" value="${response.data[i].goodProductActualKg}" class="form-control settingGoodPipeKg" name="settingGoodPipeKg" id="settingGoodPipeKg${i+1}">
-                                                        <span  style="color:red;" class="message_error text-red block settingGoodPipeKg${i + 1}_error"></span>
-                                                    </div>
                                                         <div class="col-md-4 mt-2">
                                                             <label>Good Pipe Actual Pcs</label>
                                                         </div>
                                                         <div class="col-md-2">
                                                         <input type="number" style="text-align:center" class="form-control settingGoodPipePcs" name="settingGoodPipePcs" id="settingGoodPipePcs" value="${response.data[i].goodProductActualPcs}">
                                                         <span  style="color:red;" class="message_error text-red block settingGoodPipePcs${i + 1}_error"></span>
+                                                    </div>
+                                                    <div class="col-md-4 mt-2">
+                                                            <label>Good Pipe Actual Kg</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                        <input type="number" style="text-align:center" value="${response.data[i].goodProductActualKg}" class="form-control settingGoodPipeKg" name="settingGoodPipeKg" id="settingGoodPipeKg${i+1}">
+                                                        <span  style="color:red;" class="message_error text-red block settingGoodPipeKg${i + 1}_error"></span>
                                                     </div>
                                                 
                                             </div>
@@ -569,27 +569,29 @@
                                                     </div>
                                                 
                                             </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row settingActualGood" >
+                                                    <div class="col-md-4 mt-2">
+                                                            <label>Good Pipe Standart Pcs</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartPcs" name="settingGoodPipeStandartPcs" id="settingGoodPipeStandartPcs" readOnly disabled value="${response.data[i].goodPipeStandartPcs}">
+                                                        <span  style="color:red;" class="message_error text-red block settingGoodPipeStandartPcs${i + 1}_error"></span>
+                                                    </div>
                                                     <div class="col-md-4 mt-2">
                                                             <label>Good Pipe Standart Kg</label>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartKg" name="settingGoodPipeStandartKg" id="settingGoodPipeStandartKg${i+1}" value="${response.data[i].goodPipeStandartKg}">
+                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartKg" name="settingGoodPipeStandartKg" id="settingGoodPipeStandartKg${i+1}" readOnly disabled value="${response.data[i].goodPipeStandartKg}">
                                                         <span  style="color:red;" class="message_error text-red block settingGoodPipeStandartKg${i + 1}_error"></span>
                                                     </div>
-                                                        <div class="col-md-4 mt-2">
-                                                            <label>Good Pipe Standart Pcs</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartPcs" name="settingGoodPipeStandartPcs" id="settingGoodPipeStandartPcs" value="${response.data[i].goodPipeStandartPcs}">
-                                                        <span  style="color:red;" class="message_error text-red block settingGoodPipeStandartPcs${i + 1}_error"></span>
-                                                    </div>
+                                                       
                                                 
                                             </div>
                                 </div>
                             </div>
                            
                             `
+                          
                     }
                     $('#settingProductList').html(htmlProductList);
                     $('#settingRemark').val(response.oeeMaster.remark)
@@ -601,6 +603,12 @@
                     $('#summaryScrapStoping').val(summaryScrapStoping)
                     $('#summaryGoodPipeStandartKg').val(summarygoodPipeStandartKg)
                     $('#summaryGoodPipeStandartPcs').val(summarygoodPipeStandartPcs)
+                    if(summarygoodPipeStandartKg === 0 || summarygoodPipeStandartKg === '0'){
+                               $('.settingActualGood').hide()
+                            }else{
+                                $('.settingActualGood').show()
+                            }
+                    
                     }else{
                         toastr["error"]('Data tidak ada')
                         $('#loading').hide();
@@ -612,6 +620,10 @@
                     $('#loading').hide();
                 }
             });
+    })
+    $(document).on('change','.settingGoodPipePcs', function(e){
+        e.preventDefault();
+
     })
     $(document).on("click", ".tabView", function(e){
         e.preventDefault();
@@ -723,24 +735,14 @@
                             });
                             $('.table_detail tbody').append(``);
                             var buttonUpdateDetail= ''
+                            var buttonListDetail= ''
                             var buttonSettingMaster= ''
+                            var buttonLockMaster= ''
                             var buttonReportExcell= ''
-                           
-                            if(response.data[i].status > 0 ){
-                                buttonUpdateDetail =` <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="1" data-toggle="modal" data-target="#oeeDetailLogModal" data-date="${response.data[i].date}">
-                                                <i class="fas fa-list"></i>     
-                                            </button>    
-                                            <button title="Edit Log" class="oeeEditLogModal btn btn-sm btn-info rounded"data-id="${response.data[i]['id']}" data-status="1" data-shift="1" data-toggle="modal" data-target="#oeeEditLogModal" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}" data-az="${response.length[2].length}"data-date="${response.data[i].date}">
-                                                <i class="fas fa-paste"></i>     
-                                            </button>   
-                                          `
-                            }
-                           
-                              var  buttonAddOeeDetail = `<button title="Detail" id="oeeDetail" class="addOeeDetailModal btn btn-sm btn-success rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}"  data-toggle="modal" data-target="#addOeeDetailModal">
+                            var  buttonAddOeeDetail = `<button title="Detail" id="oeeDetail" class="addOeeDetailModal btn btn-sm btn-success rounded"data-id="${response.data[i]['id']}" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}"  data-toggle="modal" data-target="#addOeeDetailModal">
                                                  <i class="fas fa-plus-circle"></i>          
                                             </button>  `
-                                           
-                            if(response.data[i].status > 4){
+                            if(response.data[i].lockMaster == 1){
                                 buttonSettingMaster =`
                                             <button title="Setting" class="oeeMasterSetting btn btn-sm btn-primary rounded"data-id="${response.data[i]['id']}" data-machine_number="${response.data[i].machineNumber}" data-ext ="${response.length[0].length}"data-machine_name ="${response.data[i].machineName}" data-shift="${response.data[i].shift}" data-die ="${response.length[1].length}" data-date="${response.data[i].date}"
                                             data-deffectLength="${response.deffectLength.length}"  data-toggle="modal" data-target="#oeeMasterSetting">
@@ -749,7 +751,32 @@
                                 buttonReportExcell =`<button class="btn btn-sm btn-success" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}">
                                                 <i class="fas fa-file"></i>
                                             </button>`
+                                buttonAddOeeDetail =""
+                                buttonUpdateDetail =""
                             }
+                            if(response.data[i].status > 0 ){
+                                buttonListDetail =`
+                                <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="${response.data[i].shift}" data-toggle="modal" data-target="#oeeDetailLogModal" data-date="${response.data[i].date}">
+                                                <i class="fas fa-list"></i>     
+                                            </button> 
+                                `;
+                            }
+                            if(response.data[i].status > 0  && response.data[i].lockMaster == 0){
+                                buttonUpdateDetail =`    
+                                            <button title="Edit Log" class="oeeEditLogModal btn btn-sm btn-info rounded"data-id="${response.data[i]['id']}" data-status="1" data-shift="${response.data[i].shift}" data-toggle="modal" data-target="#oeeEditLogModal" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}" data-az="${response.length[2].length}"data-date="${response.data[i].date}">
+                                                <i class="fas fa-paste"></i>     
+                                            </button>   
+                                          `
+                                buttonLockMaster =`
+                                <button title="Lock" class="lockMasterModal btn btn-sm btn-danger rounded"data-id="${response.data[i]['id']}" data-status="1" data-shift="${response.data[i].shift}" data-toggle="modal" data-target="#lockMasterModal" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}" data-az="${response.length[2].length}"data-date="${response.data[i].date}">
+                                                <i class="fas fa-lock"></i>     
+                                            </button>   
+                                `;
+                            }
+                           
+                            
+                                           
+                           
 
                             
                                 row+= `<tr class="table-light">
@@ -760,9 +787,11 @@
                                             <td style="text-align:center">${response.data[i].shift}</td>
                                             <td style="text-align:center">
                                               ${buttonAddOeeDetail}
+                                              ${buttonListDetail}
                                               ${buttonUpdateDetail}
                                               ${buttonSettingMaster}
                                               ${buttonReportExcell}
+                                              ${buttonLockMaster}
                                             </td>
 
                                         </tr>`;

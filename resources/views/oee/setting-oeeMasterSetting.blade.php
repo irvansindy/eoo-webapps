@@ -78,16 +78,16 @@
                                         <div class="container">
                                             <div class="form-group row">
                                                 <div class="col-md-4 mt-2">
-                                                    <label for="">Good Pipe Actual Kg</label>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryGoodProductActualKg" readonly>
-                                                </div>
-                                                <div class="col-md-4 mt-2">
                                                     <label for="">Good Pipe Actual Pcs</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryGoodProductActualPcs" readonly>
+                                                    <input type="number" style="text-align:center" class="form-control" id="summaryGoodProductActualPcs" readonly>
+                                                </div>
+                                                <div class="col-md-4 mt-2">
+                                                    <label for="">Good Pipe Actual Kg</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="number" style="text-align:center" class="form-control" id="summaryGoodProductActualKg" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -95,13 +95,13 @@
                                                     <label for="">Scrap Pipe</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryScrapPipe" readonly>
+                                                    <input type="number" style="text-align:center" class="form-control" id="summaryScrapPipe" readonly>
                                                 </div>
                                                 <div class="col-md-4 mt-2">
                                                     <label for="">Scrap Material</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryScrapMaterial" readonly>
+                                                    <input type="number" style="text-align:center" class="form-control" id="summaryScrapMaterial" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -109,28 +109,29 @@
                                                     <label for="">Material Use</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryMaterialUse" readonly>
+                                                    <input type="number" style="text-align:center" class="form-control" id="summaryMaterialUse" readonly>
                                                 </div>
                                                 <div class="col-md-4 mt-2">
                                                     <label for="">Scrap Stoping</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryScrapStoping" readonly>
+                                                    <input type="number" style="text-align:center" class="form-control" id="summaryScrapStoping" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-md-4 mt-2">
-                                                    <label for="">Good Pipe Standart Kg</label>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryGoodPipeStandartKg" readonly>
-                                                </div>
-                                                <div class="col-md-4 mt-2">
                                                     <label for="">Good PipeStandart Pcs</label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="summaryGoodPipeStandartPcs"readonly>
+                                                    <input type="number" style="text-align:center" class="form-control" id="summaryGoodPipeStandartPcs"readonly>
                                                 </div>
+                                                <div class="col-md-4 mt-2">
+                                                    <label for="">Good Pipe Standart Kg</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="number" style="text-align:center" class="form-control" id="summaryGoodPipeStandartKg" readonly>
+                                                </div>
+                                              
                                             </div>
                                         </div>
                                     </div>

@@ -42,7 +42,7 @@ class OeeController extends Controller
     {
        
         $data = DB::table('oee_masters')
-                    ->select('machines.machineName','oee_masters.machineId','machineNumber','offices.officeName','oee_masters.shift','oee_masters.id','oee_masters.status','oee_masters.shift',DB::raw('DATE(oee_masters.created_at) as date'))
+                    ->select('machines.machineName','oee_masters.machineId','machineNumber','offices.officeName','oee_masters.shift','oee_masters.id','oee_masters.status','oee_masters.shift',DB::raw('DATE(oee_masters.created_at) as date'),'oee_masters.lockMaster')
                     ->leftJoin('machines','machines.id','=','oee_masters.machineId')
                     ->leftJoin('offices','offices.id','=','machines.officeId')
                     ->where(DB::raw('DATE(oee_masters.created_at)'), $request->date)
@@ -75,7 +75,6 @@ class OeeController extends Controller
             }else{
                 $post=[
                     'shift'=>$headerLast->shift+1,
-                    'productId'=>0,
                     'status'=>0,
                     'machineId'=>$request->machineId,
                     'goodProductActualPcs'=>0,
@@ -218,9 +217,10 @@ class OeeController extends Controller
                 
                    DB::transaction(function() use($merge, $request) {
                     $delete = DB::table('oee_details')
+                    ->join('oee_masters','oee_masters.id','=','oee_details.oeeMasterId')
                     ->where('oee_details.shift', $request->shift)
                     ->where('oee_details.status', $request->statusIdUpdate)
-                    ->where( DB::raw('DATE(oee_details.created_at)'), $request->date)->delete();
+                    ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)->delete();
                  
                         if($delete){
                             oeeDetail::insert($merge);
@@ -349,7 +349,6 @@ class OeeController extends Controller
     }
     public function getOeeDetailProgress(Request $request)
     {
-        
         $dataExt = DB::table('oee_masters')
                     ->leftJoin('oee_details','oee_details.oeeMasterId','=','oee_masters.id')
                     ->leftJoin('products','products.id','=','oee_details.productId')
@@ -357,7 +356,7 @@ class OeeController extends Controller
                     ->where('oee_masters.id',$request->id)
                     ->where('oee_masters.shift', $request->shift)
                     ->where('oee_details.status', $request->status)
-                    ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)
+                    // ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)
                     ->where('oee_details.tempExtruderId',1)
                     ->get();
 
@@ -368,7 +367,7 @@ class OeeController extends Controller
                     ->where('oee_masters.id',$request->id)
                     ->where('oee_masters.shift', $request->shift)
                     ->where('oee_details.status', $request->status)
-                    ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)
+                    // ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)
                     ->where('oee_details.tempExtruderId',2)
                     ->get();
 
@@ -379,7 +378,7 @@ class OeeController extends Controller
                     ->where('oee_masters.id',$request->id)
                     ->where('oee_masters.shift', $request->shift)
                     ->where('oee_details.status', $request->status)
-                    ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)
+                    // ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)
                     ->where('oee_details.tempExtruderId',3)
                     ->get();
                     
@@ -389,14 +388,14 @@ class OeeController extends Controller
                     ->select('oee_details.*', 'products.productName','products.productWeightStandard as weight')
                     ->where('oee_masters.id',$request->id)
                     ->where('oee_masters.shift', $request->shift)
-                    ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)
+                    // ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)
                     ->where('oee_details.status', $request->status)
                     ->first();
       
         $product = Product::select('productName as name', 'id')->get();
         $master = oeeDetail::select('status')
                             ->where('oeeMasterId',$request->id)
-                            ->where( DB::raw('DATE(created_at)'), $request->date)
+                            // ->where( DB::raw('DATE(created_at)'), $request->date)
                             ->groupBy('status')->get(); 
                    
         return response()->json([
@@ -413,7 +412,7 @@ class OeeController extends Controller
     {
         $master = oeeDetail::select('status')
                             ->where('oeeMasterId',$request->id)
-                            ->where( DB::raw('DATE(created_at)'), $request->date)
+                            // ->where( DB::raw('DATE(created_at)'), $request->date)
                             ->groupBy('status')->get(); 
         return response()->json([
             'master'=>$master,
@@ -423,20 +422,20 @@ class OeeController extends Controller
     {
        
         // Validasi mengamnbil dari log, jika data tidak ada. maka ngambil dari Oee Detail 
-        $validasi = OeeShiftLog ::where('machineId', $request->id)->where('machineDate',$request->date)->get();
+        $validasi = OeeShiftLog ::where('oeeMasterId', $request->id)->where('machineDate',$request->date)->get();
         if(count($validasi) > 0){
             $data = OeeShiftLog::select('oee_shift_logs.*','products.productWeightStandard as weight','products.productName','oee_details.oeeMasterId as oee_Detail')
             ->leftJoin('products','products.id','=','oee_shift_logs.productId')
             ->leftJoin('oee_details','oee_details.oeeMasterId','=','oee_shift_logs.oeeMasterId')
             ->where('oee_details.oeeMasterId',$request->id)
-            ->where( 'oee_details.date', $request->date)
+            // ->where( 'oee_details.date', $request->date)
             ->groupBy('productId')->get(); 
         }else{
             $data = oeeDetail::select('oee_details.machineId','oee_details.productId','products.productWeightStandard as weight','products.productName','oee_masters.*')
             ->join('products','products.id','=','oee_details.productId')
             ->join('oee_masters','oee_masters.id','=','oee_details.oeeMasterId')
             ->where('oee_details.oeeMasterId',$request->id)
-            ->where( DB::raw('DATE(oee_details.created_at)'), $request->date)
+            // ->where( DB::raw('DATE(oee_details.created_at)'), $request->date)
             ->groupBy('oee_details.productId')->get(); 
         }
         $downTime = OeeDownTime::where('oeeMasterId', $request->id)->first();
@@ -470,6 +469,9 @@ class OeeController extends Controller
         $machineId = oeeMaster::find($request->id);
         $defectArray=[];
         foreach($request->arrSettingHeader as $row){
+            $productColumn = DB::table('products')->where('id',$row[0])->first();
+          
+            $calculation = $row[2] * $productColumn->productWeightStandard;
             $post =[
                 'machineId'=>$machineId->machineId,
                 'oeeMasterId' =>$request->id,
@@ -481,8 +483,8 @@ class OeeController extends Controller
                 'scrapMaterial'=>$row[4],
                 'materialUse'=>$row[5],
                 'scrapStoping'=>$row[6],
-                'goodPipeStandartKg'=>$row[7],
-                'goodPipeStandartPcs'=>$row[8],
+                'goodPipeStandartKg'=>$calculation,
+                'goodPipeStandartPcs'=>$row[2],
                 'created_at'=>date('Y-m-d H:i:s')
             ];
             array_push($postShiftLog,$post);
@@ -492,8 +494,8 @@ class OeeController extends Controller
             $scrapMaterial +=$row[4];
             $materialUse +=$row[5];
             $scrapStoping +=$row[6];
-            $goodPipeStandartKg +=$row[7];
-            $goodPipeStandartPcs +=$row[8];
+            $goodPipeStandartKg +=$calculation;
+            $goodPipeStandartPcs +=$row[2];
         }
         foreach($request->arrSettingDefect as $col){
             $postDefect =[
@@ -522,23 +524,26 @@ class OeeController extends Controller
             'noMaterial'=>$request->noMaterial,
             'oeeMasterId'=>$request->id
         ];
-
         DB::transaction(function() use($postHeader, $postShiftLog,$request,$postDownTime,$defectArray) {
-            $update = oeeMaster::where('machineId',$request->id)
-                                ->where('shift',$request->shift)
-                                ->where( DB::raw('DATE(created_at)'), $request->date)->update($postHeader);
+            $update = oeeMaster::where('id',$request->id)
+            ->where('shift',$request->shift)
+            ->where( DB::raw('DATE(created_at)'), $request->date)->update($postHeader);
+          
             if($update){
                 // Validasi jika data sudah ada maka akan diupdate
              
                 $validasi =  OeeShiftLog::where('oeeMasterId',$request->id)
                 ->where( DB::raw('DATE(machineDate)'), $request->date)->count();
-               
                 if($validasi == 0){
                     OeeShiftLog::insert($postShiftLog);
                 }else{
-                    OeeShiftLog::where('machineId',$request->id)
+                  
+                  $delete =  OeeShiftLog::where('oeeMasterId',$request->id)
                                 ->where( DB::raw('DATE(machineDate)'), $request->date)->delete();
-                    OeeShiftLog::insert($postShiftLog);
+                            
+                    if($delete){
+                        OeeShiftLog::insert($postShiftLog);
+                    }
                 }
                 $validasiDownTime = OeeDownTime::where('oeeMasterId', $request->id)->count();
                 if($validasiDownTime == 0){

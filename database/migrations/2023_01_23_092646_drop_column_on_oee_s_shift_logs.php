@@ -14,9 +14,7 @@ class DropColumnOnOeeSShiftLogs extends Migration
     public function up()
     {
         Schema::table('oee_shift_logs', function (Blueprint $table) {
-            $table->dropColumn('goodPipeActual');
-            $table->dropColumn('goodPipeStandart');
-            $table->dropColumn('scrapToping');
+            //
         });
     }
 
