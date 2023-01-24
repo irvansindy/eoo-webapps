@@ -24,7 +24,7 @@
                 for (let index = 0; index < response.data.length; index++) {
                     data += `
                         <tr style="text-align: center">
-                            <td style="width:25%;text-align:center;">
+                            <td style="width:25%;text-align:left;">
                                 ${response.data[index]['productName'] == null ? '' : response.data[index]['productName']}
                             </td>
                             <td style="width:25%;text-align:center;">

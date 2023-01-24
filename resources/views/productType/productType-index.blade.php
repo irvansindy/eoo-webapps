@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
           <div class="col-md-10">
-            <div class="card card-dark">
+            <div class="card card-maroon">
                 <div class="card-header">
                     <div class="card-title">List Tipe Produk</div>
                     <div class="card-tools">

@@ -24,8 +24,8 @@ class StoreProductLengthRequest extends FormRequest
     public function rules()
     {
         return [
-            'productLength' => 'required|integer',
-            'productLengthUnit' => 'required|in:inch,milimeter',
+            'productLength' => 'required|between:0,99.99',
+            'productLengthUnit' => 'required|in:inchi,meter',
         ];
     }
 }

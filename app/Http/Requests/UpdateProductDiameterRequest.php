@@ -24,8 +24,8 @@ class UpdateProductDiameterRequest extends FormRequest
     public function rules()
     {
         return [
-            'updateProductDiameter' => 'required|integer',
-            'updateProductDiameterUnit' => 'required|required|in:inch,milimeter'
+            'updateProductDiameter' => 'required|between:0,99.99',
+            'updateProductDiameterUnit' => 'required|required|in:inchi,milimeter'
         ];
     }
 }

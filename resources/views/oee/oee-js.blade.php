@@ -245,6 +245,15 @@
         $('#dieLength').val(die)
         $('#extLength').val(ext)
         $('#oeeDetailId').val(id)
+        $('#productWeight').val('')
+        $('#screwSpeed').val('')
+        $('#dosingSpeed').val('')
+        $('#mainDrive').val('')
+        $('#vacumCylinder').val('')
+        $('#meltTemp').val('')
+        $('#haulOffSpeed').val('')
+        $('#waterTemp').val('')
+        $('#waterPress').val('')
         var  renderHTMLExt =''
         var  renderHTMLDie =''
         var  renderHTMLAdapterZone =''
@@ -366,7 +375,7 @@
                   
                     $('.navigasiDinamis').append(`
                                 <li class="nav-item">
-                                    <a class="nav-link tabView" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true" data-status='${data.status}'>${data.status == 1 ?'Set':progressName}</a>
+                                    <a class="nav-link tabView"  id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true" data-status='${data.status}'>${data.status == 1 ?'Set':progressName}</a>
                                 </li>`
                     )
                 });
@@ -488,22 +497,25 @@
                                 <div class="card-body">
                                         <div class="form-group row">
                                                     <div class="col-md-3 mt-2">
-                                                            <label>Product Name</label>
+                                                            <label>Nama Produk</label>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-6">
                                                         <input type="text" style="text-align:center" class="form-control settingProductName" name="settingProductName" id="settingProductName${i+1}" value="${response.data[i].productName}" readOnly>
                                                         <span  style="color:red;" class="message_error text-red block settingProductName${i + 1}_error"></span>
                                                         <input type="hidden" id="settingProductId" class="form-control settingProductId"value="${response.data[i].productId}">
                                                     </div>
-                                                        <div class="col-md-2 mt-2">
-                                                            <label>Weight</label>
+                                                      
+                                        </div>
+                                        <div class="from-group row">
+                                            <div class="col-md-3 mt-2">
+                                                            <label>Berat Standar</label>
                                                         </div>
                                                         <div class="col-md-2">
                                                         <input type="number" style="text-align:center" class="form-control settingProductWeight" name="settingProductWeight" id="settingProductWeight" value="${response.data[i].weight}" readOnly >
                                                         <span  style="color:red;" class="message_error text-red block settingProductWeight${i + 1}_error"></span>
                                                     </div>
                                                     <div class="col-sm-1 mt-2">
-                                                        <label for="">Kg/Btg</label>
+                                                        <label for="">Kg</label>
                                                     </div>
                                         </div>
                                         <div class="form-group row mt-4">
@@ -624,6 +636,7 @@
             data:{
                 'from':$('#from').val(),
                 'to':$('#to').val(),
+                'officeFilter':$('#officeFilter').val(),
             },
             async: true,
             beforeSend: function() {
@@ -711,7 +724,7 @@
                             $('.table_detail tbody').append(``);
                             var buttonUpdateDetail= ''
                             var buttonSettingMaster= ''
-                            var buttonSettingMaster= ''
+                            var buttonReportExcell= ''
                            
                             if(response.data[i].status > 0 ){
                                 buttonUpdateDetail =` <button title="Detail" class="oeeDetailLogModal btn btn-sm btn-warning rounded"data-id="${response.data[i]['id']}" data-status="${response.data[i]['status']}" data-shift="1" data-toggle="modal" data-target="#oeeDetailLogModal" data-date="${response.data[i].date}">
@@ -727,13 +740,13 @@
                                                  <i class="fas fa-plus-circle"></i>          
                                             </button>  `
                                            
-                            if(response.data[i].status > 0){
+                            if(response.data[i].status > 4){
                                 buttonSettingMaster =`
                                             <button title="Setting" class="oeeMasterSetting btn btn-sm btn-primary rounded"data-id="${response.data[i]['id']}" data-machine_number="${response.data[i].machineNumber}" data-ext ="${response.length[0].length}"data-machine_name ="${response.data[i].machineName}" data-shift="${response.data[i].shift}" data-die ="${response.length[1].length}" data-date="${response.data[i].date}"
                                             data-deffectLength="${response.deffectLength.length}"  data-toggle="modal" data-target="#oeeMasterSetting">
                                                  <i class="fas fa-book"></i>          
                                             </button>`
-                                            var buttonReportExcell =`<button class="btn btn-sm btn-success" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}">
+                                buttonReportExcell =`<button class="btn btn-sm btn-success" title="Export to Excell" data-date="${response.data[i].date}" data-machine="${response.data[i].machineId}">
                                                 <i class="fas fa-file"></i>
                                             </button>`
                             }
@@ -842,7 +855,8 @@
                         "aaSorting" : true,
                         "paging":   true,
                         "scrollX":true,
-                        'scrollY':150
+                        'scrollY':150,
+                       "bInfo" : false
                     }).columns.adjust()
 
                     
@@ -862,7 +876,8 @@
                         "aaSorting" : true,
                         "paging":   true,
                         "scrollX":true,
-                        'scrollY':150
+                        'scrollY':150,
+                       "bInfo" : false
                     }).columns.adjust()
 
 
@@ -882,6 +897,7 @@
                         "aaSorting" : false,
                         "paging":   false,
                         "scrollX":true,
+                       "bInfo" : false
                     }).columns.adjust()
                     if(response.detail == null){
                         toastr['error']('Data is empty');

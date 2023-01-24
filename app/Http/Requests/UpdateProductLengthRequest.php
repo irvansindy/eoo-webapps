@@ -24,8 +24,8 @@ class UpdateProductLengthRequest extends FormRequest
     public function rules()
     {
         return [
-            'productLengthUpdate' => 'required|integer',
-            'productLengthUnitUpdate' => 'required|in:inch,milimeter',
+            'productLengthUpdate' => 'required|between:0,99.99',
+            'productLengthUnitUpdate' => 'required|in:inchi,meter',
         ];
     }
 }

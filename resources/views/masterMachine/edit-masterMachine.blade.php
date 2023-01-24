@@ -1,7 +1,7 @@
 <div class="modal fade" id="editMachine">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-orange">
+            <div class="modal-header bg-maroon">
                 <h4 class="modal-title text-white">Edit Machine</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -49,15 +49,15 @@
                             <label for="">Kapasitas (Kg/Jam)</label>
                         </div>
                         <div class="col-md-3">
-                            <input type="number" placeholder="Small" class="form-control" id="machineSmallUpdate">
+                            <input type="number" style="text-align:center" placeholder="Small" class="form-control" id="machineSmallUpdate">
                             <span  style="color:red;" class="message_error text-red block machineSmallUpdate_error"></span>
                         </div>
                         <div class="col-md-3">
-                            <input type="number" placeholder="Medium" class="form-control" id="machineMediumUpdate">
+                            <input type="number" style="text-align:center" placeholder="Medium" class="form-control" id="machineMediumUpdate">
                             <span  style="color:red;" class="message_error text-red block machineMediumUpdate_error"></span>
                         </div>
                         <div class="col-md-3">
-                            <input type="number" placeholder="Large" class="form-control" id="machineLargeUpdate">
+                            <input type="number" style="text-align:center" placeholder="Large" class="form-control" id="machineLargeUpdate">
                             <span  style="color:red;" class="message_error text-red block machineLargeUpdate_error"></span>
                         </div>
                     </div>

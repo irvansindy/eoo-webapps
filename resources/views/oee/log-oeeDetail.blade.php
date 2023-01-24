@@ -34,33 +34,37 @@
                         <div class="tab-content" id="custom-tabs-four-tabContent">
                             <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
                                 <div class="container">
-                                    <div class="row mt-4">
+                                    <div class="form-group row mt-4">
                                         <div class="col-md-3 mt-2">
-                                            <label for=""> Date</label>
+                                            <label for=""> Tanggal</label>
                                         </div>
                                         <div class="col-md-3">
                                             <input type="date" class="form-control" id="logOeeDetailDate">
                                         </div>
                                         <div class="col-md-2 offset-1 mt-2">
-                                            <label for=""> Time</label>
+                                            <label for=""> Waktu</label>
                                         </div>
                                         <div class="col-md-3">
                                             <input type="time" class="form-control" id="logOeeTime">
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="form-group row">
                                         <div class="col-md-3 mt-2">
-                                            <label for="">Nama Product</label>
+                                            <label for="">Nama Produk</label>
                                         </div>
-                                        <div class="col-md-3">
-                                            
+                                        <div class="col-md-6">
                                             <input type="text" class="form-control" id="logProductName">
                                         </div>
-                                        <div class="col-md-2 offset-1 mt-2">
-                                            <label for="">Berat</label>
+                                    </div>
+                                    <div class="form-group row ">
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">Berat Standar</label>
                                         </div>
-                                        <div class="col-md-3">
-                                            <input type="text" class="form-control" id="logProductWeight">
+                                        <div class="col-md-2">
+                                            <input type="number" style="text-align: center" class="form-control" id="logProductWeight">
+                                        </div>
+                                        <div class="col-sm-1 mt-2">
+                                            <label for="">Kg</label>
                                         </div>
                                     </div>
                                     <div class="row mt-2">
@@ -108,14 +112,14 @@
                                             <label for="">SCREW SPEED (nS1)(rpm)</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logScrewSpeed">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logScrewSpeed">
                                         </div>
 
                                         <div class="col-md-3 mt-2">
                                             <label for="">DOSING SPEED</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logDosingSpeed">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logDosingSpeed">
                                         </div>
                                     </div>
                                     <div class="row mt-2">
@@ -123,14 +127,14 @@
                                             <label for="">MAIN DRIVE (MS1)(%)</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logMainDrive">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logMainDrive">
                                         </div>
 
                                         <div class="col-md-3 mt-2">
                                             <label for="">VACUM CYLINDER (BAR)</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logVacumCylinder">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logVacumCylinder">
                                         </div>
                                     </div>
                                     <div class="row mt-2">
@@ -138,14 +142,14 @@
                                             <label for="">MELT TEMPERATUR (ºC)</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logMeltTemp">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logMeltTemp">
                                         </div>
 
                                         <div class="col-md-3 mt-2">
                                             <label for="">MELT PRESSURE (pM1)(BAR)</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logMeltPress">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logMeltPress">
                                         </div>
                                     </div>
                                     <div class="row mt-2">
@@ -153,14 +157,14 @@
                                             <label for="">VACUM TANK (bar)</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logVacumTank">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logVacumTank">
                                         </div>
 
                                         <div class="col-md-3 mt-2">
                                             <label for="">HAUL OFF SPEED (M/min)</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logHaulOffSpeed">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logHaulOffSpeed">
                                         </div>
                                     </div>
                                     <div class="row mt-2">
@@ -168,14 +172,14 @@
                                             <label for="">WATER TEMP. VACUM TANK (°C)</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logWaterTemp">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logWaterTemp">
                                         </div>
 
                                         <div class="col-md-3 mt-2">
                                             <label for="">WATER PRESSURE (V. TANK )</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text"class="form-control" id="logWaterPress">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logWaterPress">
                                         </div>
                                     </div>
                                 </div>

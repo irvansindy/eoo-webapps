@@ -24,8 +24,8 @@ class StoreProductDiameterRequest extends FormRequest
     public function rules()
     {
         return [
-            'productDiameter' => 'required|integer',
-            'productDiameterUnit' => 'required|in:inch,milimeter'
+            'productDiameter' => 'required|between:0,99.99',
+            'productDiameterUnit' => 'required|in:inchi,milimeter'
         ];
     }
 }

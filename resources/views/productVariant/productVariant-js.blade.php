@@ -91,7 +91,7 @@
                 for(i = 0; i < response.data.length; i++ )
                 {
                     data += `<tr style="text-align: center;">
-                                <td style="width:25%;text-align:center;">${response.data[i]['productVariant']==null?'':response.data[i]['productVariant']}</td>
+                                <td style="width:25%;text-align:left;">${response.data[i]['productVariant']==null?'':response.data[i]['productVariant']}</td>
                                 <td style="width:25%;text-align:center">
                                         <button title="Detail" class="editProductVariant btn btn-primary rounded"data-id="${response.data[i]['id']}" data-toggle="modal" data-target="#editProductVariant">
                                             <i class="fas fa-solid fa-eye"></i>

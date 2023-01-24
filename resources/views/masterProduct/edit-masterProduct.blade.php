@@ -144,6 +144,7 @@
                             <select class="form-control select2" style="width: 100%" name="productSocketIdUpdate" id="productSocketIdUpdate"></select>
                             <input type="hidden" class="form-control" id="productSocketUpdate">
                             <span  style="color:red;" class="message_error text-red block productSocketIdUpdate_error"></span>
+                        </div>
                     </div>
                 </div>
             </div>

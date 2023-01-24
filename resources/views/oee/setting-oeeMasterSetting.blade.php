@@ -22,16 +22,16 @@
                         <div class="container">
                             <div class="form-group row">
                                 <div class="col-md-3 mt-2">
-                                   <label for="">Machine Name</label>
+                                   <label for="">Extruder</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control" readonly  disabled id="settingMachineName">
+                                    <input type="text"  style="text-align: center" class="form-control" readonly  disabled id="settingMachineName">
                                 </div>
                                 <div class="col-md-3 mt-2">
                                     <label for="">Machine Number</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control" readonly disabled id="settingMachineNumber">
+                                    <input type="text"  style="text-align: center" class="form-control" readonly disabled id="settingMachineNumber">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -39,14 +39,14 @@
                                     <label for="">Shift</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text" id="settingShiftMaster" readonly disabled class="form-control">
+                                    <input type="text" style="text-align: center" id="settingShiftMaster" readonly disabled class="form-control">
                                 </div>
                                 <div class="col-md-3 mt-2">
                                    <label for="">Machine Date</label>
                                 </div>
                                 <div class="col-md-3">
                                     
-                                    <input type="date" readonly disabled class="form-control" id="settingMachineDate">
+                                    <input type="date"  style="text-align: center" readonly disabled class="form-control" id="settingMachineDate">
                                 </div>
                             </div>
                             <input type="hidden" id="settingMasterId">
@@ -66,7 +66,7 @@
 
                                 {{-- SUmmary Product --}}
                                 <div class="card card-dark" id="summaryProduct">
-                                    <div class="card-header bg-maroon">
+                                    <div class="card-header bg-info">
                                         <div class="card-title text-white">Summary Product</div>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">

@@ -1,7 +1,7 @@
 <div class="modal fade" id="addSocketModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header bg-maroon">
                 <h4 class="modal-title">Add Socket</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

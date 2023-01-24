@@ -21,9 +21,9 @@
                 </div>
                     <div class="form-group row">
                         <div class="col-md-2 mt-2">
-                            <label for="">Product</label>
+                            <label for="">Nama Produk</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <select name="selectProductUpdate" id="selectProductUpdate" class="select2" style="width: 100%"></select>
                             <input type="hidden" class="form-control" id="oeeDetailIdUpdate">
                             <input type="hidden" class="form-control" id="oeeDateUpdate">
@@ -31,14 +31,16 @@
                             <input type="hidden" class="form-control" id="productIdUpdate">
                             <span  style="color:red;" class="message_error text-red block productIdUpdate_error"></span>
                         </div>
+                    </div>
+                    <div class="form-group row">
                         <div class="col-md-2 mt-2">
-                            <label for="">Weight / PCS</label>
+                            <label for="">Berat Standar</label>
                         </div>
                         <div class="col-sm-3 mt-1">
                             <input type="text" class="form-control" id="productWeightUpdate" readonly>
                         </div>
                         <div class="col-sm-1 mt-2">
-                            <label for="">Kg/Btg</label>
+                            <label for="">Kg</label>
                         </div>
                     </div>
                   

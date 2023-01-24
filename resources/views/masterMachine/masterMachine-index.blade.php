@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
           <div class="col-md-10">
             <div class="card card-dark">
-                <div class="card-header bg-orange">
+                <div class="card-header bg-maroon">
                     <div class="card-title text-white">List Mesin</div>
                     <div class="card-tools">
                         <button id="addMachine" type="button" class="btn btn-success" data-toggle="modal" data-target="#addMasterMachine" style="float:right">

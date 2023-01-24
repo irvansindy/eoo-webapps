@@ -111,7 +111,7 @@
                 for(i = 0; i < response.data.length; i++ )
                 {
                     data += `<tr style="text-align: center;">
-                                <td style="width:25%;text-align:center;">${response.data[i]['subClassName']==null?'':response.data[i]['subClassName']}</td>
+                                <td style="width:25%;text-align:left;">${response.data[i]['subClassName']==null?'':response.data[i]['subClassName']}</td>
                                 <td style="width:25%;text-align:center;">${response.data[i]['productClassName']==null?'':response.data[i]['productClassName']}</td>
                                 <td style="width:25%;text-align:center">
                                         <button title="Detail" class="editSubClass btn btn-primary rounded"data-id="${response.data[i]['id']}" data-toggle="modal" data-target="#editSubClass">
