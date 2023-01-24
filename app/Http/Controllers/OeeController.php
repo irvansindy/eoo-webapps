@@ -12,6 +12,7 @@ use App\Models\OeeDefectLog;
 use App\Models\OeeDeffectLog;
 use App\Models\oeeDetail;
 use App\Models\OeeDownTime;
+use App\Models\OeeDownTimeLog;
 use App\Models\oeeMaster;
 use App\Models\OeeShiftLog;
 use App\Models\Product;
@@ -447,6 +448,8 @@ class OeeController extends Controller
             $deffect = DB::table('oee_defect_logs')->join('oee_defects','oee_defects.id','=','oee_defect_logs.defectId')
                                 ->where('oeeMasterId', $request->id)->get();
         }
+        $downTimeValidation = OeeDownTimeLog::where('oeeMasterId',$request->id)->count();
+
         return response()->json([
             'data'=>$data,
             'downTime'=>$downTime,
@@ -570,6 +573,27 @@ class OeeController extends Controller
              'OEE Master successfully updated'
          );        
        
+    }
+    public function updateoeeLock(Request $request)
+    {
+        try {
+            $id =  $request->id;
+        $post =[
+            'lockMaster'=>1
+        ];
+         oeeMaster::find($id)->update($post);
+            return ResponseFormatter::success(
+                $post,
+                'OEE master successfully added'
+            );            
+        } catch (\Throwable $th) {
+            return ResponseFormatter::error(
+                $th,
+                'OEE master failed to add',
+                500
+            );
+        }
+      
     }
 
 }

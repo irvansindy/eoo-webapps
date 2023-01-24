@@ -168,6 +168,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('getStatusLength', [OeeController::class, 'getStatusLength'])->name('getStatusLength');
     Route::get('getMasterShift', [OeeController::class, 'getMasterShift'])->name('getMasterShift');
     Route::post('updateOeeMaster', [OeeController::class, 'updateOeeMaster'])->name('updateOeeMaster');
+    Route::post('updateoeeLock', [OeeController::class, 'updateoeeLock'])->name('updateoeeLock');
 
     // End OEE
     // Report OEE

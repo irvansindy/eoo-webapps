@@ -621,9 +621,26 @@
                 }
             });
     })
-    $(document).on('change','.settingGoodPipePcs', function(e){
+    $(document).on('click','.lockMasterModal', function(e){
         e.preventDefault();
-
+        var id = $(this).data('id')
+        var data ={
+            'id':id
+        }
+        Swal.fire({
+        title: 'Apakah anda yakin untuk mengunci transaksi?',
+        text: "Anda tidak akan bisa menambah progress kembali",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya '
+        }).then((result) => {
+        if (result.isConfirmed) {
+            store('updateoeeLock',data,'oee')
+         
+        }
+        })
     })
     $(document).on("click", ".tabView", function(e){
         e.preventDefault();
@@ -773,12 +790,6 @@
                                             </button>   
                                 `;
                             }
-                           
-                            
-                                           
-                           
-
-                            
                                 row+= `<tr class="table-light">
                                             <td style="text-align:center">${i + 1}</td>
                                             <td style="text-align:center">${response.data[i].machineNumber}</td>
