@@ -38,8 +38,8 @@
         /* Create four equal columns that floats next to each other */
         .column {
         float: left;
-        width: 20%;
-        padding: 10px;
+        width: 25%;
+        /* padding: 10px; */
         height: auto; /* Should be removed. Only for demonstration */
         }
 
@@ -282,7 +282,7 @@
         </div>
         {{-- end data die heating --}}
         <br>
-        {{-- data detail shift 1 --}}
+        {{-- data detail --}}
         <table class="table-report">
             <tr>
                 <td>#</td>
@@ -339,7 +339,7 @@
                 <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->waterPressure  }}</td>
             </tr>
         </table>
-        {{-- end data detail shift 1 --}}
+        {{-- end data detail --}}
         <br>
         {{-- data down time --}}
         <table class="table-report">
@@ -350,56 +350,47 @@
                 <td>Shift 3</td>
             </tr>
             <tr>
-                <td>Screw Speed</td>
-                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->screwSpeed  }}</td>
-                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->screwSpeed }}</td>
-                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->screwSpeed  }}</td>
+                <td>IDLE (No Order)</td>
+                <td>{{ $oeeDownTimeShift1[0]->idle == null ? 0 : $oeeDownTimeShift1[0]->idle }}</td>
+                <td>{{ $oeeDownTimeShift2[0]->idle == null ? 0 : $oeeDownTimeShift2[0]->idle }}</td>
+                <td>{{ $oeeDownTimeShift3[0]->idle == null ? 0 : $oeeDownTimeShift3[0]->idle }}</td>
+                
             </tr>
             <tr>
-                <td>Dosing Speed</td>
-                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->dosingSpeed  }}</td>
-                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->dosingSpeed }}</td>
-                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->dosingSpeed  }}</td>
+                <td>Setup Dies</td>
+                <td>{{ $oeeDownTimeShift1[0]->setupDies == null ? 0 : $oeeDownTimeShift1[0]->setupDies }}</td>
+                <td>{{ $oeeDownTimeShift2[0]->setupDies == null ? 0 : $oeeDownTimeShift2[0]->setupDies }}</td>
+                <td>{{ $oeeDownTimeShift3[0]->setupDies == null ? 0 : $oeeDownTimeShift3[0]->setupDies }}</td>
             </tr>
             <tr>
-                <td>Main Drive</td>
-                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->mainDrive  }}</td>
-                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->mainDrive }}</td>
-                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->mainDrive  }}</td>
+                <td>Power Outage</td>
+                <td>{{ $oeeDownTimeShift1[0]->setupRoutage == null ? 0 : $oeeDownTimeShift1[0]->setupRoutage }}</td>
+                <td>{{ $oeeDownTimeShift2[0]->setupRoutage == null ? 0 : $oeeDownTimeShift2[0]->setupRoutage }}</td>
+                <td>{{ $oeeDownTimeShift3[0]->setupRoutage == null ? 0 : $oeeDownTimeShift3[0]->setupRoutage }}</td>
             </tr>
             <tr>
-                <td>Vacum Cylinder</td>
-                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->vacumCylinder  }}</td>
-                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->vacumCylinder }}</td>
-                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->vacumCylinder  }}</td>
+                <td>No Material</td>
+                <td>{{ $oeeDownTimeShift1[0]->noMaterial == null ? 0 : $oeeDownTimeShift1[0]->noMaterial }}</td>
+                <td>{{ $oeeDownTimeShift2[0]->noMaterial == null ? 0 : $oeeDownTimeShift2[0]->noMaterial }}</td>
+                <td>{{ $oeeDownTimeShift3[0]->noMaterial == null ? 0 : $oeeDownTimeShift3[0]->noMaterial }}</td>
             </tr>
             <tr>
-                <td>Melt Pressure</td>
-                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->meltPressure  }}</td>
-                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->meltPressure }}</td>
-                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->meltPressure  }}</td>
+                <td>Waiting For Spareparts</td>
+                <td>{{ $oeeDownTimeShift1[0]->waitingForSparepart == null ? 0 : $oeeDownTimeShift1[0]->waitingForSparepart }}</td>
+                <td>{{ $oeeDownTimeShift2[0]->waitingForSparepart == null ? 0 : $oeeDownTimeShift2[0]->waitingForSparepart }}</td>
+                <td>{{ $oeeDownTimeShift3[0]->waitingForSparepart == null ? 0 : $oeeDownTimeShift3[0]->waitingForSparepart }}</td>
             </tr>
             <tr>
-                <td>Vacum Tank</td>
-                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->vacumTank  }}</td>
-                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->vacumTank }}</td>
-                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->vacumTank  }}</td>
-            </tr>
-            <tr>
-                <td>Water Temp Vacum Tank</td>
-                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->waterTempVacumTank  }}</td>
-                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->waterTempVacumTank }}</td>
-                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->waterTempVacumTank  }}</td>
-            </tr>
-            <tr>
-                <td>Water Pressure</td>
-                <td>{{ $oeeDetailShift1 == null ? '0' : $oeeDetailShift1->waterPressure  }}</td>
-                <td>{{ $oeeDetailShift2 == null ? '0' : $oeeDetailShift2->waterPressure }}</td>
-                <td>{{ $oeeDetailShift3 == null ? '0' : $oeeDetailShift3->waterPressure  }}</td>
+                <td>Total</td>
+                <td>{{ $oeeDownTimeShift1[0]->totalDownTime == null ? 0 : $oeeDownTimeShift1[0]->totalDownTime }}</td>
+                <td>{{ $oeeDownTimeShift2[0]->totalDownTime == null ? 0 : $oeeDownTimeShift2[0]->totalDownTime }}</td>
+                <td>{{ $oeeDownTimeShift3[0]->totalDownTime == null ? 0 : $oeeDownTimeShift3[0]->totalDownTime }}</td>
             </tr>
         </table>
         {{-- end data down time --}}
-
+        <br>
+        {{-- data defect --}}
+        {{-- end data defect --}}
     </div>
 </body>
 </html>

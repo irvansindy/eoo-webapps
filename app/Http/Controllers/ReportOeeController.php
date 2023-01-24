@@ -167,8 +167,6 @@ class ReportOeeController extends Controller
         ->where('oee_details.status', 1)
         ->where('oee_details.tempExtruderId',3)
         ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $oeeDownTime = OeeDownTime::where('oeeMasterId', $oeeMaster->id)->get();
 
         $oeeDetailShift1 = oeeDetail::with([
             'product',
@@ -208,6 +206,44 @@ class ReportOeeController extends Controller
         ->where('oee_details.status', 1)
         ->first();
 
+        $oeeDownTimeShift1 = OeeDownTime::with('oeeMaster')
+        ->where('oeeMasterId', $oeeMaster->id)
+        ->whereHas('oeeMaster', function($query) {
+            $query->where('shift', 1);
+        })->get([
+            'oee_down_times.idle',
+            'oee_down_times.setupRoutage',
+            'oee_down_times.waitingForSparepart',
+            'oee_down_times.setupDies',
+            'oee_down_times.noMaterial',
+            DB::raw("SUM(oee_down_times.idle + oee_down_times.setupRoutage + oee_down_times.waitingForSparepart + oee_down_times.setupDies + oee_down_times.noMaterial) as totalDownTime")
+        ]);
+
+        $oeeDownTimeShift2 = OeeDownTime::with('oeeMaster')
+        ->where('oeeMasterId', $oeeMaster->id)
+        ->whereHas('oeeMaster', function($query) {
+            $query->where('shift', 2);
+        })->get([
+            'oee_down_times.idle',
+            'oee_down_times.setupRoutage',
+            'oee_down_times.waitingForSparepart',
+            'oee_down_times.setupDies',
+            'oee_down_times.noMaterial',
+            DB::raw("SUM(oee_down_times.idle + oee_down_times.setupRoutage + oee_down_times.waitingForSparepart + oee_down_times.setupDies + oee_down_times.noMaterial) as totalDownTime")
+        ]);
+        $oeeDownTimeShift3 = OeeDownTime::with('oeeMaster')
+        ->where('oeeMasterId', $oeeMaster->id)
+        ->whereHas('oeeMaster', function($query) {
+            $query->where('shift', 3);
+        })->get([
+            'oee_down_times.idle',
+            'oee_down_times.setupRoutage',
+            'oee_down_times.waitingForSparepart',
+            'oee_down_times.setupDies',
+            'oee_down_times.noMaterial',
+            DB::raw("SUM(oee_down_times.idle + oee_down_times.setupRoutage + oee_down_times.waitingForSparepart + oee_down_times.setupDies + oee_down_times.noMaterial) as totalDownTime")
+        ]);
+
         // for table style
         $document->simpleTables = true;
 
@@ -229,7 +265,9 @@ class ReportOeeController extends Controller
             'adapterZoneShift1' => $adapterZoneShift1,
             'adapterZoneShift2' => $adapterZoneShift2,
             'adapterZoneShift3' => $adapterZoneShift3,
-            'oeeDownTime' => $oeeDownTime,
+            'oeeDownTimeShift1' => $oeeDownTimeShift1,
+            'oeeDownTimeShift2' => $oeeDownTimeShift2,
+            'oeeDownTimeShift3' => $oeeDownTimeShift3,
             
         ]));
         
@@ -392,15 +430,43 @@ class ReportOeeController extends Controller
         ->whereHas('oeeMaster', function($query) {
             $query->where('shift', 1);
         })
-        // ->whereHas('oeeMaster', function($query) {
-        //     $query->where('oeeDetail', 1);
-        // })
-        ->get();
+        ->get([
+            'oee_down_times.idle',
+            'oee_down_times.setupRoutage',
+            'oee_down_times.waitingForSparepart',
+            'oee_down_times.setupDies',
+            'oee_down_times.noMaterial',
+            DB::raw("SUM(oee_down_times.idle + oee_down_times.setupRoutage + oee_down_times.waitingForSparepart + oee_down_times.setupDies + oee_down_times.noMaterial) as totalDownTime")
+        ]);
 
+        $oeeDownTimeShift2 = OeeDownTime::with('oeeMaster')
+        ->where('oeeMasterId', $oeeMaster->id)
+        ->whereHas('oeeMaster', function($query) {
+            $query->where('shift', 2);
+        })
+        ->get([
+            'oee_down_times.idle',
+            'oee_down_times.setupRoutage',
+            'oee_down_times.waitingForSparepart',
+            'oee_down_times.setupDies',
+            'oee_down_times.noMaterial',
+            DB::raw("SUM(oee_down_times.idle + oee_down_times.setupRoutage + oee_down_times.waitingForSparepart + oee_down_times.setupDies + oee_down_times.noMaterial) as totalDownTime")
+        ]);
+
+        $oeeDownTimeShift3 = OeeDownTime::with('oeeMaster')
+        ->where('oeeMasterId', $oeeMaster->id)
+        ->whereHas('oeeMaster', function($query) {
+            $query->where('shift', 3);
+        })
+        ->get();
+        if (count($oeeDownTimeShift2) > 0) {
+            dd($oeeDownTimeShift2);
+        } else {
+            dd('gg');
+        }
         dd([
             // $oeeDetailShift2->screwSpeed
-            // $oeeDownTimeShift1,
-            $oeeDownTimeShift1[0]->oeeMaster->oeeDetail->shift
+            // $oeeDownTimeShift1[0]->oeeMaster->oeeDetail->shift
         ]);
 
         $id = $request->id;
