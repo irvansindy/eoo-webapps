@@ -52,7 +52,7 @@
                                         <div class="col-md-3 mt-2">
                                             <label for="">Nama Produk</label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-7">
                                             <input type="text" class="form-control" id="logProductName">
                                         </div>
                                     </div>

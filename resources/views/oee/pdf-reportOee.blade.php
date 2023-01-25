@@ -65,7 +65,7 @@
         <table class="table-report">
             <tr>
                 <td>Date : {{ $oeeMaster['oeeDetail']->date }}</td>
-                <td>Product : {{ $oeeMaster['oeeDetail']['product']->productName.' - '.$oeeMaster['oeeDetail']['product']['productType']->productType. ' '.$oeeMaster['oeeDetail']['product']['productDiameter']->productDiameter.' '.$oeeMaster['oeeDetail']['product']['productDiameter']->productDiameterUnit. ' x '. $oeeMaster['oeeDetail']['product']['productLength']->productLength.' '.$oeeMaster['oeeDetail']['product']['productLength']->productLengthUnit}}</td>
+                {{-- <td>Product : {{ $oeeMaster['oeeDetail']['product']->productName.' - '.$oeeMaster['oeeDetail']['product']['productType']->productType. ' '.$oeeMaster['oeeDetail']['product']['productDiameter']->productDiameter.' '.$oeeMaster['oeeDetail']['product']['productDiameter']->productDiameterUnit. ' x '. $oeeMaster['oeeDetail']['product']['productLength']->productLength.' '.$oeeMaster['oeeDetail']['product']['productLength']->productLengthUnit}}</td> --}}
             </tr>
             <tr>
                 <td>Machine No : {{ $oeeMaster['machine']->machineNumber }}</td>

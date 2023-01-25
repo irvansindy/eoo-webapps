@@ -152,59 +152,76 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                  <div class="container">
-                                    <div class="form-group row">
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">IDLE (NO ORDER)</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="number" style="text-align:center" class="form-control" id="idle">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
-                                        </div>
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">Setup Dies</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="number" style="text-align:center" class="form-control" id="setupDies">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
+                                    <div class="container">
+                                        <div class="card card-dark" id="summaryDownTime">
+                                            <div class="card-header bg-info">
+                                                <div class="card-title text-white">Summary Down Time</div>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="container">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-3 mt-2">
+                                                            <label for="">IDLE (NO ORDER)</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <input type="number" readOnly style="text-align:center" class="form-control" id="idleSummary">
+                                                        </div>
+                                                        <div class="col-md-1 mt-2">
+                                                            <label for="">Jam</label>
+                                                        </div>
+                                                        <div class="col-md-3 mt-2">
+                                                            <label for="">Setup Dies</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <input type="number" readOnly style="text-align:center" class="form-control" id="setupDiesSummary">
+                                                        </div>
+                                                        <div class="col-md-1 mt-2">
+                                                            <label for="">Jam</label>
+                                                        </div>
+                                                    </div>
+                                                  
+                                                    <div class="form-group row">
+                                                        <div class="col-md-3 mt-2">
+                                                            <label for="">Setup Routage</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <input type="number" readOnly style="text-align:center" class="form-control" id="setupRoutageSummary">
+                                                        </div>
+                                                        <div class="col-md-1 mt-2">
+                                                            <label for="">Jam</label>
+                                                        </div>
+                                                        <div class="col-md-3 mt-2">
+                                                            <label for="">No Material</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <input type="number" readOnly style="text-align:center" class="form-control" id="noMaterialSummary">
+                                                        </div>
+                                                        <div class="col-md-1 mt-2">
+                                                            <label for="">Jam</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-3 mt-2">
+                                                            <label for="">Waiting For Sparepart</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <input type="number" readOnly style="text-align:center" class="form-control" id="waitingForSparepartSummary">
+                                                        </div>
+                                                        <div class="col-md-1 mt-2">
+                                                            <label for="">Jam</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                  <div class="container" id="settingDownTimeContainer">
                                   
-                                    <div class="form-group row">
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">Setup Routage</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="number" style="text-align:center" class="form-control" id="setupRoutage">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
-                                        </div>
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">No Material</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="number" style="text-align:center" class="form-control" id="noMaterial">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">Waiting For Sparepart</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="number" style="text-align:center" class="form-control" id="waitingForSparepart">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
-                                        </div>
-                                    </div>
                                   </div>
                             </div>
                         </div>   

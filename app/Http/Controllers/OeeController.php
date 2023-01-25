@@ -439,7 +439,22 @@ class OeeController extends Controller
             // ->where( DB::raw('DATE(oee_details.created_at)'), $request->date)
             ->groupBy('oee_details.productId')->get(); 
         }
-        $downTime = OeeDownTime::where('oeeMasterId', $request->id)->first();
+        $downTimeValidation = OeeDownTimeLog::where('oeeMasterId',$request->id)->count();
+        if($downTimeValidation == 0){
+            $downTime = DB::table('oee_details')
+                            ->leftJoin('oee_down_time_logs','oee_down_time_logs.oeeMasterId','=','oee_details.oeeMasterId')
+                            ->leftJoin('products','products.id','=','oee_details.productId')
+                            ->select('oee_down_time_logs.*','oee_details.productId','products.productName')
+                            ->where('oee_details.oeeMasterId',$request->id)
+                            ->groupBy('oee_details.productId')->get();
+        }else{
+            $downTime = DB::table('oee_down_time_logs')
+                        ->join('products','products.id','=','oee_down_time_logs.productId')
+                        ->select('oee_down_time_logs.*','products.productName')
+                        ->where('oee_down_time_logs.oeeMasterId', $request->id)
+                        ->get();
+        }
+        $downTimeMaster = OeeDownTime::where('oeeMasterId', $request->id)->first();
         $validasiDefect = OeeDefectLog::where('oeeMasterId', $request->id)->count();
         $oeeMaster = OeeMaster::find($request->id);
         if($validasiDefect == 0){
@@ -448,11 +463,12 @@ class OeeController extends Controller
             $deffect = DB::table('oee_defect_logs')->join('oee_defects','oee_defects.id','=','oee_defect_logs.defectId')
                                 ->where('oeeMasterId', $request->id)->get();
         }
-        $downTimeValidation = OeeDownTimeLog::where('oeeMasterId',$request->id)->count();
+     
 
         return response()->json([
             'data'=>$data,
             'downTime'=>$downTime,
+            'downTimeMaster'=>$downTimeMaster,
             'deffect'=>$deffect,
             'oeeMaster'=>$oeeMaster,
         ]);        
@@ -469,6 +485,13 @@ class OeeController extends Controller
         $scrapStoping=0;
         $goodPipeStandartKg=0;
         $goodPipeStandartPcs=0;
+
+        $idle =0;
+        $setupDies =0;
+        $setupRoutage =0;
+        $noMaterial =0;
+        $waitingForSparepart =0;
+        $arrayDownTime=[];
         $machineId = oeeMaster::find($request->id);
         $defectArray=[];
         foreach($request->arrSettingHeader as $row){
@@ -508,6 +531,31 @@ class OeeController extends Controller
             ];
             array_push($defectArray,$postDefect);
         }
+        foreach($request->arrSettingDownTime as $downTime){
+            $idle += $downTime[1];
+            $setupDies +=$downTime[2];
+            $setupRoutage += $downTime[3];
+            $noMaterial += $downTime[4];
+            $waitingForSparepart += $downTime[5];
+            $post =[
+                'oeeMasterId'=>$request->id,
+                'productId'=>$downTime[0],
+                'idle'=>$downTime[1],
+                'setupDies'=>$downTime[2],
+                'setupRoutage'=>$downTime[3],
+                'noMaterial'=>$downTime[4],
+                'waitingForSparepart'=>$downTime[5]
+            ];
+            array_push($arrayDownTime, $post);
+        }
+        $postDownTime =[
+            'idle'=>$idle,
+            'oeeMasterId'=>$request->id,
+            'setupDies'=>$setupDies,
+            'setupRoutage'=>$setupRoutage,
+            'noMaterial'=>$noMaterial,
+            'waitingForSparepart'=>$waitingForSparepart  
+        ];
         $postHeader = [
             'goodProductActualKg'=>$goodPipeKg,
             'goodProductActualPcs'=>$goodPipePcs,
@@ -519,15 +567,8 @@ class OeeController extends Controller
             'goodPipeStandartPcs'=>$goodPipeStandartPcs,
             'remark'=>$request->settingRemark,
         ];
-        $postDownTime =[
-            'idle'=>$request->idle,
-            'setupRoutage'=>$request->setupRoutage,
-            'waitingForSparepart'=>$request->waitingForSparepart,
-            'setupDies'=>$request->setupDies,
-            'noMaterial'=>$request->noMaterial,
-            'oeeMasterId'=>$request->id
-        ];
-        DB::transaction(function() use($postHeader, $postShiftLog,$request,$postDownTime,$defectArray) {
+      
+        DB::transaction(function() use($postHeader, $postShiftLog,$request,$postDownTime,$defectArray,$arrayDownTime) {
             $update = oeeMaster::where('id',$request->id)
             ->where('shift',$request->shift)
             ->where( DB::raw('DATE(created_at)'), $request->date)->update($postHeader);
@@ -548,12 +589,21 @@ class OeeController extends Controller
                         OeeShiftLog::insert($postShiftLog);
                     }
                 }
+                $validasiDownTimeArray = OeeDownTimeLog::where('oeeMasterId', $request->id)->count();
+                if($validasiDownTimeArray == 0){
+                    OeeDownTimeLog::insert($arrayDownTime);
+                }else{
+                    OeeDownTimeLog::where('oeeMasterId', $request->id)->delete;
+                    OeeDownTimeLog::insert($arrayDownTime);
+                }
                 $validasiDownTime = OeeDownTime::where('oeeMasterId', $request->id)->count();
                 if($validasiDownTime == 0){
                     OeeDownTime::create($postDownTime);
+
                 }else{
-                    OeeDownTime::where('oeeMasterId', $request->id)->update($postDownTime);
+                    OeeDownTime::where('oeeMasterId',$request->id)->update($postDownTime);
                 }
+
 
                 $validasiDefect = OeeDefectLog ::where('oeeMasterId',$request->id)->count();
               

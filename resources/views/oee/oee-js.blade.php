@@ -98,7 +98,18 @@
         var settingDefectValue =document.getElementsByClassName("settingDefectValue");
         var settingDefectId =document.getElementsByClassName("settingDefectId");
         
+        // Down Time
+        var downTimeProductId =document.getElementsByClassName("downTimeProductId");
+        var idle =document.getElementsByClassName("idle");
+        var setupDies =document.getElementsByClassName("setupDies");
+        var setupRoutage =document.getElementsByClassName("setupRoutage");
+        var noMaterial =document.getElementsByClassName("noMaterial");
+        var waitingForSparepart =document.getElementsByClassName("waitingForSparepart");
+     
+
+        
         var arrSettingHeader = []
+        var arrSettingDownTime = []
         var arrSettingDefect = []
     
         for(i = 0; i < settingGoodPipeKg.length; i++ ){
@@ -136,19 +147,39 @@
             ]
             arrSettingDefect.push(postDefect)
         }
+           // Down Time
+        for(k= 0; k < downTimeProductId.length; k++){
+            var  arr_downTimeProductId = downTimeProductId[k].value; 
+            var  arr_idle = idle[k].value; 
+            var  arr_setupDies = setupDies[k].value; 
+            var  arr_setupRoutage = setupRoutage[k].value; 
+            var  arr_noMaterial = noMaterial[k].value; 
+            var  arr_waitingForSparepart = waitingForSparepart[k].value; 
+
+            var postDownTime =[
+                arr_downTimeProductId,
+                arr_idle,
+                arr_setupDies,
+                arr_setupRoutage,
+                arr_noMaterial,
+                arr_waitingForSparepart,
+            ];
+
+            arrSettingDownTime.push(postDownTime)
+            // var filterSettingDownTime = arrSettingDownTime.filter(function (el) {
+            //     return el != '';
+            // });
+        }
         var data ={
             'id':$('#settingMasterId').val(),
             'date':$('#settingMachineDate').val(),
             'shift':$('#settingShiftMaster').val(),
             'settingRemark':$('#settingRemark').val(),
-            'idle':$('#idle').val(),
-            'setupRoutage':$('#setupRoutage').val(),
-            'waitingForSparepart':$('#waitingForSparepart').val(),
-            'setupDies':$('#setupDies').val(),
-            'noMaterial':$('#noMaterial').val(),
             'arrSettingHeader':arrSettingHeader,
-            'arrSettingDefect':arrSettingDefect
+            'arrSettingDefect':arrSettingDefect,
+            'arrSettingDownTime':arrSettingDownTime
         }
+       
        store('updateOeeMaster',data,'oee');
     })
     $('#selectProductUpdate').on('change', function(){
@@ -393,8 +424,10 @@
     })
     $(document).on('click','.oeeMasterSetting', function(e){
         $('#summaryProduct').hide()
+        $('#summaryDownTime').hide()
         $('#settingProductList').empty()
         $('#settingDeffectContainer').empty()
+        $('#settingDownTimeContainer').empty()
         e.preventDefault()
         var date = $(this).data('date')
         var machine_number = $(this).data('machine_number')
@@ -429,21 +462,10 @@
                     var htmlGoodPipe =''
                     var htmlProductList =''
                     var htmlDeffect =''
+                    var htmlDownTIme =''
            
                     if(response){
-                        if(response.downTime ==null){
-                            $('#idle').val('0');
-                            $('#setupRoutage').val('0');
-                            $('#waitingForSparepart').val('0');
-                            $('#setupDies').val('0');
-                            $('#noMaterial').val('0');
-                        }else{
-                            $('#idle').val(response.downTime.idle == null ?'0':response.downTime.idle);
-                            $('#setupRoutage').val(response.downTime.setupRoutage == null ?'0':response.downTime.setupRoutage);
-                            $('#waitingForSparepart').val(response.downTime.waitingForSparepart == null ?'0':response.downTime.waitingForSparepart);
-                            $('#setupDies').val(response.downTime.setupDies == null ?'0':response.downTime.setupDies);
-                            $('#noMaterial').val(response.downTime.noMaterial == null ?'0':response.downTime.noMaterial);
-                        }
+                        
                         for(j=0; j < response.deffect.length ; j++){
                             htmlDeffect +=`<div class="col-sm-2 mt-2">
                                                 <label>${response.deffect[j].defectName}</label>
@@ -459,7 +481,100 @@
                             `;
 
                         }
-                    $('#settingDeffectContainer').html(htmlDeffect);
+                        $('#settingDeffectContainer').html(htmlDeffect);
+                        for(k = 0; k < response.downTime.length; k++){
+                            htmlDownTIme +=`
+                            <div class="card card-dark collapsed-card">
+                            <div class="card-header bg-dark">
+                                <div class="card-title text-white">${response.downTime[k].productName}</div>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="container">
+                                    <div class="form-group row">
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">IDLE (NO ORDER)</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="hidden" style="text-align:center" class="form-control downTimeProductId" value="${response.downTime[k].productId == null ?'':response.downTime[k].productId}" id="idle${k+1}">
+                                            <input type="number" style="text-align:center" class="form-control idle" value="${response.downTime[k].idle == null ?'':response.downTime[k].idle}" id="idle${k+1}">
+                                        </div>
+                                        <div class="col-md-1 mt-2">
+                                            <label for="">Jam</label>
+                                        </div>
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">Setup Dies</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="number" value="${response.downTime[k].setupDies == null ? '': response.downTime[k].setupDies}" style="text-align:center" class="form-control setupDies" id="setupDies">
+                                        </div>
+                                        <div class="col-md-1 mt-2">
+                                            <label for="">Jam</label>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="form-group row">
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">Setup Routage</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="number" value="${response.downTime[k].setupRoutage == null ? '': response.downTime[k].setupRoutage}" style="text-align:center" class="form-control setupRoutage" id="setupRoutage">
+                                        </div>
+                                        <div class="col-md-1 mt-2">
+                                            <label for="">Jam</label>
+                                        </div>
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">No Material</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="number" value="${response.downTime[k].noMaterial == null ?'': response.downTime[k].noMaterial}" style="text-align:center" class="form-control noMaterial" id="noMaterial">
+                                        </div>
+                                        <div class="col-md-1 mt-2">
+                                            <label for="">Jam</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">Waiting For Sparepart</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="number" value="${response.downTime[k].waitingForSparepart == null ? '' : response.downTime[k].waitingForSparepart}" style="text-align:center" class="form-control waitingForSparepart" id="waitingForSparepart">
+                                        </div>
+                                        <div class="col-md-1 mt-2">
+                                            <label for="">Jam</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                  
+                            `;
+                        }
+                        if(response.downTime.length > 1 ){
+                            $('#summaryDownTime').show()
+                        }else{
+                            $('#summaryDownTime').hide()
+                        }
+                        $('#settingDownTimeContainer').html(htmlDownTIme)
+                        
+                       if(response.downTimeMaster){
+                        $('#idleSummary').val(response.downTimeMaster.idle)
+                        $('#setupDiesSummary').val(response.downTimeMaster.setupDies)
+                        $('#setupRoutageSummary').val(response.downTimeMaster.setupRoutage)
+                        $('#noMaterialSummary').val(response.downTimeMaster.noMaterial)
+                        $('#waitingForSparepartSummary').val(response.downTimeMaster.waitingForSparepart)
+                       }else{
+                        $('#idleSummary').val('0')
+                        $('#setupDiesSummary').val('0')
+                        $('#setupRoutageSummary').val('0')
+                        $('#noMaterialSummary').val('0')
+                        $('#waitingForSparepartSummary').val('0')
+                       }
+                        
                     var summaryGoodProductActualKg =0;
                     var summaryGoodProductActualPcs =0;
                     var summaryScrapPipe =0;
@@ -970,6 +1085,7 @@
       // irvan 20 januari 2023
       $('#oeeTable').on('click', '.getReportOee', function(e) {
         let id = $(this).data('machine')
+        let date = $(this).data('date')
         e.preventDefault()
         $.ajax({
             header: {
@@ -980,7 +1096,8 @@
             dataType: 'json',
             async: true,
             data: {
-                'id': id
+                'id': id,
+                'date': date,
             },
             success: (response) => {
                 // console.log(response.data['oeeMaster']['goodProductActualPcs'])
