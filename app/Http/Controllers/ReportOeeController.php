@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\oeeMaster;
 use App\Models\oeeDetail;
 use App\Models\OeeDownTime;
+use App\Models\OeeDefectLog;
 use Carbon\Carbon;
 use App\Helpers\ResponseFormatter;
 use \Mpdf\Mpdf as PDF; 
@@ -44,12 +45,6 @@ class ReportOeeController extends Controller
             'Content-Transfer-Encoding' => 'binary',
             'Accept-Ranges' => 'bytes'
         ];
-
-        $oeeMaster = oeeMaster::with([
-            'oeeDetail',
-            'product',
-            'machine',
-        ])->findOrFail(1);
 
         // content file
         $document->SetDisplayMode('fullpage');
@@ -244,10 +239,57 @@ class ReportOeeController extends Controller
             DB::raw("SUM(oee_down_times.idle + oee_down_times.setupRoutage + oee_down_times.waitingForSparepart + oee_down_times.setupDies + oee_down_times.noMaterial) as totalDownTime")
         ]);
 
+        // oee Defect
+        $oeeDefectLogShift1 = OeeDefectLog::with(['OeeDefect', 'oeeMaster'])
+        ->where('oeeMasterId', $oeeMaster->id)
+        ->whereHas('oeeMaster', function($query) {
+            $query->where('shift', 1);
+        })
+        ->get();
+        
+        $oeeDefectLogShift2 = OeeDefectLog::with(['OeeDefect', 'oeeMaster'])
+        ->where('oeeMasterId', $oeeMaster->id)
+        ->whereHas('oeeMaster', function($query) {
+            $query->where('shift', 2);
+        })
+        ->get();
+        
+        $oeeDefectLogShift3 = OeeDefectLog::with(['OeeDefect', 'oeeMaster'])
+        ->where('oeeMasterId', $oeeMaster->id)
+        ->whereHas('oeeMaster', function($query) {
+            $query->where('shift', 3);
+        })
+        ->get();
+
+        // oee Remark
+        $remarkShift1 = oeeMaster::where([
+            'id' => 1,
+            'shift' => 1
+        ])->get([
+            'remark',
+            'shift'
+        ]);
+
+        $remarkShift2 = oeeMaster::where([
+            'id' => 1,
+            'shift' => 2
+        ])->get([
+            'remark',
+            'shift'
+        ]);
+
+        $remarkShift3 = oeeMaster::where([
+            'id' => 1,
+            'shift' => 3
+        ])->get([
+            'remark',
+            'shift'
+        ]);
+
         // for table style
         $document->simpleTables = true;
 
-        // render to view
+        // parsing to view
         $document->writeHTML(view('oee.pdf-reportOee', [
             'oeeMaster' => $oeeMaster,
             'oeeDetailShift1' => $oeeDetailShift1,
@@ -268,7 +310,12 @@ class ReportOeeController extends Controller
             'oeeDownTimeShift1' => $oeeDownTimeShift1,
             'oeeDownTimeShift2' => $oeeDownTimeShift2,
             'oeeDownTimeShift3' => $oeeDownTimeShift3,
-            
+            'oeeDefectLogShift1' => $oeeDefectLogShift1,
+            'oeeDefectLogShift2' => $oeeDefectLogShift2,
+            'oeeDefectLogShift3' => $oeeDefectLogShift3,
+            'remarkShift1' => $remarkShift1,
+            'remarkShift2' => $remarkShift2,
+            'remarkShift3' => $remarkShift3,
         ]));
         
         // Save PDF on your public storage 
@@ -279,266 +326,163 @@ class ReportOeeController extends Controller
     }
 
     public function fetchReportOee(Request $request) {
+        // init setup timer
+        ini_set('max_execution_time', 3600);
+
+        // set resulf filename pdf
+        $resultNameReportOee = 'Oee-Report.pdf';
+
+        // setup file pdf
+        $document = new PDF([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'margin_header' => '3',
+            'margin_top' => '20',
+            'margin_bottom' => '20',
+            'margin_footer' => '2',
+        ]);
+        // $document->Image('public/logo.png', 0, 0, 210, 140, 'jpg', '', true, false);
+        $imageLogo = '<img src="'.$_SERVER['DOCUMENT_ROOT'].'/logo.png" width="70px"/>';
+        $document->WriteHTML($imageLogo);
+        $document->WriteHTML('<br>');
+        $document->WriteHTML('<br>');
+
+        // Set some header informations for output
+        $header = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$resultNameReportOee.'"',
+            'Content-Transfer-Encoding' => 'binary',
+            'Accept-Ranges' => 'bytes'
+        ];
+
+        // content file
+        $document->SetDisplayMode('fullpage');
+
         $oeeMaster = oeeMaster::with([
             'oeeDetail',
             'machine',
-        ])->findOrFail(1);
-
-        $tempExtruderShift1 = oeeDetail::with([
-            'oeeMaster',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 1)
-        ->where('oee_details.status', 1)
-        ->where('oee_details.tempExtruderId',1)
-        ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $tempExtruderShift2 = oeeDetail::with([
-            'oeeMaster',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 2)
-        ->where('oee_details.status', 1)
-        ->where('oee_details.tempExtruderId',1)
-        ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $tempExtruderShift3 = oeeDetail::with([
-            'oeeMaster',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 3)
-        ->where('oee_details.status', 1)
-        ->where('oee_details.tempExtruderId',1)
-        ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $dieHeatShift1 = oeeDetail::with([
-            'oeeMaster',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 1)
-        ->where('oee_details.status', 1)
-        ->where('oee_details.tempExtruderId',2)
-        ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $dieHeatShift2 = oeeDetail::with([
-            'oeeMaster',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 2)
-        ->where('oee_details.status', 1)
-        ->where('oee_details.tempExtruderId',2)
-        ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $dieHeatShift3 = oeeDetail::with([
-            'oeeMaster',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 3)
-        ->where('oee_details.status', 1)
-        ->where('oee_details.tempExtruderId',2)
-        ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $adapterZoneShift1 = oeeDetail::with([
-            'oeeMaster',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 1)
-        ->where('oee_details.status', 1)
-        ->where('oee_details.tempExtruderId',3)
-        ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $adapterZoneShift2 = oeeDetail::with([
-            'oeeMaster',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 2)
-        ->where('oee_details.status', 1)
-        ->where('oee_details.tempExtruderId',3)
-        ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $adapterZoneShift3 = oeeDetail::with([
-            'oeeMaster',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 3)
-        ->where('oee_details.status', 1)
-        ->where('oee_details.tempExtruderId',3)
-        ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time']);
-        
-        $oeeDetailShift1 = oeeDetail::with([
-            'product',
-            'machine',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 1)
-        ->where('oee_details.status', 1)
-        ->first([
-            'oee_details.screwSpeed',
-            'oee_details.dosingSpeed',
-            'oee_details.mainDrive',
-            'oee_details.vacumCylinder',
-            'oee_details.meltPressure',
-            'oee_details.meltTemperature',
-            'oee_details.vacumTank',
-            'oee_details.haulOffSpeed',
-            'oee_details.waterTempVacumTank',
-            'oee_details.waterPressure',
-        ]);
-
-        $oeeDetailShift2 = oeeDetail::with([
-            'product',
-            'machine',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 2)
-        ->where('oee_details.status', 1)
-        ->first([
-            'oee_details.screwSpeed',
-            'oee_details.dosingSpeed',
-            'oee_details.mainDrive',
-            'oee_details.vacumCylinder',
-            'oee_details.meltPressure',
-            'oee_details.meltTemperature',
-            'oee_details.vacumTank',
-            'oee_details.haulOffSpeed',
-            'oee_details.waterTempVacumTank',
-            'oee_details.waterPressure',
-        ]);
-
-        $oeeDetailShift3 = oeeDetail::with([
-            'product',
-            'machine',
-            'tempExtruder'
-        ])->where('oeeMasterId', $oeeMaster->id)
-        ->where('oee_details.shift', 3)
-        ->where('oee_details.status', 1)
-        ->first([
-            'oee_details.screwSpeed',
-            'oee_details.dosingSpeed',
-            'oee_details.mainDrive',
-            'oee_details.vacumCylinder',
-            'oee_details.meltPressure',
-            'oee_details.meltTemperature',
-            'oee_details.vacumTank',
-            'oee_details.haulOffSpeed',
-            'oee_details.waterTempVacumTank',
-            'oee_details.waterPressure',
-        ]);
-
-        $oeeDownTimeShift1 = OeeDownTime::with('oeeMaster')
-        ->where('oeeMasterId', $oeeMaster->id)
-        ->whereHas('oeeMaster', function($query) {
-            $query->where('shift', 1);
-        })
-        ->get([
-            'oee_down_times.idle',
-            'oee_down_times.setupRoutage',
-            'oee_down_times.waitingForSparepart',
-            'oee_down_times.setupDies',
-            'oee_down_times.noMaterial',
-            DB::raw("SUM(oee_down_times.idle + oee_down_times.setupRoutage + oee_down_times.waitingForSparepart + oee_down_times.setupDies + oee_down_times.noMaterial) as totalDownTime")
-        ]);
-
-        $oeeDownTimeShift2 = OeeDownTime::with('oeeMaster')
-        ->where('oeeMasterId', $oeeMaster->id)
-        ->whereHas('oeeMaster', function($query) {
-            $query->where('shift', 2);
-        })
-        ->get([
-            'oee_down_times.idle',
-            'oee_down_times.setupRoutage',
-            'oee_down_times.waitingForSparepart',
-            'oee_down_times.setupDies',
-            'oee_down_times.noMaterial',
-            DB::raw("SUM(oee_down_times.idle + oee_down_times.setupRoutage + oee_down_times.waitingForSparepart + oee_down_times.setupDies + oee_down_times.noMaterial) as totalDownTime")
-        ]);
-
-        $oeeDownTimeShift3 = OeeDownTime::with('oeeMaster')
-        ->where('oeeMasterId', $oeeMaster->id)
-        ->whereHas('oeeMaster', function($query) {
-            $query->where('shift', 3);
-        })
+        ])
+        ->where('machineId', 1)
+        // ->where('lockMaster', 1)
+        ->where('created_at', 'like', '%2023-01-24%')
         ->get();
-        if (count($oeeDownTimeShift2) > 0) {
-            dd($oeeDownTimeShift2);
-        } else {
-            dd('gg');
-        }
-        dd([
-            // $oeeDetailShift2->screwSpeed
-            // $oeeDownTimeShift1[0]->oeeMaster->oeeDetail->shift
-        ]);
+        
+        $oeeTempExtruder = [];
+        $oeeAdapterZone = [];
+        $oeeDieHeat = [];
+        $oeeDetail = [];
+        $oeeDownTime = [];
+        $oeeDefect = [];
+        $oeeRemark = oeeMaster::where('machineId', 1)
+        // ->where('lockMaster', 1)
+        ->where('created_at', 'like', '%2023-01-24%')
+        ->get();
 
-        $id = $request->id;
-        $date = $request->date;
-        $machineCapacity = $request->machineCapacity;
-        $machineCapacityNumber = $request->machineCapacityNumber;
-        $productLength = $request->productLength;
-        $productDiameter = $request->productDiameter;
-        $productVariant = $request->productVariant;
+        foreach ($oeeMaster as $oeeMaster) {
+            // get data oee extruder
+            $getOeeTempExtruder = oeeDetail::with([
+                'oeeMaster',
+                'tempExtruder'
+            ])
+            ->where('oeeMasterId', $oeeMaster->id)
+            ->where('oee_details.tempExtruderId',1)
+            ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time', 'oee_details.shift', 'oee_details.oeeMasterId']);
+            // push extruder
+            array_push($oeeTempExtruder, $getOeeTempExtruder);
 
-        if ($id) {
-            $dataOee = oeeMaster::with([
+            // get data adapter zone
+            $getOeeAdapterZone = oeeDetail::with([
+                'oeeMaster',
+                'tempExtruder'
+            ])
+            ->where('oeeMasterId', $oeeMaster->id)
+            ->where('oee_details.tempExtruderId',3)
+            ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time', 'oee_details.shift', 'oee_details.oeeMasterId']);
+            // push adapter zone
+            array_push($oeeAdapterZone, $getOeeAdapterZone);
+
+            // get data die heating
+            $getOeeDietHeat = oeeDetail::with([
+                'oeeMaster',
+                'tempExtruder'
+            ])
+            ->where('oeeMasterId', $oeeMaster->id)
+            ->where('oee_details.tempExtruderId',2)
+            ->get(['oee_details.zoneNumber', 'oee_details.oeeDetailValue', 'oee_details.time', 'oee_details.shift', 'oee_details.oeeMasterId']);
+            // push die heating
+            array_push($oeeDieHeat, $getOeeDietHeat);
+
+            // get data detail
+            $getOeeDetail = oeeDetail::with([
                 'product',
                 'machine',
-                'ooDetail'
-            ])->findOrFail($id);
+                'tempExtruder'
+            ])->where('oeeMasterId', $oeeMaster->id)
+            ->where('oee_details.shift', 1)
+            ->where('oee_details.status', 1)
+            ->first([
+                'oee_details.screwSpeed',
+                'oee_details.dosingSpeed',
+                'oee_details.mainDrive',
+                'oee_details.vacumCylinder',
+                'oee_details.meltPressure',
+                'oee_details.meltTemperature',
+                'oee_details.vacumTank',
+                'oee_details.haulOffSpeed',
+                'oee_details.waterTempVacumTank',
+                'oee_details.waterPressure',
+            ]);
+            // push oee detail
+            array_push($oeeDetail, $getOeeDetail);
 
-            if ($dataOee) {
-                return ResponseFormatter::success(
-                    $dataOee,
-                    'Oee Data successfully fetched'
-                );
-            } else {
-                return ResponseFormatter::error(
-                    null,
-                    'Oee data failed to fetch',
-                    404
-                );
-            }
+            // get oee down time
+            $getOeeDownTime = OeeDownTime::with('oeeMaster')
+            ->where('oeeMasterId', $oeeMaster->id)
+            // ->whereHas('oeeMaster', function($query) {
+            //     $query->where('shift', 1);
+            // })
+            ->get([
+                'oee_down_times.idle',
+                'oee_down_times.setupRoutage',
+                'oee_down_times.waitingForSparepart',
+                'oee_down_times.setupDies',
+                'oee_down_times.noMaterial',
+                DB::raw("SUM(oee_down_times.idle + oee_down_times.setupRoutage + oee_down_times.waitingForSparepart + oee_down_times.setupDies + oee_down_times.noMaterial) as totalDownTime")
+            ]);
+            // push oee down time
+            array_push($oeeDownTime, $getOeeDownTime);
+
+            // get oee defect
+            $getOeeDefectLog = OeeDefectLog::with(['OeeDefect', 'oeeMaster'])
+            ->where('oeeMasterId', $oeeMaster->id)
+            ->get();
+            // push oee defect
+            array_push($oeeDefect, $getOeeDefectLog);
         }
-
-        $dataOee = oeeMaster::with([
-            'product',
-            'machine',
-            'ooDetail'
+        dd([
+            'oeeMaster' => $oeeMaster,
+            'oeeTempExtruder' => $oeeTempExtruder,
+            'oeeAdapterZone' => $oeeAdapterZone,
+            'oeeDieHeat' => $oeeDieHeat,
+            'oeeDetail' => $oeeDetail,
+            'oeeDownTime' => $oeeDownTime,
+            'oeeDefect' => $oeeDefect,
+            'oeeRemark' => $oeeRemark,
         ]);
+        // for table style
+        $document->simpleTables = true;
 
-        if ($date) {
-            $dataOee->whereHas('ooDetail', function($query) {
-                $query->where('date', 'like', '%'.$date.'%');
-            });
-        }
-
-        if ($machineCapacity && $machineCapacityNumber) {
-            $dataOee->whereHas('ooDetail', function($query) {
-                $query->where('machineId', 'like', '%'.$machineCapacity.'%')->where('small', 'like', '%'.$machineCapacityNumber.'%')->where('medium', 'like', '%'.$machineCapacityNumber.'%')->where('large', 'like', '%'.$machineCapacityNumber.'%');
-            });
-        }
-
-        if ($productLength) {
-            $dataOee->whereHas('product', function($query) {
-                $query->where('productLength', 'like', '%'.$productLength.'%');
-                // where('productlengthId', 'like', '%'.$productLength.'%')
-            });
-        }
-
-        if ($productDiameter) {
-            $dataOee->whereHas('product', function($query) {
-                $query->where('productDiameter', 'like', '%'.$productDiameter.'%');
-            });
-        }
-        
-        if ($productVariant) {
-            $dataOee->whereHas('product', function($query) {
-                $query->where('productVariant', 'like', '%'.$productVariant.'%');
-            });
-        }
-
-        return ResponseFormatter::success(
-            $dataOee->first(),
-            'Oee data successfully fetched'
-        );
+        // parsing to view
+        $document->writeHTML(view('oee.reportOee-pdf', [
+            'oeeMaster' => $oeeMaster,
+            'oeeTempExtruder' => $oeeTempExtruder,
+            'oeeAdapterZone' => $oeeAdapterZone,
+            'oeeDieHeat' => $oeeDieHeat,
+            'oeeDetail' => $oeeDetail,
+            'oeeDownTime' => $oeeDownTime,
+            'oeeDefect' => $oeeDefect,
+            'oeeRemark' => $oeeRemark,
+        ]));
     }
 
     public function fetchReportOeeById(Request $request) {

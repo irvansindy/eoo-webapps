@@ -344,7 +344,7 @@
         {{-- data down time --}}
         <table class="table-report">
             <tr>
-                <td>#</td>
+                <td><b>Down Time</b></td>
                 <td>Shift 1</td>
                 <td>Shift 2</td>
                 <td>Shift 3</td>
@@ -390,7 +390,56 @@
         {{-- end data down time --}}
         <br>
         {{-- data defect --}}
+        <table class="table-report">
+            <tr>
+                <td><b>Defect</b></td>
+                <td>Shift 1</td>
+                <td>Shift 2</td>
+                <td>Shift 3</td>
+            </tr>
+            <tr>
+                <td>Categories</td>
+                <td>
+                    @forelse ($oeeDefectLogShift1 as $oeeDefectLogShift1)
+                        {{ $oeeDefectLogShift1->OeeDefect->defectName }},
+                    @empty
+                        Data Kosong
+                    @endforelse
+                </td>
+                <td>
+                    @forelse ($oeeDefectLogShift2 as $oeeDefectLogShift2)
+                        {{ $oeeDefectLogShift2->OeeDefect->defectName }},
+                    @empty
+                        Data Kosong
+                    @endforelse
+                </td>
+                <td>
+                    @forelse ($oeeDefectLogShift3 as $oeeDefectLogShift3)
+                        {{ $oeeDefectLogShift3->OeeDefect->defectName }},
+                    @empty
+                        Data Kosong
+                    @endforelse
+                </td>
+            </tr>
+        </table>
         {{-- end data defect --}}
+        <br>
+        {{-- data remark --}}
+        <table class="table-report">
+            <tr>
+                <td><b>#</b></td>
+                <td>Shift 1</td>
+                <td>Shift 2</td>
+                <td>Shift 3</td>
+            </tr>
+            <tr>
+                <td><b>Remark</b></td>
+                <td>{{ count($remarkShift1) == 0 ? 'Data Kosong' : $remarkShift1[0]->remark }}</td>
+                <td>{{ count($remarkShift2) == 0 ? 'Data Kosong' : $remarkShift2[0]->remark }}</td>
+                <td>{{ count($remarkShift3) == 0 ? 'Data Kosong' : $remarkShift3[0]->remark }}</td>
+            </tr>
+        </table>
+        {{-- end data remark --}}
     </div>
 </body>
 </html>
