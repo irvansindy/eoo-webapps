@@ -50,4 +50,7 @@ class oeeDetail extends Model
     public function tempExtruder() {
         return $this->hasOne(TempExtruder::class, 'id', 'tempExtruderId');
     }
+    public function defect(){
+        return $this->hasMany(OeeDefectLogProduct::class, 'OeeMasterId','OeeMasterId');
+    }
 }

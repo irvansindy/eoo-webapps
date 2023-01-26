@@ -465,28 +465,33 @@
                     var htmlDownTIme =''
            
                     if(response){
+                        console.log(response.deffect)
                         
-                        for(j=0; j < response.deffect.length ; j++){
-                            htmlDeffect +=`<div class="col-sm-2 mt-2">
-                                                <label>${response.deffect[j].defectName}</label>
-                                            </div>
-                                        <div class="col-sm-3">
-                                            <input type="number" style="text-align:center" class="form-control settingDefectValue" name="settingDefectValue" id="settingDefectValue${j+1}" value="${response.deffect[j].value == null ?'0':response.deffect[j].value}">
-                                            <span  style="color:red;" class="message_error text-red block settingDefectValue${j + 1}_error"></span>
-                                            <input type="hidden" id="defectId" class="form-control settingDefectId"value="${response.deffect[j].id}">
-                                        </div>  
-                                        <div class="col-sm-1 mt-2">
-                                            <label>Kg</label>
-                                        </div>
-                            `;
+                        // for(j=0; j < response.deffect.length ; j++){
+                        //     htmlDeffect +=`<div class="col-sm-2 mt-2">
+                        //                         <label>${response.deffect[j].defectName}</label>
+                        //                     </div>
+                        //                 <div class="col-sm-3">
+                        //                     <input type="number" style="text-align:center" class="form-control settingDefectValue" name="settingDefectValue" id="settingDefectValue${j+1}" value="${response.deffect[j].value == null ?'0':response.deffect[j].value}">
+                        //                     <span  style="color:red;" class="message_error text-red block settingDefectValue${j + 1}_error"></span>
+                        //                     <input type="hidden" id="defectId" class="form-control settingDefectId"value="${response.deffect[j].id}">
+                        //                 </div>  
+                        //                 <div class="col-sm-1 mt-2">
+                        //                     <label>Kg</label>
+                        //                 </div>
+                        //     `;
 
-                        }
-                        $('#settingDeffectContainer').html(htmlDeffect);
+                        // }
+                        // $('#settingDeffectContainer').html(htmlDeffect);
                         for(k = 0; k < response.downTime.length; k++){
                             htmlDownTIme +=`
                             <div class="card card-dark collapsed-card">
                             <div class="card-header bg-dark">
-                                <div class="card-title text-white">${response.downTime[k].productName}</div>
+                              
+                                    <label>
+                                        ${response.downTime[k].productName}
+                                    </label>
+                                    
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                     <i class="fas fa-plus"></i>
@@ -602,7 +607,9 @@
                             htmlProductList +=`
                             <div class="card card-dark collapsed-card">
                                 <div class="card-header bg-dark">
-                                    <div class="card-title text-white">${response.data[i].productName}</div>
+                                    <label>
+                                        ${response.data[i].productName}
+                                    </label>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                         <i class="fas fa-plus"></i>
@@ -899,6 +906,8 @@
                                                 <i class="fas fa-paste"></i>     
                                             </button>   
                                           `
+                            }
+                            if(response.data[i].status > 3 && response.data[i].lockMaster == 0 ){
                                 buttonLockMaster =`
                                 <button title="Lock" class="lockMasterModal btn btn-sm btn-danger rounded"data-id="${response.data[i]['id']}" data-status="1" data-shift="${response.data[i].shift}" data-toggle="modal" data-target="#lockMasterModal" data-ext ="${response.length[0].length}" data-die ="${response.length[1].length}" data-az="${response.length[2].length}"data-date="${response.data[i].date}">
                                                 <i class="fas fa-lock"></i>     

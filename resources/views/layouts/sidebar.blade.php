@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-info elevation-4" style="background-color: #9A0303;">
+<aside class="main-sidebar sidebar-dark-info elevation-4" style="background-color: #B42B51;">
 
     <a href="#" class="brand-link">
         <span class="brand-text font-weight-light" >OEE</span>

@@ -9,6 +9,7 @@ use App\Http\Requests\StoreOeeDetailRequest;
 use App\Http\Requests\StoreOeeHeaderRequest;
 use App\Models\OeeDefect;
 use App\Models\OeeDefectLog;
+use App\Models\OeeDefectLogProduct;
 use App\Models\OeeDeffectLog;
 use App\Models\oeeDetail;
 use App\Models\OeeDownTime;
@@ -454,22 +455,33 @@ class OeeController extends Controller
                         ->where('oee_down_time_logs.oeeMasterId', $request->id)
                         ->get();
         }
+        $deffect='';
         $downTimeMaster = OeeDownTime::where('oeeMasterId', $request->id)->first();
         $validasiDefect = OeeDefectLog::where('oeeMasterId', $request->id)->count();
         $oeeMaster = OeeMaster::find($request->id);
+        $deffectMaster = DB::table('oee_details')->join('products','products.id','=','oee_details.productId')
+        ->select('oee_details.*','products.productName')
+        ->where('oee_details.oeeMasterId',$request->id)
+        ->get();
+        $deffectSummary = DB::table('oee_defect_logs')->join('oee_defects','oee_defects.id','=','oee_defect_logs.defectId')
+        ->where('oeeMasterId', $request->id)->get();
         if($validasiDefect == 0){
-            $deffect = OeeDefect::all();
+          $deffect =DB::table('oee_defect_logs')
+          ->join('oee_defects','oee_defects.id','=','oee_defect_logs.defectId')
+          ->select('oee_defect_logs.*','oee_defects.defectName')
+          ->groupBy('oee_defects.id')->get();
         }else{
-            $deffect = DB::table('oee_defect_logs')->join('oee_defects','oee_defects.id','=','oee_defect_logs.defectId')
-                                ->where('oeeMasterId', $request->id)->get();
+           $deffect = oeeDetail::with('defect')->where('oeeMasterId',$request->id)->groupBy('productId')->get();
         }
-     
+
 
         return response()->json([
             'data'=>$data,
             'downTime'=>$downTime,
             'downTimeMaster'=>$downTimeMaster,
             'deffect'=>$deffect,
+            'deffectMaster'=>$deffectMaster,
+            'deffectSummary'=>$deffectSummary,
             'oeeMaster'=>$oeeMaster,
         ]);        
     }
@@ -593,7 +605,7 @@ class OeeController extends Controller
                 if($validasiDownTimeArray == 0){
                     OeeDownTimeLog::insert($arrayDownTime);
                 }else{
-                    OeeDownTimeLog::where('oeeMasterId', $request->id)->delete;
+                    DB::table('oee_down_time_logs')->where('oeeMasterId', $request->id)->delete();
                     OeeDownTimeLog::insert($arrayDownTime);
                 }
                 $validasiDownTime = OeeDownTime::where('oeeMasterId', $request->id)->count();
