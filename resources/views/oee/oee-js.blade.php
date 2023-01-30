@@ -95,8 +95,9 @@
         var settingGoodPipeStandartKg =document.getElementsByClassName("settingGoodPipeStandartKg");
         var settingGoodPipeStandartPcs =document.getElementsByClassName("settingGoodPipeStandartPcs");
         
-        var settingDefectValue =document.getElementsByClassName("settingDefectValue");
-        var settingDefectId =document.getElementsByClassName("settingDefectId");
+        var defectLogProductValue =document.getElementsByClassName("defectLogProductValue");
+        var defectLogProductId =document.getElementsByClassName("defectLogProductId");
+        var defectLogProductDefectId =document.getElementsByClassName("defectLogProductDefectId");
         
         // Down Time
         var downTimeProductId =document.getElementsByClassName("downTimeProductId");
@@ -137,12 +138,14 @@
             ]
             arrSettingHeader.push(postHeader) 
         }
-        for(j = 0 ; j < settingDefectId.length; j++){
-            var  arr_settingDefectValue = settingDefectValue[j].value; 
-            var  arr_settingDefectId = settingDefectId[j].value; 
+        for(j = 0 ; j < defectLogProductDefectId.length; j++){
+            var  arr_defectLogProductValue = defectLogProductValue[j].value; 
+            var  arr_defectLogProductId = defectLogProductId[j].value; 
+            var  arr_defectLogProductDefectId = defectLogProductDefectId[j].value; 
             var postDefect =[
-                arr_settingDefectId,
-                arr_settingDefectValue,
+                arr_defectLogProductId,
+                arr_defectLogProductDefectId,
+                arr_defectLogProductValue,
 
             ]
             arrSettingDefect.push(postDefect)
@@ -170,6 +173,7 @@
             //     return el != '';
             // });
         }
+
         var data ={
             'id':$('#settingMasterId').val(),
             'date':$('#settingMachineDate').val(),
@@ -179,7 +183,6 @@
             'arrSettingDefect':arrSettingDefect,
             'arrSettingDownTime':arrSettingDownTime
         }
-       
        store('updateOeeMaster',data,'oee');
     })
     $('#selectProductUpdate').on('change', function(){
@@ -459,157 +462,64 @@
                     $('#settingMasterId').val(id)
                     $('#settingMachineDate').val(date)
                     $('#loading').hide();
+                    $('#summaryDefect').hide()
                     var htmlGoodPipe =''
                     var htmlProductList =''
                     var htmlDeffect =''
                     var htmlDownTIme =''
-           
+                    
+                    var htmlSummaryDefect =''
                     if(response){
-                        console.log(response.deffect)
-                        
-                        // for(j=0; j < response.deffect.length ; j++){
-                        //     htmlDeffect +=`<div class="col-sm-2 mt-2">
-                        //                         <label>${response.deffect[j].defectName}</label>
-                        //                     </div>
-                        //                 <div class="col-sm-3">
-                        //                     <input type="number" style="text-align:center" class="form-control settingDefectValue" name="settingDefectValue" id="settingDefectValue${j+1}" value="${response.deffect[j].value == null ?'0':response.deffect[j].value}">
-                        //                     <span  style="color:red;" class="message_error text-red block settingDefectValue${j + 1}_error"></span>
-                        //                     <input type="hidden" id="defectId" class="form-control settingDefectId"value="${response.deffect[j].id}">
-                        //                 </div>  
-                        //                 <div class="col-sm-1 mt-2">
-                        //                     <label>Kg</label>
-                        //                 </div>
-                        //     `;
-
-                        // }
-                        // $('#settingDeffectContainer').html(htmlDeffect);
-                        for(k = 0; k < response.downTime.length; k++){
-                            htmlDownTIme +=`
-                            <div class="card card-dark collapsed-card">
-                            <div class="card-header bg-dark">
-                              
-                                    <label>
-                                        ${response.downTime[k].productName}
-                                    </label>
-                                    
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="container">
-                                    <div class="form-group row">
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">IDLE (NO ORDER)</label>
+                        // Defect
+                       
+                     
+                        if(response.deffect){
+                            if(response.defectSummary){
+                            $('#summaryDefect').show()
+                            $('#settingDefectSummary').empty()
+                            for(m = 0 ; m < response.defectSummary.length; m++){
+                                htmlSummaryDefect +=`
+                                <div class="col-sm-2 mt-2">
+                                                <label>${response.defectSummary[m].defectName}</label>
+                                            </div>
+                                        <div class="col-sm-3">
+                                            <input type="number" style="text-align:center" class="form-control" value="${response.defectSummary[m].value == null ?'0':response.defectSummary[m].sumDefect}" readOnly>
+                                        </div>  
+                                        <div class="col-sm-1 mt-2">
+                                            <label>Kg</label>
                                         </div>
-                                        <div class="col-md-2">
-                                            <input type="hidden" style="text-align:center" class="form-control downTimeProductId" value="${response.downTime[k].productId == null ?'':response.downTime[k].productId}" id="idle${k+1}">
-                                            <input type="number" style="text-align:center" class="form-control idle" value="${response.downTime[k].idle == null ?'':response.downTime[k].idle}" id="idle${k+1}">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
-                                        </div>
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">Setup Dies</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="number" value="${response.downTime[k].setupDies == null ? '': response.downTime[k].setupDies}" style="text-align:center" class="form-control setupDies" id="setupDies">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
-                                        </div>
-                                    </div>
-                                  
-                                    <div class="form-group row">
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">Setup Routage</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="number" value="${response.downTime[k].setupRoutage == null ? '': response.downTime[k].setupRoutage}" style="text-align:center" class="form-control setupRoutage" id="setupRoutage">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
-                                        </div>
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">No Material</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="number" value="${response.downTime[k].noMaterial == null ?'': response.downTime[k].noMaterial}" style="text-align:center" class="form-control noMaterial" id="noMaterial">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-md-3 mt-2">
-                                            <label for="">Waiting For Sparepart</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="number" value="${response.downTime[k].waitingForSparepart == null ? '' : response.downTime[k].waitingForSparepart}" style="text-align:center" class="form-control waitingForSparepart" id="waitingForSparepart">
-                                        </div>
-                                        <div class="col-md-1 mt-2">
-                                            <label for="">Jam</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                                  
-                            `;
+                                `
+                            }
+                            $('#settingDefectSummary').html(htmlSummaryDefect);
                         }
-                        if(response.downTime.length > 1 ){
-                            $('#summaryDownTime').show()
-                        }else{
-                            $('#summaryDownTime').hide()
-                        }
-                        $('#settingDownTimeContainer').html(htmlDownTIme)
-                        
-                       if(response.downTimeMaster){
-                        $('#idleSummary').val(response.downTimeMaster.idle)
-                        $('#setupDiesSummary').val(response.downTimeMaster.setupDies)
-                        $('#setupRoutageSummary').val(response.downTimeMaster.setupRoutage)
-                        $('#noMaterialSummary').val(response.downTimeMaster.noMaterial)
-                        $('#waitingForSparepartSummary').val(response.downTimeMaster.waitingForSparepart)
-                       }else{
-                        $('#idleSummary').val('0')
-                        $('#setupDiesSummary').val('0')
-                        $('#setupRoutageSummary').val('0')
-                        $('#noMaterialSummary').val('0')
-                        $('#waitingForSparepartSummary').val('0')
-                       }
-                        
-                    var summaryGoodProductActualKg =0;
-                    var summaryGoodProductActualPcs =0;
-                    var summaryScrapPipe =0;
-                    var summaryScrapMaterial =0;
-                    var summaryMaterialUse =0;
-                    var summaryScrapStoping =0;
-                    var summarygoodPipeStandartKg =0;
-                    var summarygoodPipeStandartPcs =0;
-                    if(response.data.length > 1){
-                        $('#summaryProduct').show()
-                    }else{
-                        $('#summaryProduct').hide()
-                    }
-                        for(i = 0; i < response.data.length; i++){
-                            summaryGoodProductActualKg +=response.data[i].goodProductActualKg 
-                            summaryGoodProductActualPcs +=response.data[i].goodProductActualPcs 
-                            summaryScrapPipe +=response.data[i].scrapPipe 
-                            summaryScrapPipe +=response.data[i].scrapPipe 
-                            summaryScrapMaterial +=response.data[i].scrapMaterial 
-                            summaryMaterialUse +=response.data[i].materialUse 
-                            summaryScrapStoping +=response.data[i].scrapStoping 
-                            summarygoodPipeStandartKg +=response.data[i].goodPipeStandartKg 
-                            summarygoodPipeStandartPcs +=response.data[i].goodPipeStandartPcs 
-                           
-                            htmlProductList +=`
-                            <div class="card card-dark collapsed-card">
+                            for(j=0; j < response.deffect.length; j++){
+                                var htmlDefectLog =''
+                                var l =0;
+                                 l =  l < response.deffect[j].defect.length;
+                                 l++
+                                for(l =0; l < response.deffect[j].defect.length; l++){
+                                    htmlDefectLog +=`
+                                         
+                                            <input type="hidden"  class="form-control defectLogProductId" value ="${response.deffect[j].defect[l].productId}">
+                                            <input type="hidden"  class="form-control defectLogProductDefectId" name ="defectLogProductDefectId" value ="${response.deffect[j].defect[l].defectId}">
+                                            <div class="col-md-2 mt-2">
+                                                <label>${response.deffect[j].defect[l].defect_name.defectName} </label>
+                                               
+                                            </div>
+                                            
+                                            <div class="col-md-3">
+                                                <input type="number" style="text-align:center"  class="form-control defectLogProductValue" name ="defectLogProductValue"  value ="${response.deffect[j].defect[l].value}">
+                                            </div>
+                                            <div class="col-sm-1 mt-2">
+                                                 <label>Kg</label>
+                                             </div>
+                                          
+                                    `;
+                                }
+                                htmlDeffect+= `
+                                <div class="card card-dark collapsed-card">
                                 <div class="card-header bg-dark">
-                                    <label>
-                                        ${response.data[i].productName}
-                                    </label>
+                                    <div class="card-title text-white">${response.deffect[j].product.productName}</div>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                         <i class="fas fa-plus"></i>
@@ -617,124 +527,319 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                        <div class="form-group row">
-                                                    <div class="col-md-3 mt-2">
-                                                            <label>Nama Produk</label>
-                                                        </div>
-                                                        <div class="col-md-9">
-                                                        <input type="text"class="form-control settingProductName" name="settingProductName" id="settingProductName${i+1}" value="${response.data[i].productName}" readOnly>
-                                                        <span  style="color:red;" class="message_error text-red block settingProductName${i + 1}_error"></span>
-                                                        <input type="hidden" id="settingProductId" class="form-control settingProductId"value="${response.data[i].productId}">
-                                                    </div>
-                                                      
+                                    <div class="container">
+                                        <div class="form-group row settingDefectLogProduct" id="settingDefectLogProduct${j+1}">
+                                            ${htmlDefectLog}
                                         </div>
-                                        <div class="from-group row">
-                                            <div class="col-md-3 mt-2">
-                                                            <label>Berat Standar</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingProductWeight" name="settingProductWeight" id="settingProductWeight" value="${response.data[i].weight}" readOnly >
-                                                        <span  style="color:red;" class="message_error text-red block settingProductWeight${i + 1}_error"></span>
-                                                    </div>
-                                                    <div class="col-sm-1 mt-2">
-                                                        <label for="">Kg</label>
-                                                    </div>
-                                        </div>
-                                        <div class="form-group row mt-4">
-                                                        <div class="col-md-4 mt-2">
-                                                            <label>Good Pipe Actual Pcs</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipePcs" name="settingGoodPipePcs" id="settingGoodPipePcs" value="${response.data[i].goodProductActualPcs}">
-                                                        <span  style="color:red;" class="message_error text-red block settingGoodPipePcs${i + 1}_error"></span>
-                                                    </div>
-                                                    <div class="col-md-4 mt-2">
-                                                            <label>Good Pipe Actual Kg</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" value="${response.data[i].goodProductActualKg}" class="form-control settingGoodPipeKg" name="settingGoodPipeKg" id="settingGoodPipeKg${i+1}">
-                                                        <span  style="color:red;" class="message_error text-red block settingGoodPipeKg${i + 1}_error"></span>
-                                                    </div>
-                                                
-                                            </div>
-                                        <div class="form-group row">
-                                                    <div class="col-md-4 mt-2">
-                                                            <label>Scrap Pipe</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingScrapPipe" name="settingScrapPipe" id="settingScrapPipe${i+1}" value="${response.data[i].scrapPipe}">
-                                                        <span  style="color:red;" class="message_error text-red block settingScrapPipe${i + 1}_error"></span>
-                                                    </div>
-                                                        <div class="col-md-4 mt-2">
-                                                            <label>Scrap Material</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingScrapMaterial" name="settingScrapMaterial" id="settingScrapMaterial" value="${response.data[i].scrapMaterial}">
-                                                        <span  style="color:red;" class="message_error text-red block settingScrapMaterial${i + 1}_error"></span>
-                                                    </div>
-                                                
-                                            </div>
-                                        <div class="form-group row">
-                                                    <div class="col-md-4 mt-2">
-                                                            <label>Material Use</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingMaterialUse" name="settingMaterialUse" id="settingMaterialUse${i+1}" value="${response.data[i].materialUse}">
-                                                        <span  style="color:red;" class="message_error text-red block settingMaterialUse${i + 1}_error"></span>
-                                                    </div>
-                                                        <div class="col-md-4 mt-2">
-                                                            <label>Scrap Stoping</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingScrapStoping" name="settingScrapStoping" id="settingScrapStoping" value="${response.data[i].scrapStoping}">
-                                                        <span  style="color:red;" class="message_error text-red block settingScrapStoping${i + 1}_error"></span>
-                                                    </div>
-                                                
-                                            </div>
-                                        <div class="form-group row settingActualGood" >
-                                                    <div class="col-md-4 mt-2">
-                                                            <label>Good Pipe Standart Pcs</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartPcs" name="settingGoodPipeStandartPcs" id="settingGoodPipeStandartPcs" readOnly disabled value="${response.data[i].goodPipeStandartPcs}">
-                                                        <span  style="color:red;" class="message_error text-red block settingGoodPipeStandartPcs${i + 1}_error"></span>
-                                                    </div>
-                                                    <div class="col-md-4 mt-2">
-                                                            <label>Good Pipe Standart Kg</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                        <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartKg" name="settingGoodPipeStandartKg" id="settingGoodPipeStandartKg${i+1}" readOnly disabled value="${response.data[i].goodPipeStandartKg}">
-                                                        <span  style="color:red;" class="message_error text-red block settingGoodPipeStandartKg${i + 1}_error"></span>
-                                                    </div>
-                                                       
-                                                
-                                            </div>
+                                    </div>
                                 </div>
                             </div>
-                           
-                            `
+                                `;
                           
-                    }
-                    $('#settingProductList').html(htmlProductList);
-                    $('#settingRemark').val(response.oeeMaster.remark)
-                    $('#summaryGoodProductActualKg').val(summaryGoodProductActualKg)
-                    $('#summaryGoodProductActualPcs').val(summaryGoodProductActualPcs)
-                    $('#summaryScrapPipe').val(summaryScrapPipe)
-                    $('#summaryScrapMaterial').val(summaryScrapMaterial)
-                    $('#summaryMaterialUse').val(summaryMaterialUse)
-                    $('#summaryScrapStoping').val(summaryScrapStoping)
-                    $('#summaryGoodPipeStandartKg').val(summarygoodPipeStandartKg)
-                    $('#summaryGoodPipeStandartPcs').val(summarygoodPipeStandartPcs)
-                    if(summarygoodPipeStandartKg === 0 || summarygoodPipeStandartKg === '0'){
-                               $('.settingActualGood').hide()
-                            }else{
-                                $('.settingActualGood').show()
+                            }  
+                        }else{
+
+                            for(n =0; n <response.defectNull.length; n++ ){
+                                var htmlDefectLog =''
+                                for(o=0;o < response.defectMaster.length; o++){
+                                    htmlDefectLog +=`
+                                         
+                                         <input type="hidden"  class="form-control defectLogProductId" value ="${response.defectNull[n].productId}">
+                                         <input type="hidden"  class="form-control defectLogProductDefectId" name ="defectLogProductDefectId" value ="${response.defectMaster[o].id}">
+                                         <div class="col-md-2 mt-2">
+                                            <label>${response.defectMaster[o].defectName}</label>
+                                         </div>
+                                         
+                                         <div class="col-md-3">
+                                             <input type="number" style="text-align:center"  class="form-control defectLogProductValue" name ="defectLogProductValue">
+                                         </div>
+                                         <div class="col-sm-1 mt-2">
+                                              <label>Kg</label>
+                                          </div>
+                                       
+                                 `;
+                                }
+                                htmlDeffect +=`
+                                    <div class="card card-dark collapsed-card">
+                                    <div class="card-header bg-dark">
+                                        <div class="card-title text-white">${response.defectNull[n].productName}</div>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="form-group row settingDefectLogProduct">
+                                                ${htmlDefectLog}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                `;
                             }
-                    
-                    }else{
-                        toastr["error"]('Data tidak ada')
-                        $('#loading').hide();
-                    }
+                        }
+                        $('#settingDeffectContainer').html(htmlDeffect);
+                        // End Defect
+
+                        // DownTIme
+                            for(k = 0; k < response.downTime.length; k++){
+                                htmlDownTIme +=`
+                                <div class="card card-dark collapsed-card">
+                                <div class="card-header bg-dark">
+                                
+                                        <label>
+                                            ${response.downTime[k].productName}
+                                        </label>
+                                        
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="form-group row">
+                                            <div class="col-md-3 mt-2">
+                                                <label for="">IDLE (NO ORDER)</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="hidden" style="text-align:center" class="form-control downTimeProductId" value="${response.downTime[k].productId == null ?'':response.downTime[k].productId}" id="idle${k+1}">
+                                                <input type="number" style="text-align:center" class="form-control idle" value="${response.downTime[k].idle == null ?'':response.downTime[k].idle}" id="idle${k+1}">
+                                            </div>
+                                            <div class="col-md-1 mt-2">
+                                                <label for="">Jam</label>
+                                            </div>
+                                            <div class="col-md-3 mt-2">
+                                                <label for="">Setup Dies</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="number" value="${response.downTime[k].setupDies == null ? '': response.downTime[k].setupDies}" style="text-align:center" class="form-control setupDies" id="setupDies">
+                                            </div>
+                                            <div class="col-md-1 mt-2">
+                                                <label for="">Jam</label>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="form-group row">
+                                            <div class="col-md-3 mt-2">
+                                                <label for="">Setup Routage</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="number" value="${response.downTime[k].setupRoutage == null ? '': response.downTime[k].setupRoutage}" style="text-align:center" class="form-control setupRoutage" id="setupRoutage">
+                                            </div>
+                                            <div class="col-md-1 mt-2">
+                                                <label for="">Jam</label>
+                                            </div>
+                                            <div class="col-md-3 mt-2">
+                                                <label for="">No Material</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="number" value="${response.downTime[k].noMaterial == null ?'': response.downTime[k].noMaterial}" style="text-align:center" class="form-control noMaterial" id="noMaterial">
+                                            </div>
+                                            <div class="col-md-1 mt-2">
+                                                <label for="">Jam</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3 mt-2">
+                                                <label for="">Waiting For Sparepart</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="number" value="${response.downTime[k].waitingForSparepart == null ? '' : response.downTime[k].waitingForSparepart}" style="text-align:center" class="form-control waitingForSparepart" id="waitingForSparepart">
+                                            </div>
+                                            <div class="col-md-1 mt-2">
+                                                <label for="">Jam</label>
+                                            </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                                    
+                                `;
+                            }
+                            if(response.downTime.length > 1 ){
+                                $('#summaryDownTime').show()
+                            }else{
+                                $('#summaryDownTime').hide()
+                            }
+                            $('#settingDownTimeContainer').html(htmlDownTIme)
+
+                            if(response.downTimeMaster){
+                                $('#idleSummary').val(response.downTimeMaster.idle)
+                                $('#setupDiesSummary').val(response.downTimeMaster.setupDies)
+                                $('#setupRoutageSummary').val(response.downTimeMaster.setupRoutage)
+                                $('#noMaterialSummary').val(response.downTimeMaster.noMaterial)
+                                $('#waitingForSparepartSummary').val(response.downTimeMaster.waitingForSparepart)
+                            }else{
+                                $('#idleSummary').val('0')
+                                $('#setupDiesSummary').val('0')
+                                $('#setupRoutageSummary').val('0')
+                                $('#noMaterialSummary').val('0')
+                                $('#waitingForSparepartSummary').val('0')
+                            }
+                        // End DownTIme
+                        
+                        // Product
+                            var summaryGoodProductActualKg =0;
+                            var summaryGoodProductActualPcs =0;
+                            var summaryScrapPipe =0;
+                            var summaryScrapMaterial =0;
+                            var summaryMaterialUse =0;
+                            var summaryScrapStoping =0;
+                            var summarygoodPipeStandartKg =0;
+                            var summarygoodPipeStandartPcs =0;
+                            if(response.data.length > 1){
+                                $('#summaryProduct').show()
+                            }else{
+                                $('#summaryProduct').hide()
+                            }
+                                for(i = 0; i < response.data.length; i++){
+                                    summaryGoodProductActualKg +=response.data[i].goodProductActualKg 
+                                    summaryGoodProductActualPcs +=response.data[i].goodProductActualPcs 
+                                    summaryScrapPipe +=response.data[i].scrapPipe 
+                                    summaryScrapPipe +=response.data[i].scrapPipe 
+                                    summaryScrapMaterial +=response.data[i].scrapMaterial 
+                                    summaryMaterialUse +=response.data[i].materialUse 
+                                    summaryScrapStoping +=response.data[i].scrapStoping 
+                                    summarygoodPipeStandartKg +=response.data[i].goodPipeStandartKg 
+                                    summarygoodPipeStandartPcs +=response.data[i].goodPipeStandartPcs 
+                                
+                                    htmlProductList +=`
+                                    <div class="card card-dark collapsed-card">
+                                        <div class="card-header bg-dark">
+                                            <label>
+                                                ${response.data[i].productName}
+                                            </label>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                                <div class="form-group row">
+                                                            <div class="col-md-3 mt-2">
+                                                                    <label>Nama Produk</label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                <input type="text"class="form-control settingProductName" name="settingProductName" id="settingProductName${i+1}" value="${response.data[i].productName}" readOnly>
+                                                                <span  style="color:red;" class="message_error text-red block settingProductName${i + 1}_error"></span>
+                                                                <input type="hidden" id="settingProductId" class="form-control settingProductId"value="${response.data[i].productId}">
+                                                            </div>
+                                                            
+                                                </div>
+                                                <div class="from-group row">
+                                                    <div class="col-md-3 mt-2">
+                                                                    <label>Berat Standar</label>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                <input type="number" style="text-align:center" class="form-control settingProductWeight" name="settingProductWeight" id="settingProductWeight" value="${response.data[i].weight}" readOnly >
+                                                                <span  style="color:red;" class="message_error text-red block settingProductWeight${i + 1}_error"></span>
+                                                            </div>
+                                                            <div class="col-sm-1 mt-2">
+                                                                <label for="">Kg</label>
+                                                            </div>
+                                                </div>
+                                                <div class="form-group row mt-4">
+                                                                <div class="col-md-4 mt-2">
+                                                                    <label>Good Pipe Actual Pcs</label>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                <input type="number" style="text-align:center" class="form-control settingGoodPipePcs" name="settingGoodPipePcs" id="settingGoodPipePcs" value="${response.data[i].goodProductActualPcs}">
+                                                                <span  style="color:red;" class="message_error text-red block settingGoodPipePcs${i + 1}_error"></span>
+                                                            </div>
+                                                            <div class="col-md-4 mt-2">
+                                                                    <label>Good Pipe Actual Kg</label>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                <input type="number" style="text-align:center" value="${response.data[i].goodProductActualKg}" class="form-control settingGoodPipeKg" name="settingGoodPipeKg" id="settingGoodPipeKg${i+1}">
+                                                                <span  style="color:red;" class="message_error text-red block settingGoodPipeKg${i + 1}_error"></span>
+                                                            </div>
+                                                        
+                                                    </div>
+                                                <div class="form-group row">
+                                                            <div class="col-md-4 mt-2">
+                                                                    <label>Scrap Pipe</label>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                <input type="number" style="text-align:center" class="form-control settingScrapPipe" name="settingScrapPipe" id="settingScrapPipe${i+1}" value="${response.data[i].scrapPipe}">
+                                                                <span  style="color:red;" class="message_error text-red block settingScrapPipe${i + 1}_error"></span>
+                                                            </div>
+                                                                <div class="col-md-4 mt-2">
+                                                                    <label>Scrap Material</label>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                <input type="number" style="text-align:center" class="form-control settingScrapMaterial" name="settingScrapMaterial" id="settingScrapMaterial" value="${response.data[i].scrapMaterial}">
+                                                                <span  style="color:red;" class="message_error text-red block settingScrapMaterial${i + 1}_error"></span>
+                                                            </div>
+                                                        
+                                                    </div>
+                                                <div class="form-group row">
+                                                            <div class="col-md-4 mt-2">
+                                                                    <label>Material Use</label>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                <input type="number" style="text-align:center" class="form-control settingMaterialUse" name="settingMaterialUse" id="settingMaterialUse${i+1}" value="${response.data[i].materialUse}">
+                                                                <span  style="color:red;" class="message_error text-red block settingMaterialUse${i + 1}_error"></span>
+                                                            </div>
+                                                                <div class="col-md-4 mt-2">
+                                                                    <label>Scrap Stoping</label>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                <input type="number" style="text-align:center" class="form-control settingScrapStoping" name="settingScrapStoping" id="settingScrapStoping" value="${response.data[i].scrapStoping}">
+                                                                <span  style="color:red;" class="message_error text-red block settingScrapStoping${i + 1}_error"></span>
+                                                            </div>
+                                                        
+                                                    </div>
+                                                <div class="form-group row settingActualGood" >
+                                                            <div class="col-md-4 mt-2">
+                                                                    <label>Good Pipe Standart Pcs</label>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartPcs" name="settingGoodPipeStandartPcs" id="settingGoodPipeStandartPcs" readOnly disabled value="${response.data[i].goodPipeStandartPcs}">
+                                                                <span  style="color:red;" class="message_error text-red block settingGoodPipeStandartPcs${i + 1}_error"></span>
+                                                            </div>
+                                                            <div class="col-md-4 mt-2">
+                                                                    <label>Good Pipe Standart Kg</label>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                <input type="number" style="text-align:center" class="form-control settingGoodPipeStandartKg" name="settingGoodPipeStandartKg" id="settingGoodPipeStandartKg${i+1}" readOnly disabled value="${response.data[i].goodPipeStandartKg}">
+                                                                <span  style="color:red;" class="message_error text-red block settingGoodPipeStandartKg${i + 1}_error"></span>
+                                                            </div>
+                                                            
+                                                        
+                                                    </div>
+                                        </div>
+                                    </div>
+                                
+                                    `
+                                
+                            }
+                            $('#settingProductList').html(htmlProductList);
+                            $('#settingRemark').val(response.oeeMaster.remark)
+                            $('#summaryGoodProductActualKg').val(summaryGoodProductActualKg)
+                            $('#summaryGoodProductActualPcs').val(summaryGoodProductActualPcs)
+                            $('#summaryScrapPipe').val(summaryScrapPipe)
+                            $('#summaryScrapMaterial').val(summaryScrapMaterial)
+                            $('#summaryMaterialUse').val(summaryMaterialUse)
+                            $('#summaryScrapStoping').val(summaryScrapStoping)
+                            $('#summaryGoodPipeStandartKg').val(summarygoodPipeStandartKg)
+                            $('#summaryGoodPipeStandartPcs').val(summarygoodPipeStandartPcs)
+                            if(summarygoodPipeStandartKg === 0 || summarygoodPipeStandartKg === '0'){
+                                    $('.settingActualGood').hide()
+                                    }else{
+                                        $('.settingActualGood').show()
+                                    }
+                            
+                            }else{
+                                toastr["error"]('Data tidak ada')
+                                $('#loading').hide();
+                            }
+                        // End Product
                 },
                 error : function(response) {
                     console.log('failed :' + response);

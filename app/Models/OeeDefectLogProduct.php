@@ -11,9 +11,17 @@ class OeeDefectLogProduct extends Model
     protected $table = 'oee_defect_log_products';
     protected $guarded = [];
     public function oeeMaster(){
-        return $this->hasOne(oeeMaster::class,'id','oeeMasterId');
+        return $this->hasMany(oeeMaster::class,'id','oeeMasterId');
     }
-    public function detail(){
-        return $this->hasMany(oeeDetail::class,'oeeMasterId','oeeMasterId');
+    public function product(){
+        return $this->hasMany(Product::class,'id','productId');
+    }
+    public function defectName()
+    {
+        return $this->hasOne(OeeDefect::class,'id','defectId');
+    }
+    public function detail()
+    {
+        return $this->hasMany(oeeDetail::class,'id', 'oeeMasterId');
     }
 }

@@ -141,7 +141,7 @@
                     swal.close();
                     $('.message_error').html('')
                     toastr['success'](response.meta.message);
-                    window.location = route;
+                    // window.location = route;
                 },
                 error: function(response) {
                     $('.message_error').html('')

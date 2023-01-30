@@ -24,7 +24,9 @@ class oeeMaster extends Model
     public function oeeDetail() {
         return $this->belongsTo(oeeDetail::class, 'id', 'oeeMasterId');
     }
-    public function oeeDefectLog() {
-        return $this->belongsTo(OeeDefectLogProduct::class, 'id', 'oeeMasterId');
+    public function defect()
+    {
+        return $this->hasMany(OeeDefectLogProduct::class,'oeeMasterId','id');
     }
+  
 }
