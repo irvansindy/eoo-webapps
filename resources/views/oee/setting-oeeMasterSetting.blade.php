@@ -235,11 +235,28 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="container">
-                                    <div class="form-group row" id="settingDeffectContainer">
- 
+                            <div class="container">
+                                <div class="card card-dark" id="summaryDefect">
+                                    <div class="card-header bg-info">
+                                        <div class="card-title text-white">Summary Defect</div>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="form-group row" id="settingDefectSummary">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+
+                                <div class="container"id="settingDeffectContainer">
+                                </div>
+
                             </div>
                         </div>
                         <div class="card card-dark">

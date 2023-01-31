@@ -32,7 +32,7 @@ class OeeController extends Controller
                     ->leftJoin('machines','machines.id','=','oee_masters.machineId')
                     ->leftJoin('offices','offices.id','=','machines.officeId')
                     ->whereBetween(DB::raw('DATE(oee_masters.created_at)'), [$request->from, $request->to])
-                    ->where('oee_masters.machineId','like','%'.$request->officeFilter.'%')
+                    ->where('machines.officeId','like','%'.$request->officeFilter.'%')
                     ->groupBy(DB::raw('DATE(oee_masters.created_at)'),'oee_masters.machineId')
                     ->orderBy(DB::raw('DATE(oee_masters.created_at)'),'asc')
                     ->get();
@@ -457,31 +457,39 @@ class OeeController extends Controller
         }
         $deffect='';
         $downTimeMaster = OeeDownTime::where('oeeMasterId', $request->id)->first();
-        $validasiDefect = OeeDefectLog::where('oeeMasterId', $request->id)->count();
+        $validasiDefect = OeeDefectLogProduct::where('oeeMasterId', $request->id)->count();
         $oeeMaster = OeeMaster::find($request->id);
-        $deffectMaster = DB::table('oee_details')->join('products','products.id','=','oee_details.productId')
+        $defectNull = DB::table('oee_details')->join('products','products.id','=','oee_details.productId')
         ->select('oee_details.*','products.productName')
         ->where('oee_details.oeeMasterId',$request->id)
+        ->groupBy('oee_details.productId')
         ->get();
-        $deffectSummary = DB::table('oee_defect_logs')->join('oee_defects','oee_defects.id','=','oee_defect_logs.defectId')
-        ->where('oeeMasterId', $request->id)->get();
+        $defectMaster = OeeDefect::all();
+        $defectSummary = DB::table('oee_defect_log_products')
+                            ->join('oee_defects','oee_defects.id','=','oee_defect_log_products.defectId')
+                            ->select(DB::raw('SUM(value) as sumDefect'), 'oee_defects.defectName','oee_defect_log_products.*')
+                            ->where('oeeMasterId', $request->id)
+                            ->groupBy('oee_defect_log_products.defectId')
+                            ->get();
         if($validasiDefect == 0){
-          $deffect =DB::table('oee_defect_logs')
-          ->join('oee_defects','oee_defects.id','=','oee_defect_logs.defectId')
-          ->select('oee_defect_logs.*','oee_defects.defectName')
-          ->groupBy('oee_defects.id')->get();
+          $deffect ='';
         }else{
-           $deffect = oeeDetail::with('defect')->where('oeeMasterId',$request->id)->groupBy('productId')->get();
+            $deffect = oeeDetail::
+                with(['defect'=>function($query) use ($request){
+                    return  $query->where("oeeMasterId", $request->id);
+                  },'product','defect.defectName'])
+                ->where('oeeMasterId',$request->id)->groupBy('productId')->get();
+            
         }
-
-
+       
         return response()->json([
             'data'=>$data,
             'downTime'=>$downTime,
             'downTimeMaster'=>$downTimeMaster,
             'deffect'=>$deffect,
-            'deffectMaster'=>$deffectMaster,
-            'deffectSummary'=>$deffectSummary,
+            'defectNull'=>$defectNull,
+            'defectMaster'=>$defectMaster,
+            'defectSummary'=>$defectSummary,
             'oeeMaster'=>$oeeMaster,
         ]);        
     }
@@ -538,8 +546,9 @@ class OeeController extends Controller
         foreach($request->arrSettingDefect as $col){
             $postDefect =[
                 'oeeMasterId'=>$request->id,
-                'defectId'=>$col[0],
-                'value'=>$col[1],
+                'productId'=>$col[0],
+                'defectId'=>$col[1],
+                'value'=>$col[2],
             ];
             array_push($defectArray,$postDefect);
         }
@@ -579,7 +588,7 @@ class OeeController extends Controller
             'goodPipeStandartPcs'=>$goodPipeStandartPcs,
             'remark'=>$request->settingRemark,
         ];
-      
+   
         DB::transaction(function() use($postHeader, $postShiftLog,$request,$postDownTime,$defectArray,$arrayDownTime) {
             $update = oeeMaster::where('id',$request->id)
             ->where('shift',$request->shift)
@@ -617,15 +626,15 @@ class OeeController extends Controller
                 }
 
 
-                $validasiDefect = OeeDefectLog ::where('oeeMasterId',$request->id)->count();
+                $validasiDefect = OeeDefectLogProduct ::where('oeeMasterId',$request->id)->count();
               
                 if($validasiDefect == 0 ){
-                    OeeDefectLog::insert($defectArray);
+                    OeeDefectLogProduct::insert($defectArray);
                 }else{
-                   $delete = OeeDefectLog ::where('oeeMasterId',$request->id)->delete();
+                   $delete = OeeDefectLogProduct ::where('oeeMasterId',$request->id)->delete();
                  
                     if($delete){
-                        OeeDefectLog::insert($defectArray);
+                        OeeDefectLogProduct::insert($defectArray);
                     }
                 }
             }

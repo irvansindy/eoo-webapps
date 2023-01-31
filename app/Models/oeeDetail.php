@@ -36,7 +36,7 @@ class oeeDetail extends Model
     protected $hidden = [];
 
     public function oeeMaster() {
-        return $this->hasOne(oeeMaster::class, 'id', 'oeeMasterId');
+        return $this->hasMany(oeeMaster::class, 'id', 'oeeMasterId');
     }
 
     public function product() {
@@ -51,7 +51,8 @@ class oeeDetail extends Model
         return $this->hasOne(TempExtruder::class, 'id', 'tempExtruderId');
     }
     public function defect(){
-        // return $this->hasMany(OeeDefectLogProduct::class, 'oeeMasterId', 'id');
-        return $this->belongsTo(OeeDefectLogProduct::class, 'oeeMasterId');
+    //   return $this->hasManyThrough(OeeDefectLogProduct::class,oeeDetail::class,'oeeMasterId','productId');
+    // return $this->belongsToMany(OeeDefectLogProduct::class,'oee_details','id', 'productId');
+        return $this->hasMany(OeeDefectLogProduct::class,'productId','productId');
     }
 }
