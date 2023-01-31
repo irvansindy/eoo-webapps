@@ -181,7 +181,7 @@
 
                 $('#productSocketUpdate').val(response.data[0]['productSocket'])
                 $('#productSocketIdUpdate').empty()
-                $('#productSocketIdUpdate').append('<option value="'+response.data[0]['productSocket']+'">'+response.data[0]['productSocket']+'</option>')
+                $('#productSocketIdUpdate').append('<option value="'+response.data[0]['productSocket']+'">'+response.data[0]['socketName']+'</option>')
                 $.each(response.data[6], function(i, data) {
                     $('#productSocketIdUpdate').append('<option value="'+data.id+'">'+data.socketName+'</option>')
                 })

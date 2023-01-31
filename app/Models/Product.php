@@ -31,15 +31,19 @@ class Product extends Model
     protected $hidden = [];
 
     public function productType() {
-        return $this->hasOne(ProductType::class, 'id');
+        return $this->belongsTo(ProductType::class, 'productTypeId');
     }
     public function productDiameter() {
-        return $this->hasOne(ProductDiameterSize::class, 'id');
+        return $this->belongsTo(ProductDiameterSize::class, 'productDiameterId');
     }
     public function productLength() {
-        return $this->hasOne(ProductLengthSize::class, 'id');
+        return $this->belongsTo(ProductLengthSize::class, 'productlengthId');
     }
     public function ProductVariant() {
-        return $this->hasOne(ProductVariant::class, 'id');
+        return $this->belongsTo(ProductVariant::class, 'productvariantId');
+    }
+
+    public function productSocket() {
+        return $this->belongsTo(Socket::class, 'productSocket');
     }
 }

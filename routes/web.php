@@ -173,6 +173,6 @@ Route::group(['middleware' => ['auth']], function() {
     // End OEE
     // Report OEE
     Route::get('getReportOee', [ReportOeeController::class, 'getReportOee'])->name('getReportOee');
-    Route::get('fetchReportOee', [ReportOeeController::class, 'fetchReportOee'])->name('fetchReportOee');
+    Route::get('getReportOeeWrong', [ReportOeeController::class, 'getReportOeeWrong'])->name('getReportOeeWrong');
     Route::get('fetchReportOeeById', [ReportOeeController::class, 'fetchReportOeeById'])->name('fetchReportOeeById');
 });

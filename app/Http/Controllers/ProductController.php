@@ -77,7 +77,8 @@ class ProductController extends Controller
                 'product_types.productType',
                 'product_diameter_sizes.productDiameter',
                 'product_length_sizes.productLength',
-                'product_variants.productVariant'
+                'product_variants.productVariant',
+                'sockets.socketName',
                 // DB::raw('CONCAT(productDiameter, " ", productDiameterUnit) AS name'),
             )
             
@@ -85,6 +86,7 @@ class ProductController extends Controller
             ->leftJoin('product_diameter_sizes', 'product_diameter_sizes.id', '=', 'products.productDiameterId')
             ->leftJoin('product_length_sizes', 'product_length_sizes.id', '=', 'products.productLengthId')
             ->leftJoin('product_variants', 'product_variants.id', '=', 'products.productVariantId')
+            ->leftJoin('sockets', 'sockets.id', '=', 'products.productSocket')
             ->where('products.id', $request->id)->first();
 
             $Machine = Machine::all();
@@ -93,7 +95,7 @@ class ProductController extends Controller
             $ProductLengthSize = ProductLengthSize::all();
             $ProductVariant = ProductVariant::all();
             $productSocket = Socket::all();
-
+            // dd($Product->productvariantId->productVariant);
             return ResponseFormatter::success(
                 [
                     $Product, //0
