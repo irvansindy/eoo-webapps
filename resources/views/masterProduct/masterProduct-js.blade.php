@@ -152,16 +152,16 @@
 
                 $('#valueProductDiameterUpdateId').val(response.data[0]['productDiameterId'])
                 $('#productDiameterUpdateId').empty()
-                $('#productDiameterUpdateId').append('<option value="'+response.data[0]['productDiameterId']+'">'+response.data[0]['productDiameter']+'</option>')
+                $('#productDiameterUpdateId').append('<option value="'+response.data[0]['productDiameterId']+'">'+response.data[0]['productDiameter']+' '+response.data[0]['productDiameterUnit']+'</option>')
                 $.each(response.data[3], function(i, data) {
-                    $('#productDiameterUpdateId').append('<option value="'+data.id+'">'+data.productDiameter+'</option>')
+                    $('#productDiameterUpdateId').append('<option value="'+data.id+'">'+data.productDiameter+' '+data.productDiameterUnit+'</option>')
                 })
                 
                 $('#valueProductlengthUpdateId').val(response.data[0]['productlengthId'])
                 $('#productlengthUpdateId').empty()
-                $('#productlengthUpdateId').append('<option value="'+response.data[0]['productlengthId']+'">'+response.data[0]['productLength']+'</option>')
+                $('#productlengthUpdateId').append('<option value="'+response.data[0]['productlengthId']+'">'+response.data[0]['productLength']+' '+response.data[0]['productLengthUnit']+'</option>')
                 $.each(response.data[4], function(i, data) {
-                    $('#productlengthUpdateId').append('<option value="'+data.id+'">'+data.productLength+'</option>')
+                    $('#productlengthUpdateId').append('<option value="'+data.id+'">'+data.productLength+' '+data.productLengthUnit+'</option>')
                 })
                 
                 $('#valueProductvariantUpdateId').val(response.data[0]['productvariantId'])
