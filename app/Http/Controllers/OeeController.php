@@ -141,16 +141,20 @@ class OeeController extends Controller
                                 'meltTemperature'=>$request->meltTemp,
                                 'meltPressure'=>$request->meltPress,
                                 'vacumTank'=>$request->vacumTank,
+                                'vacumTank2'=>$request->vacumTank2,
+                                'vacumTank3'=>$request->vacumTank3,
+                                'vacumTank4'=>$request->vacumTank4,
                                 'haulOffSpeed'=>$request->haulOffSpeed,
                                 'waterTempVacumTank'=>$request->waterTemp,
+                                'waterTempVacumTank2'=>$request->waterTemp2,
                                 'waterPressure'=>$request->waterPress,
                                 'oeeMasterId'=>$request->oeeMasterId,
-                                'shift'=>$request->shift,
-                                   'date'=>date('Y-m-d'),
+                                'shift'=>$shift->shift,
+                                'date'=>date('Y-m-d'),
                                 'time'=>date('H:i:s'),
                                 'created_at'=>date('Y-m-d H:i:s'),
                                 'machineId'=>$shift->machineId,
-                                'status'=> $request->statusIdUpdate,
+                                'status'=>$shift->status,
                                 'adapterZone'=>$request->adapterZone
         
                             ];
@@ -171,16 +175,20 @@ class OeeController extends Controller
                                 'meltTemperature'=>$request->meltTemp,
                                 'meltPressure'=>$request->meltPress,
                                 'vacumTank'=>$request->vacumTank,
+                                'vacumTank2'=>$request->vacumTank2,
+                                'vacumTank3'=>$request->vacumTank3,
+                                'vacumTank4'=>$request->vacumTank4,
                                 'haulOffSpeed'=>$request->haulOffSpeed,
                                 'waterTempVacumTank'=>$request->waterTemp,
+                                'waterTempVacumTank2'=>$request->waterTemp2,
                                 'waterPressure'=>$request->waterPress,
                                 'oeeMasterId'=>$request->oeeMasterId,
-                                'shift'=>$request->shift,
+                                'shift'=>$shift->shift,
                                 'date'=>date('Y-m-d'),
                                 'time'=>date('H:i:s'),
                                 'created_at'=>date('Y-m-d H:i:s'),
                                 'machineId'=>$shift->machineId,
-                                'status'=> $request->statusIdUpdate,
+                                'status'=>$shift->status,
                                 'adapterZone'=>$request->adapterZone
                             ];
                             array_push($arrayDie, $postDie);
@@ -200,33 +208,35 @@ class OeeController extends Controller
                                 'meltTemperature'=>$request->meltTemp,
                                 'meltPressure'=>$request->meltPress,
                                 'vacumTank'=>$request->vacumTank,
+                                'vacumTank2'=>$request->vacumTank2,
+                                'vacumTank3'=>$request->vacumTank3,
+                                'vacumTank4'=>$request->vacumTank4,
                                 'haulOffSpeed'=>$request->haulOffSpeed,
                                 'waterTempVacumTank'=>$request->waterTemp,
+                                'waterTempVacumTank2'=>$request->waterTemp2,
                                 'waterPressure'=>$request->waterPress,
                                 'oeeMasterId'=>$request->oeeMasterId,
-                                'shift'=>$request->shift,
+                                'shift'=>$shift->shift,
                                 'date'=>date('Y-m-d'),
                                 'time'=>date('H:i:s'),
                                 'created_at'=>date('Y-m-d H:i:s'),
                                 'machineId'=>$shift->machineId,
-                                'status'=> $request->statusIdUpdate,
+                                'status'=>$shift->status,
                                 'adapterZone'=>$request->adapterZone
                             ];
                             array_push($arrayAZ, $postAZ);
                         }
                     }              
                    $merge = array_merge($arrayExt,$arrayDie,$arrayAZ);
-                
+                  
                    DB::transaction(function() use($merge, $request) {
                     $delete = DB::table('oee_details')
                     ->join('oee_masters','oee_masters.id','=','oee_details.oeeMasterId')
                     ->where('oee_details.shift', $request->shift)
                     ->where('oee_details.status', $request->statusIdUpdate)
                     ->where( DB::raw('DATE(oee_masters.created_at)'), $request->date)->delete();
-                 
-                        if($delete){
-                            oeeDetail::insert($merge);
-                        }
+                    
+                    oeeDetail::insert($merge);
                     });
                     return ResponseFormatter::success(
                         $merge,
@@ -254,8 +264,12 @@ class OeeController extends Controller
                                 'meltTemperature'=>$request->meltTemp,
                                 'meltPressure'=>$request->meltPress,
                                 'vacumTank'=>$request->vacumTank,
+                                'vacumTank2'=>$request->vacumTank2,
+                                'vacumTank3'=>$request->vacumTank3,
+                                'vacumTank4'=>$request->vacumTank4,
                                 'haulOffSpeed'=>$request->haulOffSpeed,
                                 'waterTempVacumTank'=>$request->waterTemp,
+                                'waterTempVacumTank2'=>$request->waterTemp2,
                                 'waterPressure'=>$request->waterPress,
                                 'oeeMasterId'=>$request->oeeMasterId,
                                 'shift'=>$shift->shift,
@@ -284,8 +298,12 @@ class OeeController extends Controller
                                 'meltTemperature'=>$request->meltTemp,
                                 'meltPressure'=>$request->meltPress,
                                 'vacumTank'=>$request->vacumTank,
+                                'vacumTank2'=>$request->vacumTank2,
+                                'vacumTank3'=>$request->vacumTank3,
+                                'vacumTank4'=>$request->vacumTank4,
                                 'haulOffSpeed'=>$request->haulOffSpeed,
                                 'waterTempVacumTank'=>$request->waterTemp,
+                                'waterTempVacumTank2'=>$request->waterTemp2,
                                 'waterPressure'=>$request->waterPress,
                                 'oeeMasterId'=>$request->oeeMasterId,
                                 'shift'=>$shift->shift,
@@ -313,8 +331,12 @@ class OeeController extends Controller
                                 'meltTemperature'=>$request->meltTemp,
                                 'meltPressure'=>$request->meltPress,
                                 'vacumTank'=>$request->vacumTank,
+                                'vacumTank2'=>$request->vacumTank2,
+                                'vacumTank3'=>$request->vacumTank3,
+                                'vacumTank4'=>$request->vacumTank4,
                                 'haulOffSpeed'=>$request->haulOffSpeed,
                                 'waterTempVacumTank'=>$request->waterTemp,
+                                'waterTempVacumTank2'=>$request->waterTemp2,
                                 'waterPressure'=>$request->waterPress,
                                 'oeeMasterId'=>$request->oeeMasterId,
                                 'shift'=>$shift->shift,
@@ -327,8 +349,10 @@ class OeeController extends Controller
                             ];
                             array_push($arrayAZ, $postAZ);
                         }
-                    }              
+                    }
+                        
                    $merge = array_merge($arrayExt,$arrayDie,$arrayAZ);
+                
                    DB::transaction(function() use($merge,$postStatus, $request) {
                         oeeDetail::insert($merge);
                         oeeMaster::find($request->oeeMasterId)->update($postStatus);
@@ -351,6 +375,7 @@ class OeeController extends Controller
     }
     public function getOeeDetailProgress(Request $request)
     {
+       
         $dataExt = DB::table('oee_masters')
                     ->leftJoin('oee_details','oee_details.oeeMasterId','=','oee_masters.id')
                     ->leftJoin('products','products.id','=','oee_details.productId')

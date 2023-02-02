@@ -1,7 +1,7 @@
 <div class="modal fade" id="oeeDetailLogModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
+            <div class="modal-header bg-maroon">
                 <h4 class="modal-title">Log OEE Detail</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -159,22 +159,49 @@
                                         <div class="col-md-3">
                                             <input  type="number" style="text-align: center" class="form-control" id="logVacumTank">
                                         </div>
-
                                         <div class="col-md-3 mt-2">
-                                            <label for="">HAUL OFF SPEED (M/min)</label>
+                                            <label for="">VACUM TANK 2 (bar)</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input  type="number" style="text-align: center" class="form-control" id="logHaulOffSpeed">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logVacumTank2">
                                         </div>
                                     </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">VACUM TANK 3 (bar)</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logVacumTank3">
+                                        </div>
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">VACUM TANK 4 (bar)</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logVacumTank4">
+                                        </div>
+                                    </div>
+                                 
                                     <div class="row mt-2">
                                         <div class="col-md-3 mt-2">
                                             <label for="">WATER TEMP. VACUM TANK (°C)</label>
                                         </div>
                                         <div class="col-md-3">
                                             <input  type="number" style="text-align: center" class="form-control" id="logWaterTemp">
+                                        </div>                                       
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">WATER TEMP. VACUM TANK 2 (°C)</label>
                                         </div>
-
+                                        <div class="col-md-3">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logWaterTemp2">
+                                        </div>                                       
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-3 mt-2">
+                                            <label for="">HAUL OFF SPEED (M/min)</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input  type="number" style="text-align: center" class="form-control" id="logHaulOffSpeed">
+                                        </div>
                                         <div class="col-md-3 mt-2">
                                             <label for="">WATER PRESSURE (V. TANK )</label>
                                         </div>

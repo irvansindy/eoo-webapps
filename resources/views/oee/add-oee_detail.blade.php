@@ -1,7 +1,7 @@
 <div class="modal fade" id="addOeeDetailModal">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
+            <div class="modal-header bg-maroon">
                 <h4 class="modal-title">Add OEE Detail</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -107,23 +107,54 @@
                             <input type="number" style="text-align:center" class="form-control" id="vacumTank">
                             <span  style="color:red;" class="message_error text-red block vacumTank_error"></span>
                         </div>
-                        
                         <div class="col-md-3  mt-2">
-                            <label for="">HAUL OFF SPEED (M/min)</label>
+                            <label for="">VACUM TANK 2 (bar) </label>
                         </div>
                         <div class="col-md-3">
-                            <input type="number" style="text-align:center" class="form-control" id="haulOffSpeed">
-                            <span  style="color:red;" class="message_error text-red block haulOffSpeed_error"></span>
+                            <input type="number" style="text-align:center" class="form-control" id="vacumTank2">
+                            <span  style="color:red;" class="message_error text-red block vacumTank2_error"></span>
                         </div>
+
                     </div> 
                     <div class="form-group row">
-                       
+                        <div class="col-md-3  mt-2">
+                            <label for="">VACUM TANK 3 (bar) </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" style="text-align:center" class="form-control" id="vacumTank3">
+                            <span  style="color:red;" class="message_error text-red block vacumTank3_error"></span>
+                        </div>
+                        <div class="col-md-3  mt-2">
+                            <label for="">VACUM TANK 4 (bar) </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" style="text-align:center" class="form-control" id="vacumTank4">
+                            <span  style="color:red;" class="message_error text-red block vacumTank4_error"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <div class="col-md-3  mt-2">
                             <label for="">WATER TEMP. VACUM TANK (°C)</label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" style="text-align:center" class="form-control" id="waterTemp">
                             <span  style="color:red;" class="message_error text-red block waterTemp_error"></span>
+                        </div>
+                        <div class="col-md-3  mt-2">
+                            <label for="">WATER TEMP. VACUM TANK 2 (°C)</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" style="text-align:center" class="form-control" id="waterTemp2">
+                            <span  style="color:red;" class="message_error text-red block waterTemp2_error"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3  mt-2">
+                            <label for="">HAUL OFF SPEED (M/min)</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" style="text-align:center" class="form-control" id="haulOffSpeed">
+                            <span  style="color:red;" class="message_error text-red block haulOffSpeed_error"></span>
                         </div>
                         <div class="col-md-3  mt-2">
                             <label for="">WATER PRESSURE (V. TANK )</label>

@@ -157,7 +157,7 @@
                     data += `<tr style="text-align: center;">
                                 <td style="text-align: center;"> <input type="checkbox" id="check" name="check" class="is_checked" style="border-radius: 5px !important;" value="${response.data[i]['id']}" data-active_flag="${response.data[i].activeFlag}" data-id="${response.data[i]['id']}" ${response.data[i]['activeFlag'] == 'active' ?'checked':'' }></td>
                                 <td style="text-align: center;">${response.data[i]['activeFlag']=='active'?'Active':'inactive'}</td>
-                                <td style="width:25%;text-align:center;">${response.data[i]['officeName']==null?'':response.data[i]['officeName']}</td>
+                                <td style="width:25%;text-align:left;">${response.data[i]['officeName']==null?'':response.data[i]['officeName']}</td>
                                 <td style="width:25%;text-align:center;">${response.data[i]['officeInitial']==null?'':response.data[i]['officeInitial']}</td>
                                 <td style="width:25%;text-align:left;">${response.data[i]['cityName']==null?'':response.data[i]['cityName']}</td>
                                 <td style="width:25%;text-align:center">

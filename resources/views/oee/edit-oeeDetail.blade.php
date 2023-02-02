@@ -2,7 +2,7 @@
 <div class="modal fade" id="oeeEditLogModal">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
+            <div class="modal-header bg-maroon">
                 <h4 class="modal-title">Update OEE Detail</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -118,15 +118,31 @@
                             <input type="text" class="form-control" id="vacumTankUpdate">
                             <span  style="color:red;" class="message_error text-red block vacumTankUpdate_error"></span>
                         </div>
-                        
                         <div class="col-md-3  mt-2">
-                            <label for="">HAUL OFF SPEED (M/min)</label>
+                            <label for="">VACUM TANK 2 (bar) </label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" id="haulOffSpeedUpdate">
-                            <span  style="color:red;" class="message_error text-red block haulOffSpeedUpdate_error"></span>
+                            <input type="text" class="form-control" id="vacumTank2Update">
+                            <span  style="color:red;" class="message_error text-red block vacumTank2Update_error"></span>
                         </div>
                     </div> 
+                    <div class="form-group row">
+                        <div class="col-md-3  mt-2">
+                            <label for="">VACUM TANK 3 (bar) </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="vacumTank3Update">
+                            <span  style="color:red;" class="message_error text-red block vacumTank3Update_error"></span>
+                        </div>
+                        <div class="col-md-3  mt-2">
+                            <label for="">VACUM TANK 4 (bar) </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="vacumTank4Update">
+                            <span  style="color:red;" class="message_error text-red block vacumTank4Update_error"></span>
+                        </div>
+                    </div> 
+                 
                     <div class="form-group row">
                        
                         <div class="col-md-3  mt-2">
@@ -137,13 +153,30 @@
                             <span  style="color:red;" class="message_error text-red block waterTempUpdate_error"></span>
                         </div>
                         <div class="col-md-3  mt-2">
+                            <label for="">WATER TEMP. VACUM TANK 2 (°C)</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="waterTemp2Update">
+                            <span  style="color:red;" class="message_error text-red block waterTemp2Update_error"></span>
+                        </div>
+                      
+                    </div> 
+                    <div class="form-group row">
+                        <div class="col-md-3  mt-2">
+                            <label for="">HAUL OFF SPEED (M/min)</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="haulOffSpeedUpdate">
+                            <span  style="color:red;" class="message_error text-red block haulOffSpeedUpdate_error"></span>
+                        </div>
+                        <div class="col-md-3  mt-2">
                             <label for="">WATER PRESSURE (V. TANK )</label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" class="form-control" id="waterPressUpdate">
                             <span  style="color:red;" class="message_error text-red block waterPressUpdate_error"></span>
                         </div>
-                    </div> 
+                    </div>
                  
                </div>
             </div>

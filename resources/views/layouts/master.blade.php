@@ -98,6 +98,33 @@
                 }
             });
           }
+          function select_filter(url,id,name){
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: url,
+                type: "get",
+                dataType: 'json',
+                async: true,
+                beforeSend: function() {
+                    SwalLoading('Please wait ...');
+                },
+                success: function(response) {
+                    swal.close();
+                    $('#'+id).empty();
+                    $('#'+id).append('<option value ="">Semua '+name+'</option>');
+                    $.each(response.data,function(i,data){
+                        $('#'+id).append('<option value="'+data.id+'">' + data.name +'</option>');
+                    });
+                    
+                },
+                error: function(xhr, status, error) {
+                    swal.close();
+                    toastr['error']('Failed to get data, please contact ICT Developer');
+                }
+            });
+          }
           function setInput(url,data,id){
             $.ajax({
                 headers: {
@@ -141,7 +168,7 @@
                     swal.close();
                     $('.message_error').html('')
                     toastr['success'](response.meta.message);
-                    // window.location = route;
+                    window.location = route;
                 },
                 error: function(response) {
                     $('.message_error').html('')

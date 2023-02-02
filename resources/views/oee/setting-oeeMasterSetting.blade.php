@@ -1,7 +1,7 @@
 <div class="modal fade" id="oeeMasterSetting">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
+            <div class="modal-header bg-maroonam">
                 <h4 class="modal-title">Setting OEE Master</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -64,10 +64,10 @@
                             </div>
                             <div class="card-body">
 
-                                {{-- SUmmary Product --}}
+                                {{-- Sum Of Product --}}
                                 <div class="card card-dark" id="summaryProduct">
                                     <div class="card-header bg-info">
-                                        <div class="card-title text-white">Summary Product</div>
+                                        <div class="card-title text-white">Sum Of Product</div>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                             <i class="fas fa-minus"></i>
@@ -136,7 +136,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- SUmmary Product --}}
+                                {{-- Sum Of Product --}}
                                 <div id="settingProductList" class="mt-2">
                             
                                 </div>  
@@ -155,7 +155,7 @@
                                     <div class="container">
                                         <div class="card card-dark" id="summaryDownTime">
                                             <div class="card-header bg-info">
-                                                <div class="card-title text-white">Summary Down Time</div>
+                                                <div class="card-title text-white">Sum Of Down Time</div>
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                     <i class="fas fa-minus"></i>
@@ -238,7 +238,7 @@
                             <div class="container">
                                 <div class="card card-dark" id="summaryDefect">
                                     <div class="card-header bg-info">
-                                        <div class="card-title text-white">Summary Defect</div>
+                                        <div class="card-title text-white">Sum Of Defect</div>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                             <i class="fas fa-minus"></i>

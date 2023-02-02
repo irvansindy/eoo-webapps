@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card card-dark">
-                <div class="card-header">
+                <div class="card-header bg-maroon">
                     <div class="card-title">List Product</div>
                     <div class="card-tools">
                         <button id="addProduct" type="button" class="btn btn-success" data-toggle="modal" data-target="#addMasterProduct" style="float:right">

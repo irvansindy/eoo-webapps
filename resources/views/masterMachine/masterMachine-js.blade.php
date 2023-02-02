@@ -149,7 +149,7 @@
                 {
                     data += `<tr style="text-align: center;">
                                 <td style="width:25%;text-align:center;">${response.data[i]['machineNumber']==null?'':response.data[i]['machineNumber']}</td>
-                                <td style="width:25%;text-align:center;">${response.data[i]['machineName']==null?'':response.data[i]['machineName']}</td>
+                                <td style="width:25%;text-align:left;">${response.data[i]['machineName']==null?'':response.data[i]['machineName']}</td>
                                 <td style="width:25%;text-align:center;">${response.data[i]['typeName']==null?'':response.data[i]['typeName']}</td>
                                 <td style="width:25%;text-align:left;">${response.data[i]['officeName']==null?'':response.data[i]['officeName']}</td>
                                 <td style="width:25%;text-align:center">

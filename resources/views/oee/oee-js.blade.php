@@ -62,6 +62,10 @@
             'vacumTank':$('#vacumTank').val(),
             'haulOffSpeed':$('#haulOffSpeed').val(),
             'waterTemp':$('#waterTemp').val(),
+            'waterTemp2':$('#waterTemp2').val(),
+            'vacumTank2':$('#vacumTank2').val(),
+            'vacumTank3':$('#vacumTank3').val(),
+            'vacumTank4':$('#vacumTank4').val(),
             'waterPress':$('#waterPress').val(),
             'productId':$('#productId').val(),
             'productWeight':$('#productWeight').val(),
@@ -238,8 +242,12 @@
             'meltTemp':$('#meltTempUpdate').val(),
             'meltPress':$('#meltPressUpdate').val(),
             'vacumTank':$('#vacumTankUpdate').val(),
+            'vacumTank2':$('#vacumTan2kUpdate').val(),
+            'vacumTank3':$('#vacumTank3Update').val(),
+            'vacumTank4':$('#vacumTank4Update').val(),
             'haulOffSpeed':$('#haulOffSpeedUpdate').val(),
             'waterTemp':$('#waterTempUpdate').val(),
+            'waterTemp2':$('#waterTemp2Update').val(),
             'waterPress':$('#waterPressUpdate').val(),
             'productId':$('#productIdUpdate').val(),
             'productWeight':$('#productWeightUpdate').val(),
@@ -271,7 +279,7 @@
 
     })
     getOee()
-    select_active('getOfficeName','officeFilter','Lokasi Kantor')
+    select_filter('getOfficeName','officeFilter','Lokasi Kantor')
     $(document).on("click", ".addOeeDetailModal", function(){
         var die = $(this).data('die')
         var ext = $(this).data('ext')
@@ -319,7 +327,7 @@
                                 <label>Zone ${k + 1}</label>
                             </div>
                             <div class="col-md-2">
-                            <input type="text" class="form-control adapterZone" name ="adapterZone" id="adapterZone${k + 1}">
+                            <input type="number" class="form-control adapterZone" name ="adapterZone" id="adapterZone${k + 1}">
                             <span  style="color:red;" class="message_error text-red block adapterZone${k + 1}_error"></span>
                         </div>
                             `
@@ -855,12 +863,13 @@
             'id':id
         }
         Swal.fire({
-        title: 'Apakah anda yakin untuk mengunci transaksi?',
-        text: "Anda tidak akan bisa menambah progress kembali",
+        title: 'Apakah anda yakin untuk mengunci transaksi ?',
+        text: "Anda tidak akan bisa menambah progress atau mengubah progress kembali",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
+        cancelButtonText :'Batal',
         confirmButtonText: 'Ya '
         }).then((result) => {
         if (result.isConfirmed) {
@@ -1079,8 +1088,12 @@
         $('#logMeltTemp').val('')
         $('#logMeltPress').val('')
         $('#logVacumTank').val('')
+        $('#logVacumTank2').val('')
+        $('#logVacumTank3').val('')
+        $('#logVacumTank4').val('')
         $('#logHaulOffSpeed').val('')
         $('#logWaterTemp').val('')
+        $('#logWaterTemp2').val('')
         $('#logWaterPress').val('')
         $('#logProductWeight').val('')
         $('#logProductName').val('')
@@ -1178,8 +1191,12 @@
                         $('#logMeltTemp').val(response.detail.meltTemperature == null ?'':response.detail.meltTemperature)
                         $('#logMeltPress').val(response.detail.meltPressure == null ? '': response.detail.meltPressure)
                         $('#logVacumTank').val(response.detail.vacumTank == null ? '': response.detail.vacumTank)
+                        $('#logVacumTank2').val(response.detail.vacumTank2 == null ? '': response.detail.vacumTank2)
+                        $('#logVacumTank3').val(response.detail.vacumTank3 == null ? '': response.detail.vacumTank3)
+                        $('#logVacumTank4').val(response.detail.vacumTank4 == null ? '': response.detail.vacumTank4)
                         $('#logHaulOffSpeed').val(response.detail.haulOffSpeed == null ?'': response.detail.haulOffSpeed)
                         $('#logWaterTemp').val(response.detail.waterTempVacumTank == null ?'': response.detail.waterTempVacumTank)
+                        $('#logWaterTemp2').val(response.detail.waterTempVacumTank2 == null ?'': response.detail.waterTempVacumTank2)
                         $('#logWaterPress').val(response.detail.waterPressure == null ?'': response.detail.waterPressure)
                         $('#logProductWeight').val(response.detail.weight ==null ?'':response.detail.weight)
                         $('#logProductName').val(response.detail.productName == null ?'': response.detail.productName)
@@ -1214,8 +1231,6 @@
                 'date': date,
             },
             success: (response) => {
-                // console.log(response.data['oeeMaster']['goodProductActualPcs'])
-                // console.log(response.data['oeeMaster']['goodProductActualKg'])
                 console.log(response.data['oeeMaster']['product']['productName'])
                 // oee Master
                 $('#ooeMasterId').val(id)
@@ -1226,7 +1241,6 @@
                 $('#shift').val(response.data.shift)
                 $('#status').val(response.data.status)
                 // oee Detail
-                // $.each(response.data['oeeDetail'], function(i, data) {})
             },
             error: function(xhr, status, error) {
                 toastr['error']('gagal mengambil data, silakan hubungi ICT Developer');
@@ -1251,7 +1265,7 @@
         var productVariant = $('#productVariant').val()
         // let data = {
         //     'oeeMasterId':document.getElementById("oeeMasterId").value
-        // }
+        // }    
         alert(machineCapacityType)
     })
 function onChangeLogDetailOee(shift,id, status,date){
@@ -1334,8 +1348,12 @@ function onChangeLogDetailOee(shift,id, status,date){
               $('#meltTempUpdate').val()
               $('#meltPressUpdate').val()
               $('#vacumTankUpdate').val()
+              $('#vacumTank2Update').val()
+              $('#vacumTank3Update').val()
+              $('#vacumTank4Update').val()
               $('#haulOffSpeedUpdate').val()
               $('#waterTempUpdate').val()
+              $('#waterTemp2Update').val()
               $('#waterPressUpdate').val()
               $('#productWeightUpdate').val()
               $('#productNameUpdate').val()
@@ -1368,8 +1386,12 @@ function onChangeLogDetailOee(shift,id, status,date){
               $('#meltTempUpdate').val(response.detail.meltPressure == null ? '': response.detail.meltPressure)
               $('#meltPressUpdate').val(response.detail.meltTemperature == null ? '': response.detail.meltTemperature)
               $('#vacumTankUpdate').val(response.detail.vacumTank == null ? '': response.detail.vacumTank)
+              $('#vacumTank2Update').val(response.detail.vacumTank2 == null ? '': response.detail.vacumTank2)
+              $('#vacumTank3Update').val(response.detail.vacumTank3 == null ? '': response.detail.vacumTank3)
+              $('#vacumTank4Update').val(response.detail.vacumTank4 == null ? '': response.detail.vacumTank4)
               $('#haulOffSpeedUpdate').val(response.detail.haulOffSpeed == null ? '': response.detail.haulOffSpeed)
               $('#waterTempUpdate').val(response.detail.waterTempVacumTank == null ? '': response.detail.waterTempVacumTank)
+              $('#waterTemp2Update').val(response.detail.waterTempVacumTank2 == null ? '': response.detail.waterTempVacumTank2)
               $('#waterPressUpdate').val(response.detail.waterPressure == null ? '': response.detail.waterPressure)
               $('#productWeightUpdate').val(response.detail.weight == null ? '': response.detail.weight)
               $('#productNameUpdate').val(response.detail.productName == null ? '': response.detail.productName)

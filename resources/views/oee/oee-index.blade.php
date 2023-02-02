@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-3 mt-1">
-                            <input type="date" id="from" class="form-control" onchange="getOee()" value="{{date("Y-m-d", strtotime( date( "Y-m-d", strtotime( date("Y-m-d") ) ) . "-1 month" ) )}}">
+                            <input type="date" id="from" class="form-control" onchange="getOee()" value="{{date('Y-m-d')}}">
                         </div>
                         <div class="col-3 mt-1">
                             <input type="date" class="form-control" id="to" onchange="getOee()" value="{{date('Y-m-d')}}">
